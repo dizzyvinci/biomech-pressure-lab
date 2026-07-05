@@ -1,225 +1,217 @@
 # Personal Biomechanics Lab
 
-Design and 3D-print your own **custom insole** — a soft cushion + firm shell with a **relief window** under your sore spot — on a Bambu H2D. Optionally, add a DIY sensor rig later to *measure* exactly where the pressure is instead of placing it by feel.
+Measure how your foot is loaded — all day — and turn that into a **custom 3D-printed insole**
+plus a plain-language read on **which tissues the load is stressing**. A ~$100 wearable and a
+printer doing what a $5k+ gait lab does, at home.
 
-> **Part of the biomech-lab family — the hardware pressure side.** Its sibling repo **`biomech-lab`** covers *markerless motion / joint video analysis* (webcam→OpenSim, DICOM/MRI bone geometry). **This** repo is the **build-your-own** side: a 3D-printed custom insole (and, optionally, a smart insole + pressure plate you fabricate yourself).
-
-> 🎤 **The one-pager pitch:** [**PITCH.md**](PITCH.md) — "a $100 wearable that does what a $5k+ gait lab does, all day."
-
-## 🚦 Start here — pick your path
-
-**🖨️ Path 1 — Printer-first (recommended, simplest).** No electronics, no soldering, no wiring. Scan your orthotic, design an insole with the relief window placed **where it hurts** (you already know), print it in TPU, wear it, tweak by feel, reprint. The fast route to a real custom insole.
-
-**🔬 Path 2 — + Sensor rig (optional, advanced).** *Later*, if you want **objective data** instead of "by feel," add the DIY smart insole (pressure + motion sensors) to measure your hot spot precisely and verify the fix. More parts, wiring, and code.
-
-> ⚠️ **You do NOT need the wires / resistors / ESP32 to make a great insole.** Those are a precision *upgrade* — not a requirement. Path 1 stands on its own.
+> **Part of the biomech-lab family — the hardware / pressure side.** Its sibling **`biomech-lab`**
+> covers markerless *motion* (webcam→OpenSim, DICOM/MRI bone geometry). **This** repo is the
+> **build-your-own** side: a printed insole, an optional smart-insole sensor rig, and a DIY force
+> plate + pressure mat you fabricate yourself.
+>
+> 🎤 One-pager pitch: [**PITCH.md**](PITCH.md) · 🩺 *A design & screening aid, not a medical device.*
 
 ---
 
-## 📊 How it all fits together
-The complete system — capture → calibrate (real kPa) → interpret → print → re-measure:
+## The flow — one loop, end to end
 
-![System pipeline](docs/pipeline.svg)
+![The whole system, end to end](docs/project_map.svg)
 
-The wearable hardware — electronics off the foot; swap the sole for shoe vs barefoot:
+Everything in the repo is a stage of one loop:
 
-![Physical setup](docs/physical_setup.svg)
+| # | Stage | Does | Tool |
+|---|---|---|---|
+| 1 | **Capture** | log foot pressure (8× FSR) + motion, all day | [`firmware/all_day_logger`](firmware/all_day_logger/all_day_logger.ino) |
+| 2 | **Calibrate** | turn raw ADC into real **kPa** | [`calibrate.py`](analysis/calibrate.py) |
+| 3 | **Analyze** | hot spot, pronation, cadence, balance/sway | [`interpret.py`](analysis/interpret.py) · [`balance.py`](analysis/balance.py) |
+| 4 | **Dose** | the all-day **CPTS** load → which **nerves & fascia** it stresses | [`day_summary.py`](analysis/day_summary.py) → [`nerve_fascia.py`](analysis/nerve_fascia.py) |
+| 5 | **Design** | a relief window + met pad + arch that follow the findings | [`build_insole.py`](hardware/build_insole.py) |
+| 6 | **Print** | soft cushion + firm shell in one part | your **multi-material printer** |
+| ↻ | **Track** | wear it, re-measure, watch the dose fall week over week | [`trend.py`](analysis/trend.py) |
 
-What you **order** vs what the printer **makes** (with lifespans / a day of use):
+**Two ways in, one destination:** Path 1 designs the insole *by feel* (no electronics); Path 2 adds
+the sensor rig for *objective data*. **No hardware at all?** Every tool runs on the committed
+sample with `--demo`.
 
-![BOM ordered vs printed](docs/parts_ordered_vs_printed.svg)
+---
 
-**A day of use** — when you wear it, how long each piece lasts, battery per day:
+## What you need to build it
 
-![A day of use](docs/day_in_the_life.svg)
+### 🖨️ To PRINT the insole — a multi-material 3D printer  *(the one physical must-have)*
+The insole is a **soft cushion + firm shell in a single print**, so it needs a printer that runs
+two materials (e.g. a **Bambu Lab H2D** with the TPU High-Flow kit). This is the piece the whole
+Path-1 workflow depends on.
 
-**Two software modules** from the same sensors — foot pressure *and* balance:
+| Part | Why |
+|---|---|
+| **Bambu Lab H2D** (or any multi-material printer) | prints soft cushion + firm shell in one insole |
+| **TPU High-Flow kit** | nozzles tuned for flexible TPU |
+| **Soft / foaming TPU** (e.g. VarioShore) | the squishy heel cushion that won't bottom out |
+| **Firm TPU 95A** | the support shell |
+| **PLA / PETG** | optional — enclosures, the DIY-lab frames, the FSR pucks |
 
-![Software modules](docs/software_metrics.svg)
+Full list + links: [docs/parts_list.md](docs/parts_list.md).
 
-The **balance module** in depth — posturography, Romberg, fall-risk → device class:
+### 🔬 To MEASURE (optional) — the sensor rig or the DIY lab
+- **Smart-insole rig** (~$70–120): ESP32-S3 + 8× FSR + mux + IMU + microSD + LiPo. Gives a real
+  hot-spot map and before/after proof. → **Path 2** below.
+- **DIY lab instruments** (~$150): a **load-cell force plate** (vertical GRF ×BW) and a **Velostat
+  pressure mat** (full-foot map) you print + wire. → [docs/build_lab.md](docs/build_lab.md).
 
-![Balance module detail](docs/balance_detail.svg)
+---
 
-**Balance across stance positions** — mCTSIB sensory reliance, single-leg asymmetry, tandem, limits-of-stability ([balance_positions.md](docs/balance_positions.md)):
-
-![Balance across positions](docs/balance_positions.svg)
-
-**Balance-assist ecosystem** — syncs with **Apple Watch**, **Parkinson's cueing glasses** (freezing-of-gait → floor-lines/metronome), and **smart walkers** ([balance_assist.md](docs/balance_assist.md), [integrations/](integrations/README.md)):
-
-![Balance-assist ecosystem](docs/balance_assist.svg)
-
-**Beam / athlete balance** (specialized) — ML control + a judge-style **landing "stick"** score for gymnasts ([beam_balance.md](docs/beam_balance.md)):
-
-![Beam / athlete balance](docs/beam_balance.svg)
-
-**Landing lab** — the *same* landing scored by discipline: gymnastics **stick**, figure-skating **edge check-out**, dance **soft roll** ([landing_lab.md](docs/landing_lab.md)):
-
-![Landing lab](docs/landing_lab.svg)
-
-**Zone load vs the field** — per-metatarsal over/under-use (with **anatomical mm** positions) vs **cited** sports-medicine norms, mapped to injury ([zone_load.md](docs/zone_load.md), [refs/](refs/README.md)):
-
-![Zone load vs the field](docs/zone_load.svg)
-
-**Kinetic chain + video→force** — foot signatures → **hamstring / ACL / shin** injuries, and force **estimated from video** when there's no sensor ([video_force.md](docs/video_force.md)):
-
-![Kinetic chain](docs/chain.svg)
-
-**Plantar pressure atlas** — the engine runs on **real published kPa** per region (walking hallux 280 · heel 264; basketball-landing hallux 794) vs clinical thresholds ([refs/](refs/README.md)):
-
-![Plantar pressure atlas](docs/pressure_atlas.svg)
-
-**Condition-aware** — heel pain, **toe-walking**, equinus: uses *your* adaptive baseline so it doesn't false-flag it, then surfaces the real risk ([conditions.md](docs/conditions.md)):
-
-![Condition-aware analysis](docs/conditions.svg)
-
-**Heel lifts & pressure-time integral** — offloading a painful heel overloads the forefoot (design for both); and cumulative **PTI** predicts overuse better than peak ([refs/](refs/README.md)):
-
-![Heel lifts and PTI](docs/footwear.svg)
-
-**The hidden forefoot dose** — **leg-bounce / toe-tap** is ~2.8 Hz forefoot loading no step-counter sees (~40k cycles/day, ~5.8× your steps); `bounce.py` measures the dose ([conditions.md](docs/conditions.md)):
-
-![The hidden forefoot dose](docs/bounce.svg)
-
-**Personal-lab scope** — what the cited papers' equipment is (pedar/emed/AMTI, $10–30k) vs what we **3D-print + DIY** (Velostat pressure mat, load-cell force plate, ~$250) and the honest gaps ([lab_scope.md](docs/lab_scope.md)):
-
-![Personal-lab scope](docs/lab_scope.svg)
-
-**Maker hacks** — cheap sensors have known failure modes (drift, ghosting, HX711 noise); these field-tested tricks claw most of the accuracy back — force-concentrator puck, driven-ground matrix scan, bicubic interpolation, median-then-average filtering. Baked into the firmware + scripts ([maker_hacks.md](docs/maker_hacks.md)):
-
-![Maker hacks](docs/maker_hacks.svg)
-
-**Nerve & fascia impact** — the next question after *"where's the pressure?"* is *"what is the all-day dose doing to my nerves and fascia?"* Via **CPTS = PTI × cycles/day** (gait steps **+** the at-rest bounce dose), map the load onto the plantar fascia, Baxter's nerve, Morton's/interdigital nerve, and the posterior tibial nerve — with the differentiating clue for each ([nerve_fascia.md](docs/nerve_fascia.md)). *Screening, not diagnosis:*
-
-![Nerve & fascia impact](docs/nerve_fascia.svg)
-
-**Track the dose over time** — the whole point of a dose model is watching your numbers *move*. `analysis/trend.py` logs each day's CPTS per structure and charts the trend, so a met pad / rest-window habit / calf work shows up as a **falling line** (here, forefoot structures drop after a week-3 intervention while the heel-only Baxter's holds flat — [report_trend.md](sample/results/report_trend.md)):
-
-![CPTS trend over time](sample/results/trend.png)
-
-The insole builder now **acts on the structure read**: `build_insole.py` adds a **metatarsal pad** proximal to the met heads when Morton's is the target, and auto-enables **arch support** for a plantar-fascia / tibial-nerve target — so the print follows the nerve/fascia finding, not just the hot spot.
-
-> 🧭 **Also:** a new [**balance module**](docs/balance.md) (posturography — sway, Romberg quotient, fall-risk flags) turns the same rig into a stability screen for balance issues, not just foot pain. And [**prototype_status.md**](docs/prototype_status.md) is the "is it ready to build/pitch?" summary + the ordered-vs-printed BOM. Print models + STL export: [hardware/](hardware/README.md).
-
-### ▶️ See it work — no hardware needed
-The [**`sample/`**](sample/README.md) folder runs the **entire pipeline on a synthetic day of data**: calibrate → real **kPa** → findings → a **printable insole the software designs itself** → a balance/fall-risk screen. Reproduces in ~5 seconds; every output is committed so you can read it now.
+## ▶️ Try it now — no hardware needed
+[`sample/`](sample/README.md) runs the **entire pipeline on a synthetic day** (~5 s, every output
+committed): calibrate → real kPa → hot spot → **an insole the software designs itself** → the
+all-day dose → nerve/fascia read → a balance screen.
 
 <p align="center">
   <img src="sample/results/shoe.png" width="100%" alt="worked example: pressure per zone, peak-pressure heatmap, center-of-pressure path"/>
 </p>
 
-**Result:** hot spot at **heel_med (645 kPa, 40% of load)**, medial pronation, heel-dominant; the shoe *adds* +13 pts vs barefoot → the generator emits an **aggressive medial-heel relief insole** ([`hardware/relief_insole.stl`](hardware/relief_insole.stl)). Balance: **Romberg 3.6** (vision-reliant). Full write-up → [sample/README.md](sample/README.md).
+**Worked result:** hot spot **heel_med (645 kPa, 40% of load)**, medial pronation, heel-dominant; the
+shoe *adds* +13 pts vs barefoot → an **aggressive medial-heel relief insole with arch support**
+([`hardware/relief_insole.stl`](hardware/relief_insole.stl)); the all-day dose flags **plantar fascia /
+Baxter's / tibial** (tell-apart by time-of-day); balance **Romberg 3.6** (vision-reliant).
+
+```bash
+cd analysis
+python make_sample_data.py --out ../sample                                      # fake a day
+python calibrate.py ../sample/cal_points.csv --out ../sample/calibration.json --r-fixed 1000
+python interpret.py "../sample/sample_day_*.csv" --calibration ../sample/calibration.json --out ../sample/results
+python nerve_fascia.py --logs "../sample/sample_day_*.csv" ../sample/sample_seated_bounce.csv \
+    --calibration ../sample/calibration.json --walk-hours 10 --bounce-hours 4 --out ../sample/results
+cd ../hardware && python build_insole.py --spec ../sample/results/insole_spec.json --out .
+```
+Full walkthrough: [sample/README.md](sample/README.md) · both paths step-by-step: [docs/quickstart.md](docs/quickstart.md).
 
 ---
 
-## 🖨️ Path 1 — the printer-first workflow (start here)
-1. **Scan** your existing orthotic → STL (iPhone photogrammetry — Scaniverse/Polycam). See [docs/insole_print_spec.md](docs/insole_print_spec.md) §1.
-2. **Mark the sore spot** on the scan (dead-center / inner / back heel — you already know where).
-3. **Design** the insole: soft-lattice heel cushion + firm support shell + a **relief pocket** at that spot. [docs/insole_print_spec.md](docs/insole_print_spec.md) §2–5.
-4. **Print** it in TPU on the H2D — soft cushion nozzle + firm shell nozzle in one part.
-5. **Wear it.** Too much/little somewhere? Nudge the window size/density and **reprint.** Iterate by feel.
-
-That's the whole loop — **no measurement hardware.**
-
-**What to buy:** just the **printer + filament**. See [docs/parts_list.md](docs/parts_list.md) → *"WITH a printer."*
-| Part | Why |
-|---|---|
-| **Bambu Lab H2D** | Prints soft cushion + firm shell in one insole |
-| **H2D TPU High-Flow Kit** | Nozzles tuned for flexible TPU |
-| **Soft / foaming TPU** (VarioShore) | The squishy heel cushion (won't bottom out) |
-| **Firm TPU 95A** | The support shell |
-| **PLA / PETG** | (optional) for a mold or enclosure |
+## 🖨️ Path 1 — printer-first (start here)
+No electronics, no soldering. You already know where it hurts.
+1. **Scan** your orthotic → STL (iPhone photogrammetry: Scaniverse/Polycam) — [docs/insole_print_spec.md](docs/insole_print_spec.md) §1.
+2. **Mark** the sore spot on the scan.
+3. **Design** the insole (soft heel cushion + firm shell + a **relief pocket** there) — or let
+   [`build_insole.py`](hardware/build_insole.py) generate it, **fitted to your foot** ([how](docs/fit_to_your_foot.md)).
+4. **Print** in TPU on the H2D (soft + firm in one part).
+5. **Wear it**, nudge the window/density by feel, **reprint.** That's the loop — no measurement hardware.
 
 ---
 
-## What's in the repo
-| File | What it is |
-|---|---|
-| ⭐ [docs/insole_print_spec.md](docs/insole_print_spec.md) | **The insole design + print settings** (relief window, density zones) — Path 1's core |
-| ▶️ [sample/](sample/README.md) | **Worked example** — full pipeline on synthetic data (kPa → insole → balance) |
-| 🖨️ [hardware/build_insole.py](hardware/build_insole.py) | Reads `insole_spec.json` → emits a **print-ready insole**, **fitted to your foot** by measurements or a scan ([how](docs/fit_to_your_foot.md)) |
-| [docs/parts_list.md](docs/parts_list.md) | Every part with buy links (printer path + optional rig) |
-| [docs/what-each-part-is-for.md](docs/what-each-part-is-for.md) | Plain-English part purposes |
-| [docs/quickstart.md](docs/quickstart.md) | Both paths, step by step |
-| `firmware/` + `analysis/` | The **optional** sensor rig (Path 2) |
-| [docs/opencap_setup.md](docs/opencap_setup.md) | **Optional** markerless motion capture (Path 2) |
-
----
----
-
-# 🔬 Path 2 — Optional: data-driven sensor rig (advanced)
-
-**Skip all of this unless** you want to *measure* pressure objectively and place the relief window from data instead of feel. It adds parts, wiring, and code — but gives you a real hot-spot map and before/after proof.
-
-> 🏗️ **Ready to actually build it?** The all-day, **barefoot-and-shoe** tracking build is spec'd end-to-end in **[docs/path2_tracking_build.md](docs/path2_tracking_build.md)** — with print-ready [`hardware/ankle_pod.scad`](hardware/ankle_pod.scad) + [`hardware/barefoot_sole.scad`](hardware/barefoot_sole.scad) and the all-day firmware [`firmware/all_day_logger/`](firmware/all_day_logger/all_day_logger.ino). Electronics live in an **ankle pod**, not underfoot; ~8–14 h on a 1000–1500 mAh LiPo.
+## 🔬 Path 2 — the sensor rig (optional, advanced)
+Add this only when you want to *measure* the hot spot instead of placing it by feel. The full
+all-day, **barefoot-and-shoe** build is spec'd end-to-end in
+[**docs/path2_tracking_build.md**](docs/path2_tracking_build.md) — electronics ride in an **ankle
+pod** ([`hardware/ankle_pod.scad`](hardware/ankle_pod.scad)), not underfoot.
 
 ![How the smart-insole rig fits together](docs/system-diagram.svg)
 
+<details>
+<summary><b>Sensor-rig BOM, wiring, FSR map & data format</b></summary>
+
+**BOM (~$70–120):** ESP32-S3 DevKitC-1 · 8× **FSR402** · **CD74HC4067** 16-ch mux · **BNO085** IMU ·
+microSD SPI module · 8× 10 kΩ · LiPo 500 mAh + **TP4056** · EVA/wire/tape.
+*(DIY FSR insoles validate to **r ≈ 0.87** vs pro systems — plenty for relative hot-spot mapping.)*
+Each part explained: [docs/what-each-part-is-for.md](docs/what-each-part-is-for.md).
+
+**Wiring (ESP32-S3):** mux SIG→GPIO1 (ADC1_CH0); mux S0–S3→GPIO2/3/4/5; IMU SDA/SCL→GPIO8/9;
+SD CS/MOSI/SCK/MISO→GPIO10/11/12/13; button→GPIO14; LED→GPIO15. Each FSR:
+`3V3 ── FSR ──●── 10kΩ ── GND`, node `●` → a mux channel.
+
+**FSR → foot-zone map** (channel order in firmware/analysis):
 ```
-  iPhone LiDAR/photo ─┐
-   (foot/orthotic)    ├─► foot GEOMETRY (STL)     ← also used by Path 1
-                      │
-  OpenCap (2 iPhones)─┼─► MOTION across movements (joint angles, gait)
-                      │
-  DIY smart insole ───┴─► dynamic PRESSURE (peak/impulse per zone, COP)
-                                  │
-                                  ▼
-                    Python analysis → HOT SPOT + gait findings
-                                  │
-                                  ▼
-                    H2D prints insole (soft lattice + firm shell + relief window)
-                                  │
-                                  ▼
-                    Re-measure → verify load dropped → iterate
-```
-
-### Sensor-rig BOM (~$70–120) — *optional*
-> 🧐 Not sure what a part does? [docs/what-each-part-is-for.md](docs/what-each-part-is-for.md) explains each in plain English.
-
-| Part | Qty | ~$ | Notes |
-|---|---|---|---|
-| ESP32-S3 DevKitC-1 | 1 | 8–15 | The brain (BLE + ADC/SPI/I2C) |
-| **FSR402** force sensors | 8 | ~6 ea | Pressure sensors under the foot |
-| **CD74HC4067** 16-ch mux | 1 | 2 | 8 FSRs → 1 ADC pin |
-| **BNO085** IMU | 1 | 20 | Motion (pronation, strike timing) |
-| microSD SPI module + card | 1 | 8 | Onboard logging |
-| 10 kΩ resistors | 8 | ~2 | FSR voltage dividers |
-| LiPo 500 mAh + **TP4056** charger | 1 | 10 | Wearable power |
-| EVA sheet, wires, perfboard, tape | — | 10 | Mount the FSRs |
-
-> DIY FSR insoles validate to **r ≈ 0.87** vs professional systems — plenty for *relative* hot-spot mapping.
-
-### Wiring (ESP32-S3 pin map — matches the firmware)
-| Signal | ESP32-S3 GPIO |
-|---|---|
-| Mux SIG (analog out) | GPIO1 (ADC1_CH0) |
-| Mux S0 / S1 / S2 / S3 | GPIO2 / 3 / 4 / 5 |
-| Mux EN | GND |
-| IMU SDA / SCL (I2C) | GPIO8 / GPIO9 |
-| SD CS / MOSI / SCK / MISO (SPI) | GPIO10 / 11 / 12 / 13 |
-| Button (start/stop + cycle activity) | GPIO14 → GND (internal pull-up) |
-| Status LED | GPIO15 |
-
-**Each FSR** is a voltage divider: `3V3 ── FSR ──●── 10kΩ ── GND`, node `●` → a mux channel. Higher force → higher voltage.
-
-### FSR → foot-zone map (default 8-sensor layout)
-```
-        toes
-   hallux   met5
- met1   met3
-      midfoot
+        toes                  0 heel_med   4 met3
+   hallux   met5              1 heel_lat   5 met5
+ met1   met3                  2 midfoot    6 hallux
+      midfoot                 3 met1       7 toes
  heel_med  heel_lat
 ```
-Channel order in firmware/analysis: `0 heel_med, 1 heel_lat, 2 midfoot, 3 met1, 4 met3, 5 met5, 6 hallux, 7 toes`.
 
-### Data format (CSV, ~100 Hz)
-```
-t_ms,activity,fsr0,fsr1,fsr2,fsr3,fsr4,fsr5,fsr6,fsr7,qw,qx,qy,qz,ax,ay,az
-```
-Then run `analysis/analyze_pressure.py` → peak/impulse per zone + hot-spot → feed the relief-window location back into Path 1.
+**Data (CSV, ~50–100 Hz):** `t_ms,mode,phase,fsr0..fsr7,qw,qx,qy,qz,ax,ay,az,vbat`
+(`phase` = walk/stand/bounce/other; short-press cycles it so a day segments for the dose model).
+</details>
 
 ---
 
-## Safety / expectations
-- This is a design aid, **not a medical device.** You already have custom orthotics — treat this as tuning on top of them.
-- Path 2 FSRs give **relative, repeatable** pressure, not lab-grade kPa (calibration hook in the analysis script).
+## 🧰 The toolbox — `analysis/`, by job
+Every script runs standalone with `--demo`. Grouped by what you're asking:
+
+| Job | Scripts |
+|---|---|
+| **Calibration & data** | [`calibrate.py`](analysis/calibrate.py) (fit ADC→kPa) · [`calib.py`](analysis/calib.py) (shared model) · [`make_sample_data.py`](analysis/make_sample_data.py) |
+| **Pressure & insole** | [`interpret.py`](analysis/interpret.py) (findings + insole directives) · [`analyze_pressure.py`](analysis/analyze_pressure.py) (peak/impulse/CoP plots) · [`zone_load.py`](analysis/zone_load.py) (per-met vs cited norms) |
+| **Balance & sway** | [`balance.py`](analysis/balance.py) (sway, Romberg) · [`balance_positions.py`](analysis/balance_positions.py) (mCTSIB, single-leg, LOS) · [`beam_balance.py`](analysis/beam_balance.py) (athlete/beam) · [`landing_lab.py`](analysis/landing_lab.py) |
+| **All-day dose → tissue** | [`bounce.py`](analysis/bounce.py) (the at-rest forefoot dose) · [`day_summary.py`](analysis/day_summary.py) (day → peak/PTI/cycles) · [`nerve_fascia.py`](analysis/nerve_fascia.py) (CPTS → structures) · [`trend.py`](analysis/trend.py) (dose over weeks) |
+| **DIY-lab instruments** | [`mat_heatmap.py`](analysis/mat_heatmap.py) (Velostat map) · firmware: [`force_plate`](firmware/force_plate/force_plate.ino) · [`pressure_mat`](firmware/pressure_mat/pressure_mat.ino) |
+| **Integrations** | [`integrations/`](integrations/README.md): `video_force` · `apple_watch` · `gait_cue` · `walker` · `api_server` |
+
+---
+
+## 🗺️ Repository map
+| Folder | What's in it |
+|---|---|
+| [`analysis/`](analysis/) | all the Python — the toolbox above |
+| [`firmware/`](firmware/) | ESP32 sketches: `all_day_logger`, `smart_insole`, `fsr_calibrate`, `force_plate`, `pressure_mat` |
+| [`hardware/`](hardware/README.md) | printable models (`.scad`+`.stl`): insole, ankle pod, sole, force plate, mat, FSR puck + [`build_insole.py`](hardware/build_insole.py) |
+| [`refs/`](refs/README.md) | `plantar_norms.json` — the **cited** norms DB (pressures, thresholds, conditions, nerve/fascia structures) |
+| [`sample/`](sample/README.md) | the reproducible worked example + committed outputs |
+| [`docs/`](docs/README.md) | guides, specs, and the diagram source — **[docs index →](docs/README.md)** |
+| [`integrations/`](integrations/README.md) | Apple Watch / cueing glasses / walker / REST API |
+
+---
+
+## 🖼️ Gallery
+The system in pictures, grouped. (Diagrams are code-generated — [`docs/make_graphics.py`](docs/make_graphics.py).)
+
+<details open>
+<summary><b>Foundations & flow</b></summary>
+
+![System pipeline](docs/pipeline.svg)
+![Physical setup — electronics off the foot](docs/physical_setup.svg)
+![Ordered vs printed BOM](docs/parts_ordered_vs_printed.svg)
+![A day of use](docs/day_in_the_life.svg)
+</details>
+
+<details>
+<summary><b>Pressure, insole & conditions</b></summary>
+
+![Plantar pressure atlas — real published kPa](docs/pressure_atlas.svg)
+![Zone load vs the field](docs/zone_load.svg)
+![Condition-aware (toe-walking, equinus, heel pain)](docs/conditions.svg)
+![Heel lifts & pressure-time integral](docs/footwear.svg)
+![Kinetic chain + video→force](docs/chain.svg)
+</details>
+
+<details>
+<summary><b>Balance & sport</b></summary>
+
+![Software modules — pressure + balance](docs/software_metrics.svg)
+![Balance module detail — Romberg, fall risk](docs/balance_detail.svg)
+![Balance across positions — mCTSIB, single-leg, LOS](docs/balance_positions.svg)
+![Balance-assist ecosystem — Apple Watch, cueing glasses, walkers](docs/balance_assist.svg)
+![Beam / athlete balance — the landing "stick"](docs/beam_balance.svg)
+![Landing lab — one landing, three rubrics](docs/landing_lab.svg)
+</details>
+
+<details>
+<summary><b>The all-day dose → nerves & fascia</b></summary>
+
+![The hidden forefoot dose — leg-bounce](docs/bounce.svg)
+![Nerve & fascia impact — CPTS → structures](docs/nerve_fascia.svg)
+![CPTS trend over time](sample/results/trend.png)
+</details>
+
+<details>
+<summary><b>Build the DIY lab</b></summary>
+
+![Personal-lab scope — vs the papers' $10-30k gear](docs/lab_scope.svg)
+![Maker hacks — reclaim the accuracy cheap sensors lose](docs/maker_hacks.svg)
+</details>
+
+---
+
+## ⚠️ Safety & expectations
+A **design & screening aid, not a medical device** — pair it with a clinician for pain. FSRs give
+**relative, repeatable** pressure (calibrate for kPa; they drift — read trends). The nerve/fascia
+read is **screening, not diagnosis** — those structures overlap, and confirming one needs an exam
++ imaging or a diagnostic block. You already have custom orthotics; treat this as tuning on top.

@@ -947,6 +947,67 @@ def g_lab_scope():
                 "A scope table: measurement, what the papers use, our DIY build, and whether we can match (partial/yes/gap).")
 
 
+def g_project_map():
+    w, h = 900, 430
+    b = [head(w, "The whole system — one loop, end to end",
+              "Capture your load → find the dose → design the fix → print it → watch it fall")]
+    # inputs strip
+    b.append(box(30, 72, 560, 40, PANEL2, BORDER, 1.4, 8))
+    b.append(T(44, 89, "Hardware in:", 9.5, NAVY, "700"))
+    b.append(T(122, 89, "insole rig (ankle pod + 8× FSR) · DIY lab (force plate · Velostat mat)", 9, SLATE))
+    b.append(T(44, 104, "No hardware:", 9.5, MUTE, "700"))
+    b.append(T(126, 104, "video→force estimate · or --demo on the committed sample", 9, MUTE))
+
+    stages = [
+        ("1 · CAPTURE", "log FSR + IMU", "all_day_logger", BLUEBG, BLUE),
+        ("2 · CALIBRATE", "ADC → real kPa", "calibrate.py", PANEL2, LINE),
+        ("3 · ANALYZE", "hot spot · balance", "interpret · balance", PANEL2, LINE),
+        ("4 · DOSE", "CPTS → nerve/fascia", "day_summary·nerve_fascia", REDBG, RED),
+        ("5 · DESIGN", "relief·met pad·arch", "build_insole", PANEL2, LINE),
+        ("6 · PRINT", "H2D · TPU", "your printer", GREENBG, GREEN),
+    ]
+    x0, y0, bw, bh, gap = 30, 150, 128, 84, 16
+    for i, (t, l1, l2, f, s) in enumerate(stages):
+        x = x0 + i * (bw + gap)
+        b.append(box(x, y0, bw, bh, f, s, 1.8, 9))
+        b.append(T(x + bw / 2, y0 + 22, t, 10.5, NAVY, "700", "middle"))
+        b.append(T(x + bw / 2, y0 + 44, l1, 8.6, SLATE, "400", "middle"))
+        b.append(T(x + bw / 2, y0 + 62, l2, 7.6, MUTE, "400", "middle"))
+        if i > 0:
+            xa = x - gap
+            b.append(f'<line x1="{xa+2}" y1="{y0+bh/2}" x2="{x-3}" y2="{y0+bh/2}" '
+                     f'stroke="{MUTE}" stroke-width="1.8" marker-end="url(#ar)"/>')
+    # input arrow down into CAPTURE
+    b.append(f'<line x1="{x0+bw/2}" y1="112" x2="{x0+bw/2}" y2="{y0-3}" stroke="{MUTE}" stroke-width="1.6" marker-end="url(#ar)"/>')
+    # loop-back: PRINT -> wear/re-measure/TRACK -> CAPTURE
+    lastx = x0 + 5 * (bw + gap) + bw / 2
+    firstx = x0 + bw / 2
+    yl = y0 + bh + 40
+    b.append(f'<path d="M{lastx} {y0+bh} L{lastx} {yl} L{firstx} {yl} L{firstx} {y0+bh+3}" '
+             f'fill="none" stroke="{GREEN}" stroke-width="2" marker-end="url(#ar)"/>')
+    b.append(box((firstx+lastx)/2 - 175, yl - 15, 350, 30, GREENBG, GREEN, 1.4, 8))
+    b.append(T((firstx+lastx)/2, yl + 4, "wear → re-measure → TRACK the dose falling  (trend.py)", 9.5, "#166534", "700", "middle"))
+
+    # toolbox groups
+    b.append(T(30, yl + 54, "The toolbox, by job:", 10, NAVY, "700"))
+    groups = [
+        ("Pressure & insole", "interpret · analyze_pressure · build_insole", BLUE),
+        ("Balance & sway", "balance · balance_positions · beam_balance", GREEN),
+        ("Dose → tissue", "bounce · day_summary · nerve_fascia · trend", RED),
+        ("Sport & chain", "landing_lab · zone_load · video_force", AMBER),
+    ]
+    gx = 30
+    for name, tools, c in groups:
+        b.append(box(gx, yl + 64, 208, 46, "#ffffff", BORDER, 1.2, 8))
+        b.append(f'<rect x="{gx}" y="{yl+64}" width="5" height="46" rx="2" fill="{c}"/>')
+        b.append(T(gx + 14, yl + 82, name, 9.5, NAVY, "700"))
+        b.append(T(gx + 14, yl + 99, tools, 7.8, SLATE))
+        gx += 216
+    return wrap(w, h, "\n".join(b),
+                "The whole system as one loop: hardware in (insole rig or DIY lab; or no hardware via video-force / the demo) feeds a 6-stage pipeline — 1 capture (firmware), 2 calibrate (ADC to kPa), 3 analyze (hot spot and balance), 4 dose (CPTS to nerve/fascia), 5 design (relief, met pad, arch), 6 print (H2D TPU) — then a loop back: wear, re-measure, and track the dose falling with trend.py. The toolbox by job: pressure and insole (interpret, analyze_pressure, build_insole); balance and sway (balance, balance_positions, beam_balance); dose to tissue (bounce, day_summary, nerve_fascia, trend); sport and chain (landing_lab, zone_load, video_force).",
+                "A left-to-right 6-stage pipeline with a feedback loop back to the start, hardware inputs feeding the first stage, and a four-group toolbox index along the bottom.")
+
+
 def g_nerve_fascia():
     w, h = 900, 520
     b = [head(w, "From foot pressure → nerve & fascia impact",
@@ -1103,7 +1164,8 @@ def main():
                      ("landing_lab", g_landing_lab), ("zone_load", g_zone_load), ("chain", g_chain),
                      ("pressure_atlas", g_pressure_atlas), ("conditions", g_conditions),
                      ("footwear", g_footwear), ("bounce", g_bounce), ("lab_scope", g_lab_scope),
-                     ("maker_hacks", g_maker_hacks), ("nerve_fascia", g_nerve_fascia)]:
+                     ("maker_hacks", g_maker_hacks), ("nerve_fascia", g_nerve_fascia),
+                     ("project_map", g_project_map)]:
         with open(os.path.join(HERE, f"{name}.svg"), "w", encoding="utf-8") as f:
             f.write(fn())
         print(f"-> {name}.svg")
