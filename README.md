@@ -51,6 +51,8 @@ That's the whole loop — **no measurement hardware.**
 
 **Skip all of this unless** you want to *measure* pressure objectively and place the relief window from data instead of feel. It adds parts, wiring, and code — but gives you a real hot-spot map and before/after proof.
 
+> 🏗️ **Ready to actually build it?** The all-day, **barefoot-and-shoe** tracking build is spec'd end-to-end in **[docs/path2_tracking_build.md](docs/path2_tracking_build.md)** — with print-ready [`hardware/ankle_pod.scad`](hardware/ankle_pod.scad) + [`hardware/barefoot_sole.scad`](hardware/barefoot_sole.scad) and the all-day firmware [`firmware/all_day_logger/`](firmware/all_day_logger/all_day_logger.ino). Electronics live in an **ankle pod**, not underfoot; ~8–14 h on a 1000–1500 mAh LiPo.
+
 ![How the smart-insole rig fits together](docs/system-diagram.svg)
 
 ```
