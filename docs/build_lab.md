@@ -7,7 +7,8 @@ scale, cheaply, to trend and extrapolate.
 
 ## 1 · Force plate — vertical GRF in body-weights
 **Unlocks:** the ×BW numbers the insole can't (gymnastics 7–16, jump-landing, running
-2.5–3), plus center-of-pressure. DIY load-cell rigs reach **ICC > 0.94** vs a lab plate.
+2.5–3). DIY load-cell rigs reach **ICC > 0.94** vs a lab plate. *(Center-of-pressure too,
+if you take the 4-HX711 upgrade — the cheap kit gives total force, which is the key number.)*
 
 **Print** ([`hardware/force_plate.scad`](../hardware/force_plate.scad)): 4× `foot()` +
 4× `top_boss()` in PETG (100% infill — they carry load). Top: print `top_plate()` **or**
@@ -17,11 +18,12 @@ use a 240 mm plywood/acrylic square (stiffer, faster).
 amp (a "4× 50 kg load cell + HX711" kit is ~$9), M5 bolts, rubber feet.
 
 **Assemble:** one load cell per corner, **fixed end bolted to a `foot`, free end to the
-top** with the air gap so it flexes (don't let it bottom out). Wire each cell to the HX711
-(share the clock/SCK, one data pin each) → ESP32-S3.
+top** with the air gap so it flexes (don't let it bottom out). Wire the **four cells into
+one full bridge** → a single **HX711** → ESP32-S3 (the standard "load-cell combinator"
+pattern). *CoP upgrade:* swap in 4 **full-bridge** cells on 4 HX711 for per-corner force.
 
 **Firmware** ([`firmware/force_plate/`](../firmware/force_plate/force_plate.ino)): tares on
-boot, streams `t_ms,f0..f3,total_N,total_BW,cop_x,cop_y`.
+boot, streams `t_ms,total_N,total_BW` (flip `COP_MODE` to 1 for the 4-HX711 CoP build).
 
 **Calibrate:** put a known mass on each corner, tune `CAL[i]` until grams read true; set
 `BODY_N` to your weight. Then a step/jump onto the plate = a real GRF trace (peak ×BW,
