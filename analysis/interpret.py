@@ -17,9 +17,20 @@ Usage:
     python interpret.py "day_*.csv" --out results/
     python interpret.py logs/*.csv --calibrated
 """
-import argparse, glob, json, os
+import argparse, glob, json, os, sys
 import numpy as np
 import pandas as pd
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+try:
+    import calib          # ADC -> kPa when --calibration is given
+except Exception:
+    calib = None
+
+try:                       # keep console output safe on Windows code pages
+    sys.stdout.reconfigure(encoding="utf-8")
+except Exception:
+    pass
 
 FSR   = [f"fsr{i}" for i in range(8)]
 ZONES = ["heel_med", "heel_lat", "midfoot", "met1", "met3", "met5", "hallux", "toes"]
@@ -27,7 +38,7 @@ XY    = np.array([[.35, .08], [.65, .08], [.50, .45], [.30, .72],
                   [.50, .74], [.70, .72], [.28, .92], [.55, .95]])
 MEDIAL, LATERAL = [0, 3, 6], [1, 5]      # by zone index
 HEEL, FORE      = [0, 1], [3, 4, 5, 6, 7]
-CALIB = {i: (1.0, 0.0) for i in range(8)}  # force_N = m*adc + b; fill after calibration
+# Calibration (ADC -> kPa) is handled by calib.py when --calibration is given.
 
 
 def load(paths):
@@ -49,13 +60,12 @@ def group_col(df):
     return "__all"
 
 
-def to_force(df, calibrated):
-    a = df[FSR].to_numpy(float)
-    if calibrated:
-        for i in range(8):
-            a[:, i] = CALIB[i][0] * a[:, i] + CALIB[i][1]
-        a = np.clip(a, 0, None)
-    return a
+def values(df, cal):
+    """Per-sample sensor values: real kPa if a calibration is loaded, else raw ADC."""
+    adc = df[FSR].to_numpy(float)
+    if cal is not None and calib is not None:
+        return calib.frame_to_pressure(adc, cal)   # kPa
+    return adc                                       # relative ADC
 
 
 def metrics(t_ms, f):
@@ -105,11 +115,11 @@ def interpret(m):
         design["relief_window"] = "standard"
 
     if m["medial"] > m["lateral"] * 1.5:
-        out.append(f"Medial load ({m['medial']:.0f}%) ≫ lateral ({m['lateral']:.0f}%) — "
+        out.append(f"Medial load ({m['medial']:.0f}%) >> lateral ({m['lateral']:.0f}%) — "
                    f"a **pronation** tendency; consider mild medial posting / arch support.")
         design["posting"] = "medial"
     elif m["lateral"] > m["medial"] * 1.5:
-        out.append(f"Lateral load ({m['lateral']:.0f}%) ≫ medial ({m['medial']:.0f}%) — "
+        out.append(f"Lateral load ({m['lateral']:.0f}%) >> medial ({m['medial']:.0f}%) — "
                    f"a **supination** tendency; add lateral cushioning.")
         design["posting"] = "lateral"
     else:
@@ -126,7 +136,7 @@ def interpret(m):
 
     if m["loading_rate"] > 0:
         hard = m["loading_rate"] > 800
-        out.append(f"Heel-strike loading rate ≈ {m['loading_rate']:.0f} rel/s — "
+        out.append(f"Heel-strike loading rate ~ {m['loading_rate']:.0f} rel/s — "
                    f"{'a hard heel strike; a soft heel cushion helps' if hard else 'moderate'}.")
         if hard:
             design["heel_cushion"] = "soft"
@@ -137,7 +147,7 @@ def interpret(m):
         design["heel_cup"] = "deep"
 
     if m["cadence"]:
-        out.append(f"Cadence ≈ {m['cadence']} steps/min.")
+        out.append(f"Cadence ~ {m['cadence']} steps/min.")
     return out, design
 
 
@@ -161,7 +171,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("logs", nargs="+")
     ap.add_argument("--out", default="results")
-    ap.add_argument("--calibrated", action="store_true")
+    ap.add_argument("--calibration", help="path to calibration.json for real kPa (from calibrate.py)")
     args = ap.parse_args()
 
     paths = []
@@ -169,15 +179,17 @@ def main():
         paths += glob.glob(g)
     os.makedirs(args.out, exist_ok=True)
 
+    cal = calib.load(args.calibration) if (args.calibration and calib) else None
     df = load(paths)
     gc = group_col(df)
     by = {}
     for name, sub in df.groupby(gc):
         sub = sub.sort_values("t_ms")
-        by[str(name)] = metrics(sub["t_ms"], to_force(sub, args.calibrated))
+        by[str(name)] = metrics(sub["t_ms"], values(sub, cal))
 
+    units = "kPa (calibrated)" if cal else "relative FSR units — run with --calibration for kPa"
     lines = ["# Pressure analysis — findings & insole directives\n",
-             "_Relative FSR pressure. A design/measurement aid, not medical advice._\n"]
+             f"_Pressure in {units}. A design/measurement aid, not medical advice._\n"]
     spec = {}
     for name, m in by.items():
         findings, design = interpret(m)
@@ -192,7 +204,7 @@ def main():
         lines += [f"- {x}" for x in delta]
 
     chosen = spec.get("shoe") or next(iter(spec.values()))
-    lines.append("\n## → Print these into the insole\n")
+    lines.append("\n## -> Print these into the insole\n")
     lines.append(f"- **Relief window** at `{chosen['relief_window_zone']}` ({chosen.get('relief_window', 'standard')})")
     extras = f" · **{chosen['heel_cup']} heel cup**" if chosen.get("heel_cup") else ""
     lines.append(f"- **Posting:** {chosen['posting']} · **Cushion priority:** {chosen['cushion_priority']}{extras}")
