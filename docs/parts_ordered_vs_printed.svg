@@ -1,0 +1,58 @@
+<svg viewBox="0 0 900 560" xmlns="http://www.w3.org/2000/svg" role="img" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif">
+<title>Bill of materials: which parts you order vs which the H2D prints, with lifespans and a per-day usage note.</title>
+<desc>Left column: ordered electronics + printer + consumables with costs. Right column: printed parts (ankle pod, barefoot sole, sensor carrier, final insole) with materials. Bottom: lifespan / per-day usage.</desc>
+<rect x="4" y="4" width="892" height="552" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"/>
+<text x="24" y="36" font-size="18" font-weight="700" fill="#0f172a">BOM — what you ORDER vs what the printer MAKES</text>
+<text x="24" y="55" font-size="11.5" fill="#475569">~$100 electronics rig + the printer · then ~cents of filament per printed piece</text>
+
+<!-- ORDER column -->
+<rect x="24" y="72" width="410" height="26" rx="6" fill="#0f172a"/>
+<text x="40" y="90" font-size="13" font-weight="700" fill="#ffffff">🛒 ORDER (buy it)</text>
+<g font-size="11">
+<text x="40"  y="122" font-weight="700" fill="#0f172a">Electronics rig — ~$100</text>
+<text x="40"  y="140" fill="#475569">ESP32-S3 · 8× FSR · mux · BNO085 IMU</text>
+<text x="40"  y="157" fill="#475569">LiPo 1000–1500 mAh · TP4056 · microSD</text>
+<text x="40"  y="174" fill="#475569">10 kΩ resistors · wires + ribbon cable</text>
+<text x="40"  y="204" font-weight="700" fill="#0f172a">Printer + consumables</text>
+<text x="40"  y="222" fill="#475569">Bambu H2D + TPU High-Flow Kit — ~$1,733</text>
+<text x="40"  y="239" fill="#475569">TPU 95A (shell) + TPU 85A (cushion) — ~$74</text>
+<text x="40"  y="256" fill="#475569">glue stick ~$5 · filament dryer ~$32</text>
+</g>
+<rect x="24" y="276" width="410" height="1" fill="#e2e8f0"/>
+<text x="40" y="298" font-size="10.5" fill="#64748b">Sensors are relative until calibrated with known weights → real kPa.</text>
+
+<!-- PRINT column -->
+<rect x="466" y="72" width="410" height="26" rx="6" fill="#e11d48"/>
+<text x="482" y="90" font-size="13" font-weight="700" fill="#ffffff">🖨️ PRINT (the H2D makes it)</text>
+<g font-size="11">
+<text x="482" y="126" font-weight="700" fill="#0f172a">Ankle pod</text>
+<text x="640" y="126" fill="#64748b">PLA / PETG</text>
+<text x="482" y="146" font-weight="700" fill="#0f172a">Barefoot sensor sole</text>
+<text x="640" y="146" fill="#64748b">soft TPU 85A</text>
+<text x="482" y="166" font-weight="700" fill="#0f172a">Shoe sensor-carrier</text>
+<text x="640" y="166" fill="#64748b">soft TPU 85A</text>
+<text x="482" y="196" font-weight="700" fill="#e11d48">★ The final relief insole</text>
+<text x="640" y="196" fill="#64748b">soft + firm TPU</text>
+<text x="482" y="214" fill="#475569" font-size="10">soft cushion + firm shell + relief window, in one dual-material print</text>
+</g>
+<rect x="466" y="276" width="410" height="1" fill="#e2e8f0"/>
+<text x="482" y="298" font-size="10.5" fill="#64748b">Print files: hardware/ankle_pod.scad · barefoot_sole.scad (OpenSCAD → STL).</text>
+
+<!-- lifespan strip -->
+<rect x="24" y="324" width="852" height="150" rx="10" fill="#f8fafc" stroke="#e2e8f0"/>
+<text x="40" y="348" font-size="13" font-weight="700" fill="#0f172a">⏱️ Lifespans / a day of use</text>
+<g font-size="11">
+<text x="40"  y="374" font-weight="700" fill="#0f172a">Battery</text>
+<text x="150" y="374" fill="#475569">~8–14 h per charge (1000–1500 mAh) = a waking day · recharge overnight</text>
+<text x="40"  y="396" font-weight="700" fill="#0f172a">microSD</text>
+<text x="150" y="396" fill="#475569">pull/offload at day's end · effectively unlimited</text>
+<text x="40"  y="418" font-weight="700" fill="#0f172a">Barefoot sole</text>
+<text x="150" y="418" fill="#475569">weeks–months of wear · cheap to reprint when worn</text>
+<text x="40"  y="440" font-weight="700" fill="#0f172a">Ankle pod</text>
+<text x="150" y="440" fill="#475569">indefinite (rigid plastic)</text>
+<text x="40"  y="462" font-weight="700" fill="#0f172a">FSRs</text>
+<text x="150" y="462" fill="#475569">drift with heavy use · recalibrate / swap over months</text>
+</g>
+<text x="24" y="500" font-size="11.5" font-weight="700" fill="#e11d48">A day: strap on in the morning → wear + log (shoe &amp; barefoot) → pull SD at night → analyze → recharge.</text>
+<text x="24" y="524" font-size="10.5" fill="#64748b">No printer yet? Order the rig now; print the parts (or use a print service) when the H2D lands.</text>
+</svg>

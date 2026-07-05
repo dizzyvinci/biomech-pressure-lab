@@ -23,6 +23,16 @@ The wearable hardware — electronics off the foot; swap the sole for shoe vs ba
 
 ![Physical setup](docs/physical_setup.svg)
 
+What you **order** vs what the printer **makes** (with lifespans / a day of use):
+
+![BOM ordered vs printed](docs/parts_ordered_vs_printed.svg)
+
+**Two software modules** from the same sensors — foot pressure *and* balance:
+
+![Software modules](docs/software_metrics.svg)
+
+> 🧭 **Also:** a new [**balance module**](docs/balance.md) (posturography — sway, Romberg quotient, fall-risk flags) turns the same rig into a stability screen for balance issues, not just foot pain. And [**prototype_status.md**](docs/prototype_status.md) is the "is it ready to build/pitch?" summary + the ordered-vs-printed BOM. Print models + STL export: [hardware/](hardware/README.md).
+
 ---
 
 ## 🖨️ Path 1 — the printer-first workflow (start here)

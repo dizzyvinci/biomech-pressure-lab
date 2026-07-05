@@ -1,0 +1,51 @@
+<svg viewBox="0 0 900 500" xmlns="http://www.w3.org/2000/svg" role="img" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif">
+<title>The software: SD logs are calibrated to kPa, then feed two modules — pressure (foot) producing insole directives, and balance (stability) producing fall-risk flags.</title>
+<desc>Top: logs on SD go to calibrate.py (ADC to kPa). Two branches: left pressure module (analyze_pressure + interpret) yields metrics and insole directives; right balance module (balance.py) yields sway metrics and fall-risk flags.</desc>
+<rect x="4" y="4" width="892" height="492" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"/>
+<text x="24" y="36" font-size="18" font-weight="700" fill="#0f172a">The software — two modules, one sensor set</text>
+<text x="24" y="55" font-size="11.5" fill="#475569">The same FSR + IMU logs drive both a foot-pressure analysis and a balance/stability analysis</text>
+<defs><marker id="a" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#64748b"/></marker></defs>
+
+<!-- source + calibrate -->
+<rect x="375" y="74" width="150" height="42" rx="8" fill="#eef2f7" stroke="#94a3b8" stroke-width="1.4"/>
+<text x="450" y="95" font-size="12.5" font-weight="700" fill="#0f172a" text-anchor="middle">Logs on SD</text>
+<text x="450" y="109" font-size="9" fill="#64748b" text-anchor="middle">FSR ×8 + IMU · shoe/barefoot</text>
+<line x1="450" y1="116" x2="450" y2="142" stroke="#64748b" stroke-width="1.6" marker-end="url(#a)"/>
+<rect x="375" y="144" width="150" height="42" rx="8" fill="#fdecef" stroke="#e11d48" stroke-width="1.6"/>
+<text x="450" y="165" font-size="12.5" font-weight="700" fill="#0f172a" text-anchor="middle">calibrate.py</text>
+<text x="450" y="179" font-size="9" fill="#64748b" text-anchor="middle">ADC → real kPa (both modules)</text>
+<path d="M450 186 L450 206 L230 206 L230 226" fill="none" stroke="#64748b" stroke-width="1.6" marker-end="url(#a)"/>
+<path d="M450 186 L450 206 L670 206 L670 226" fill="none" stroke="#64748b" stroke-width="1.6" marker-end="url(#a)"/>
+
+<!-- PRESSURE branch -->
+<rect x="70" y="228" width="320" height="24" rx="5" fill="#0f172a"/>
+<text x="86" y="245" font-size="11.5" font-weight="700" fill="#ffffff">PRESSURE — foot pain / insole</text>
+<rect x="110" y="262" width="240" height="42" rx="8" fill="#eef2f7" stroke="#94a3b8" stroke-width="1.4"/>
+<text x="230" y="283" font-size="11.5" font-weight="700" fill="#0f172a" text-anchor="middle">analyze_pressure.py + interpret.py</text>
+<text x="230" y="297" font-size="8.5" fill="#64748b" text-anchor="middle">peak · impulse · center-of-pressure · gait</text>
+<line x1="230" y1="304" x2="230" y2="326" stroke="#64748b" stroke-width="1.6" marker-end="url(#a)"/>
+<rect x="110" y="328" width="240" height="40" rx="8" fill="#eef2f7" stroke="#94a3b8" stroke-width="1.4"/>
+<text x="230" y="348" font-size="11" font-weight="700" fill="#0f172a" text-anchor="middle">Hot spot + findings</text>
+<text x="230" y="362" font-size="8.5" fill="#64748b" text-anchor="middle">pronation · heel/forefoot · barefoot vs shoe</text>
+<line x1="230" y1="368" x2="230" y2="388" stroke="#64748b" stroke-width="1.6" marker-end="url(#a)"/>
+<rect x="110" y="390" width="240" height="40" rx="8" fill="#ffffff" stroke="#e11d48" stroke-width="1.8"/>
+<text x="230" y="410" font-size="11" font-weight="700" fill="#0f172a" text-anchor="middle">Insole directives</text>
+<text x="230" y="424" font-size="8.5" fill="#64748b" text-anchor="middle">relief window · posting · cushion → print</text>
+
+<!-- BALANCE branch -->
+<rect x="510" y="228" width="320" height="24" rx="5" fill="#0f172a"/>
+<text x="526" y="245" font-size="11.5" font-weight="700" fill="#ffffff">BALANCE — stability / fall risk</text>
+<rect x="550" y="262" width="240" height="42" rx="8" fill="#eef2f7" stroke="#94a3b8" stroke-width="1.4"/>
+<text x="670" y="283" font-size="11.5" font-weight="700" fill="#0f172a" text-anchor="middle">balance.py</text>
+<text x="670" y="297" font-size="8.5" fill="#64748b" text-anchor="middle">posturography from COP + IMU</text>
+<line x1="670" y1="304" x2="670" y2="326" stroke="#64748b" stroke-width="1.6" marker-end="url(#a)"/>
+<rect x="550" y="328" width="240" height="40" rx="8" fill="#eef2f7" stroke="#94a3b8" stroke-width="1.4"/>
+<text x="670" y="348" font-size="11" font-weight="700" fill="#0f172a" text-anchor="middle">Sway metrics</text>
+<text x="670" y="362" font-size="8.5" fill="#64748b" text-anchor="middle">ellipse area · velocity · ML/AP · Romberg</text>
+<line x1="670" y1="368" x2="670" y2="388" stroke="#64748b" stroke-width="1.6" marker-end="url(#a)"/>
+<rect x="550" y="390" width="240" height="40" rx="8" fill="#ffffff" stroke="#e11d48" stroke-width="1.8"/>
+<text x="670" y="410" font-size="11" font-weight="700" fill="#0f172a" text-anchor="middle">Fall-risk flags → device class</text>
+<text x="670" y="424" font-size="8.5" fill="#64748b" text-anchor="middle">lateral support · balance training · cues</text>
+
+<text x="450" y="456" font-size="10.5" fill="#64748b" text-anchor="middle">One ~$100 wearable → what a $5k+ pressure plate / posturography lab does, at trend level, all day.</text>
+</svg>
