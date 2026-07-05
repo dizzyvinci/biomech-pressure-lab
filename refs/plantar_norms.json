@@ -41,8 +41,24 @@
     "pf_press":    {"cite": "Biomechanical parameters in plantar fasciitis by gait analysis (PMC5773441); PF athletes plantar-pressure features", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5773441/", "finding": "PF = altered medial/lateral-heel peak pressure (deficit OR excess) + deformed pressure vector; forefoot/met overstrain feeds the fascia; first-step morning pain"},
     "itw_press":   {"cite": "Idiopathic toe walking: plantar pressure & toe function (PubMed 31946390); ITW update, JAAOS, 2022", "url": "https://pubmed.ncbi.nlm.nih.gov/31946390/", "finding": "ITW ~61.7% forefoot / 15.3% midfoot / 22.8% hindfoot contact vs normal ~39% forefoot / 30% rearfoot; increased forefoot & decreased hindfoot callosity"},
     "asd_gait":    {"cite": "Gait patterns in ASD (systematic review); 8-week exercise program in ASD boys, 2023", "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9993582/", "finding": "forefoot-loading tendency + more L/R asymmetry & step variability; intervention reduced 1st-peak vGRF, loading rate, and MEDIAL-HEEL peak pressure"},
-    "equinus_press": {"cite": "Ankle-joint flexibility & barefoot plantar pressures, healthy older adults (PMC9338503)", "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9338503/", "finding": "ankle equinus forefoot peak 677.8 kPa (589.9-810.4) vs 565.6 (447.3-651.2) without equinus; <10 deg dorsiflexion -> premature heel rise -> forefoot overload -> metatarsalgia / met stress fx / plantar plate / sesamoiditis / PF"}
+    "equinus_press": {"cite": "Ankle-joint flexibility & barefoot plantar pressures, healthy older adults (PMC9338503)", "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9338503/", "finding": "ankle equinus forefoot peak 677.8 kPa (589.9-810.4) vs 565.6 (447.3-651.2) without equinus; <10 deg dorsiflexion -> premature heel rise -> forefoot overload -> metatarsalgia / met stress fx / plantar plate / sesamoiditis / PF"},
+    "pti_norm":    {"cite": "Plantar pressure-time integral (air-insole & walking-duration study), Sci Reports, 2024", "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11336220/", "finding": "PTI = area under the peak-pressure-time curve during stance; met2 ~38.4 kPa*s, met1 ~44-58 kPa*s. Running = HIGHER peak but LOWER PTI (shorter contact). PTI is a BETTER injury/tissue-breakdown predictor than peak. 4 forefoot regions (hallux, M1, M2-3, M4-5) most ulcer-susceptible"},
+    "heel_lift":   {"cite": "In-shoe heel lifts & plantar pressure (PubMed 24440428); optimized heel-lift design (J Biomech 2016)", "url": "https://pubmed.ncbi.nlm.nih.gov/24440428/", "finding": "raising the heel ATTENUATES heel peak pressure but INCREASES forefoot pressure + PTI; a lift alone trades heel pain for forefoot overload. PORON ~15 Shore reduces the downside; optimized lifts that preserve midfoot function improve distribution"},
+    "cut_press":   {"cite": "In-shoe tri-axial stress during max-effort cutting (J Biomech 2014); basketball maneuver plantar loads (PMC5941807)", "url": "https://www.sciencedirect.com/science/article/abs/pii/S0021929014005491", "finding": "cutting PEAK pressure at 2nd met head; max SHEAR at 1st met head (lateral-shuffle medial shear 312.2 kPa; 45-deg sidestep propulsion shear 463.0 kPa). Forefoot/MTPj = primary contact -> 1st & 2nd met injury-susceptible"},
+    "hv_press":    {"cite": "Plantar-pressure transfer medial->central forefoot in hallux valgus, BMC Musculoskelet Disord, 2019", "url": "https://bmcmusculoskeletdisord.biomedcentral.com/articles/10.1186/s12891-019-2531-2", "finding": "hallux pressure DECREASED (affected 197 vs contralateral 221 kPa); load transfers medial (hallux/met1) -> central forefoot"}
   },
+  "metrics": {
+    "peak_pressure_kPa": "the single highest pressure a region sees (magnitude).",
+    "pressure_time_integral_kPa_s": "area under the region's pressure-time curve during stance = cumulative dose. **Better predictor of overuse/tissue-breakdown injury than peak** (pti_norm). interpret.py's per-zone 'impulse' IS the calibrated PTI.",
+    "pti_reference_kPa_s": {"met1": [44, 58], "met2": 38.4, "confidence": "published", "source": "pti_norm"},
+    "peak_vs_pti": "Running raises PEAK but lowers PTI (short contact); walking/standing accumulate PTI over time. A high-peak brief event and a low-peak sustained one injure differently — track both."
+  },
+  "footwear_effects": {
+    "heel_lift": {"effect": "attenuates HEEL peak pressure, but raises FOREFOOT pressure + PTI", "confidence": "published", "source": "heel_lift",
+      "design_rule": "for medial heel pain WITH equinus/toe-walking (already forefoot-loaded), a heel lift alone just moves the problem forward -> pair heel offload WITH forefoot cushioning (met pad / soft forefoot) so you don't trade heel pain for metatarsalgia. Softer lift (PORON ~15 Shore) + preserved midfoot beats a hard flat lift."},
+    "note": "footwear reshapes the whole map; barefoot norms are the reference, in-shoe is what you live in (200 kPa in-shoe threshold applies there)."
+  },
+  "condition_notes_footwear": "For the equinus/toe-walker: a raised heel reduces the dorsiflexion demand (helps the calf) AND offloads the painful heel — but it pushes load onto an already-overloaded forefoot. The winning insole does BOTH: heel lift/cushion + forefoot offload (met pad) + preserved arch; and pairs it with LOADING the calf/plantar (hypermobile), not just stretching.",
   "condition_notes": "CONDITION profiles describe a person's adaptive/altered BASELINE (not a sport). Use zone_load.py --condition so an ADAPTIVE pattern (e.g. habitual toe-walking) is NOT false-flagged as pathology — low heel loading is that person's norm. The engine then tracks the condition's REAL risks (forefoot overload trend, calf/dorsiflexion) and deviation from the condition baseline. Management is person-specific: tight non-hypermobile calf -> mobilize/eccentric; HYPERMOBILE -> LOAD/strengthen, do not over-stretch a lax system.",
   "chain_rules": {
     "_note": "foot-loading SIGNATURES -> kinetic-chain injuries (foot-local AND proximal).",
@@ -147,9 +163,10 @@
     "soccer_cut": {
       "movement": "plant-and-cut change of direction",
       "peak_force_BW": {"typical": 3.5, "range": [3.0, 4.5], "confidence": "estimated"},
+      "peak_pressure_kPa": {"note": "PEAK pressure at met2; max SHEAR at 1st-met head 312-463 kPa (lateral-shuffle braking 312, 45-deg-sidestep propulsion 463)", "confidence": "published (peak@met2 + 1st-met shear)", "source": "cut_press"},
       "dist_pct": {"heel_med": 8, "heel_lat": 12, "midfoot": 5, "met1": 12, "met2": 13, "met3": 12, "met4": 10, "met5": 12, "hallux": 9, "toes": 7},
-      "dist_confidence": "estimated", "watch_zones": ["met5", "heel_lat"],
-      "injury": "lateral ankle sprain, 5th-met (Jones)",
+      "dist_confidence": "published_order", "dist_source": "cut_press", "watch_zones": ["met2", "met1", "met5"],
+      "injury": "1st/2nd-met (high pressure + shear), lateral ankle sprain, 5th-met (Jones)",
       "chain_injury": "**non-contact ACL** — deceleration + valgus + L/R asymmetry >10-15%",
       "chain_rule": "lr_asymmetry_gt_10pct"
     },

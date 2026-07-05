@@ -53,6 +53,14 @@ soccer (sprint/cut). Each: `dist_pct`, `peak_pressure_kPa` (where sourced),
   [../docs/conditions.md](../docs/conditions.md). Cited: ITW forefoot 61.7% ([PubMed 31946390](https://pubmed.ncbi.nlm.nih.gov/31946390/)),
   equinus forefoot 677.8 kPa ([PMC9338503](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9338503/)).
 
+**v0.5** adds a **`metrics`** section (peak vs **pressure-time integral** — the cumulative-dose
+injury predictor; met2 PTI ~38.4 kPa·s, [PMC11336220](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11336220/)),
+a **`footwear_effects`** section (heel lifts offload the heel but raise forefoot pressure + PTI
+→ design rule: offload heel **and** cushion forefoot, [PubMed 24440428](https://pubmed.ncbi.nlm.nih.gov/24440428/)),
+and cutting flipped to published (peak @ met2, 1st-met shear 312–463 kPa, [J Biomech 2014](https://www.sciencedirect.com/science/article/abs/pii/S0021929014005491)).
+
+![heel lifts & PTI](../docs/footwear.svg)
+
 Key sourced facts:
 | | Finding | Source |
 |---|---|---|

@@ -804,13 +804,68 @@ def g_conditions():
                 "Left: normal-vs-toe-walking forefoot/hindfoot load bars. Right: three condition cards with the engine's condition-aware response.")
 
 
+def g_footwear():
+    w, h = 900, 460
+    b = [head(w, "Heel lifts & pressure-time integral — designing the fix",
+              "Offloading a painful heel can overload the forefoot; and cumulative dose (PTI) matters, not just peak")]
+    # LEFT: the heel-lift trade-off
+    b.append(box(24, 74, 400, 360, PANEL, BORDER, 1.6, 12))
+    b.append(T(40, 100, "The heel-lift trade-off", 12, NAVY, "700"))
+    # foot side-view + wedge
+    b.append('<rect x="70" y="180" width="200" height="22" rx="10" fill="#e6ebf2" stroke="#94a3b8"/>')
+    b.append(f'<polygon points="70,202 150,202 70,226" fill="{AMBER}" stroke="#94a3b8"/>')
+    b.append(T(78, 244, "heel lift", 8.5, "#7c2d12", "700"))
+    b.append(f'<line x1="105" y1="150" x2="105" y2="176" stroke="{BLUE}" stroke-width="2.6" marker-end="url(#ar)"/>')
+    b.append(T(50, 146, "heel pressure ↓", 9, BLUE, "700"))
+    b.append(T(50, 158, "offloads the pain", 7.5, MUTE))
+    b.append(f'<line x1="235" y1="176" x2="235" y2="150" stroke="{RED}" stroke-width="2.6" marker-end="url(#arr)"/>')
+    b.append(T(284, 165, "forefoot pressure ↑", 9, RED, "700"))
+    b.append(T(284, 177, "+ PTI · met overload", 7.5, MUTE))
+    b.append(T(40, 278, "A lift ALONE trades heel pain for metatarsalgia —", 9.5, NAVY, "700"))
+    b.append(T(40, 292, "worse if you already toe-walk / have equinus.", 9.5, SLATE))
+    b.append(box(40, 306, 368, 110, "#ffffff", GREEN, 1.6, 8))
+    b.append(T(54, 328, "✓ The design rule", 11, GREEN, "700"))
+    b.append(T(54, 348, "Do BOTH: heel offload/cushion + forefoot cushion", 9.5, SLATE))
+    b.append(T(54, 363, "(met pad) + preserved arch — not a lift alone.", 9.5, SLATE))
+    b.append(T(54, 383, "Softer lift (PORON ~15 Shore) beats a hard flat one.", 9.5, SLATE))
+    b.append(T(54, 401, "Hypermobile → LOAD the calf/plantar, don't just stretch.", 9.5, NAVY, "700"))
+
+    # RIGHT: peak vs PTI
+    b.append(box(440, 74, 436, 360, "#ffffff", BORDER, 1.6, 12))
+    b.append(T(456, 100, "Peak vs pressure-time integral (PTI)", 12, NAVY, "700"))
+    b.append(T(456, 122, "Peak = highest pressure · PTI = cumulative dose over time", 9, MUTE))
+    def pbars(y, act, peak, pti):
+        s = [T(456, y, act, 10, NAVY, "700")]
+        s.append(T(466, y + 20, "peak", 8.5, RED))
+        s.append(box(520, y + 10, 300, 13, PANEL2, BORDER, 1, 4))
+        s.append(f'<rect x="520" y="{y+10}" width="{peak/100*300:.0f}" height="13" rx="4" fill="{RED}"/>')
+        s.append(T(466, y + 42, "PTI", 8.5, BLUE))
+        s.append(box(520, y + 32, 300, 13, PANEL2, BORDER, 1, 4))
+        s.append(f'<rect x="520" y="{y+32}" width="{pti/100*300:.0f}" height="13" rx="4" fill="{BLUE}"/>')
+        return "".join(s)
+    b.append(pbars(148, "Running (brief, hard)", 95, 40))
+    b.append(pbars(214, "Walking", 60, 65))
+    b.append(pbars(280, "Standing (long, soft)", 20, 90))
+    b.append(T(456, 344, "Running has the HIGHEST peak but a LOWER PTI (short", 9, SLATE))
+    b.append(T(456, 358, "contact); standing is the reverse. A brief hard hit and a", 9, SLATE))
+    b.append(T(456, 372, "long sustained load injure differently — track both.", 9, SLATE))
+    b.append(T(456, 396, "PTI is the better overuse/tissue predictor (met2 ~38.4 kPa·s).", 9, NAVY, "700"))
+    b.append(T(456, 410, "interpret.py's per-zone impulse IS the calibrated PTI.", 8.5, MUTE))
+    b.append(T(24, 448, "Sources: heel lifts PubMed 24440428 · PTI PMC11336220 · cutting J Biomech 2014 (refs/plantar_norms.json). Not medical advice.",
+               9, MUTE))
+    return wrap(w, h, "\n".join(b),
+                "Heel lifts attenuate heel peak pressure but raise forefoot pressure and PTI, so a lift alone trades heel pain for metatarsalgia — the design rule is heel offload PLUS forefoot cushion plus preserved arch (softer lift; hypermobile load not stretch). And peak vs pressure-time integral: running has the highest peak but lower PTI, standing the reverse; PTI is the better overuse predictor.",
+                "Left: heel-lift trade-off with a side-view foot + wedge and the design rule. Right: peak-vs-PTI bars for running/walking/standing.")
+
+
 def main():
     for name, fn in [("physical_setup", g_physical), ("pipeline", g_pipeline),
                      ("software_metrics", g_software), ("day_in_the_life", g_day),
                      ("balance_detail", g_balance), ("balance_positions", g_balance_positions),
                      ("balance_assist", g_balance_assist), ("beam_balance", g_beam_balance),
                      ("landing_lab", g_landing_lab), ("zone_load", g_zone_load), ("chain", g_chain),
-                     ("pressure_atlas", g_pressure_atlas), ("conditions", g_conditions)]:
+                     ("pressure_atlas", g_pressure_atlas), ("conditions", g_conditions),
+                     ("footwear", g_footwear)]:
         with open(os.path.join(HERE, f"{name}.svg"), "w", encoding="utf-8") as f:
             f.write(fn())
         print(f"-> {name}.svg")

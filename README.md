@@ -73,6 +73,10 @@ The **balance module** in depth — posturography, Romberg, fall-risk → device
 
 ![Condition-aware analysis](docs/conditions.svg)
 
+**Heel lifts & pressure-time integral** — offloading a painful heel overloads the forefoot (design for both); and cumulative **PTI** predicts overuse better than peak ([refs/](refs/README.md)):
+
+![Heel lifts and PTI](docs/footwear.svg)
+
 > 🧭 **Also:** a new [**balance module**](docs/balance.md) (posturography — sway, Romberg quotient, fall-risk flags) turns the same rig into a stability screen for balance issues, not just foot pain. And [**prototype_status.md**](docs/prototype_status.md) is the "is it ready to build/pitch?" summary + the ordered-vs-printed BOM. Print models + STL export: [hardware/](hardware/README.md).
 
 ### ▶️ See it work — no hardware needed
