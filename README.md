@@ -57,6 +57,10 @@ The **balance module** in depth — posturography, Romberg, fall-risk → device
 
 ![Landing lab](docs/landing_lab.svg)
 
+**Zone load vs the field** — per-metatarsal over/under-use vs **cited** sports-medicine norms, mapped to injury ([zone_load.md](docs/zone_load.md), [refs/](refs/README.md)):
+
+![Zone load vs the field](docs/zone_load.svg)
+
 > 🧭 **Also:** a new [**balance module**](docs/balance.md) (posturography — sway, Romberg quotient, fall-risk flags) turns the same rig into a stability screen for balance issues, not just foot pain. And [**prototype_status.md**](docs/prototype_status.md) is the "is it ready to build/pitch?" summary + the ordered-vs-printed BOM. Print models + STL export: [hardware/](hardware/README.md).
 
 ### ▶️ See it work — no hardware needed

@@ -594,12 +594,66 @@ def g_landing_lab():
                 "Three discipline columns with a footprint showing the landing pattern, a score badge, and the rubric.")
 
 
+def g_zone_load():
+    w, h = 900, 470
+    b = [head(w, "Zone load vs the field — down to the 2nd metatarsal",
+              "Which regions are over/under-used vs published norms for THIS movement; overload maps to injury")]
+    XY10 = {"heel_med": (.35, .08), "heel_lat": (.65, .08), "midfoot": (.50, .45),
+            "met1": (.30, .72), "met2": (.40, .74), "met3": (.50, .75), "met4": (.60, .74),
+            "met5": (.70, .72), "hallux": (.26, .93), "toes": (.56, .96)}
+    state = {"met2": "over", "met3": "over", "met4": "over", "hallux": "under", "toes": "under"}
+    ratio = {"heel_med": 0.8, "heel_lat": 0.8, "midfoot": 0.8, "met1": 1.1, "met2": 1.3,
+             "met3": 1.8, "met4": 2.2, "met5": 0.8, "hallux": 0.2, "toes": 0.5}
+    b.append(box(24, 74, 300, 358, PANEL, BORDER, 1.6, 12))
+    b.append(T(40, 100, "Your foot map — ballet relevé", 12, NAVY, "700"))
+    cx, top, length, width = 168, 128, 268, 150
+    b.append(footprint(cx, top, length, width))
+    for z, (xn, yn) in XY10.items():
+        sx = cx - width / 2 + xn * width; sy = top + (1 - yn) * length
+        st = state.get(z)
+        col = RED if st == "over" else BLUE if st == "under" else "#94a3b8"
+        b.append(f'<circle cx="{sx:.0f}" cy="{sy:.0f}" r="13" fill="{col}" opacity="{0.85 if st else 0.4}" stroke="#fff" stroke-width="1.3"/>')
+        b.append(T(sx, sy + 3.5, f"{ratio[z]}×", 8, "#ffffff" if st else NAVY, "700", "middle"))
+    b.append(T(40, 400, "● over-used  ● under-used  ● normal   ·   number = ×norm", 9, MUTE))
+    b.append(T(40, 418, "met2 / met4 are interpolated from neighbors", 8.5, MUTE))
+
+    # right: findings
+    b.append(box(340, 74, 536, 358, "#ffffff", BORDER, 1.6, 12))
+    b.append(T(356, 100, "Vs the ballet-relevé norm (cited)", 12.5, NAVY, "700"))
+    b.append(T(356, 124, "🔴 Over-used:", 10.5, RED, "700"))
+    b.append(T(460, 124, "met4 2.2× · met3 1.8× · met2 1.3× (interp)", 10, SLATE))
+    b.append(T(356, 144, "🔵 Under-used:", 10.5, BLUE, "700"))
+    b.append(T(460, 144, "hallux 0.2× · toes 0.5×", 10, SLATE))
+    b.append(box(356, 158, 504, 62, REDBG, RED, 1.6, 8))
+    b.append(T(370, 180, "⚠ 2nd-met overload + hallux off-loaded = the published 1st-MTP-pain pattern", 10, NAVY, "700"))
+    b.append(T(370, 197, "→ the \"dancer's fracture\" route (base of 2nd met). Cue big-toe engagement,", 9.5, SLATE))
+    b.append(T(370, 211, "check the 1st ray.", 9.5, SLATE))
+    b.append(T(356, 246, "Published peak landing force (× body weight):", 10.5, NAVY, "700"))
+    for i, (sport, val, conf) in enumerate([("Gymnastics landing", "7.1–15.8", "published"),
+                                            ("Figure-skating (1-leg)", "5–8", "published"),
+                                            ("Running", "2.5–3", "estimated"),
+                                            ("Ballet jump", "1–2", "estimated")]):
+        y = 266 + i * 18
+        b.append(T(370, y, "• " + sport, 9.5, SLATE))
+        b.append(T(720, y, val + " ×BW", 9.5, NAVY, "700", "end"))
+        b.append(T(730, y, conf, 8, MUTE if conf == "published" else AMBER))
+    b.append(T(356, 350, "Confidence flagged per value (published / published-order / estimated);", 9, MUTE))
+    b.append(T(356, 365, "the DB tightens as sources + our own captures are added.", 9, MUTE))
+    b.append(T(356, 392, "Sources: gymnastics Front. Sports 2025 · skating ACSM · running PMC5112690 ·", 8.5, MUTE))
+    b.append(T(356, 405, "ballet Children 2022 · 2nd-met injury Physiopedia (refs/plantar_norms.json).", 8.5, MUTE))
+    b.append(T(24, 452, "Rubrics get specific: per-zone load vs the field's research, overload → the injury it predicts. Not a medical device.",
+               9.5, MUTE))
+    return wrap(w, h, "\n".join(b),
+                "Zone-load vs the field: a foot map of a ballet relevé showing the 2nd/3rd/4th metatarsals over-used (1.3-2.2x the published norm) and the hallux/toes under-used (0.2-0.5x) — the published 1st-MTP-pain pattern that routes to a 2nd-metatarsal 'dancer's fracture'. Plus published peak landing forces per sport in body weights.",
+                "Left: footprint with 10 zones colored over/under/normal vs norm. Right: findings, injury note, and published force ranges.")
+
+
 def main():
     for name, fn in [("physical_setup", g_physical), ("pipeline", g_pipeline),
                      ("software_metrics", g_software), ("day_in_the_life", g_day),
                      ("balance_detail", g_balance), ("balance_positions", g_balance_positions),
                      ("balance_assist", g_balance_assist), ("beam_balance", g_beam_balance),
-                     ("landing_lab", g_landing_lab)]:
+                     ("landing_lab", g_landing_lab), ("zone_load", g_zone_load)]:
         with open(os.path.join(HERE, f"{name}.svg"), "w", encoding="utf-8") as f:
             f.write(fn())
         print(f"-> {name}.svg")

@@ -1,0 +1,47 @@
+{
+  "profile": "running_forefoot",
+  "athlete_pct": {
+    "heel_med": 2.4,
+    "heel_lat": 2.4,
+    "midfoot": 2.4,
+    "met1": 20.5,
+    "met2": 21.3,
+    "met3": 22.1,
+    "met4": 13.0,
+    "met5": 4.0,
+    "hallux": 4.0,
+    "toes": 7.9
+  },
+  "over_used": [
+    [
+      "met1",
+      1.46
+    ],
+    [
+      "met3",
+      1.38
+    ],
+    [
+      "met4",
+      1.44
+    ]
+  ],
+  "under_used": [
+    [
+      "heel_med",
+      0.4
+    ],
+    [
+      "heel_lat",
+      0.48
+    ],
+    [
+      "met5",
+      0.67
+    ],
+    [
+      "hallux",
+      0.31
+    ]
+  ]
+}

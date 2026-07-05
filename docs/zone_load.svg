@@ -1,0 +1,60 @@
+<svg viewBox="0 0 900 470" xmlns="http://www.w3.org/2000/svg" role="img" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif">
+<title>Zone-load vs the field: a foot map of a ballet relevé showing the 2nd/3rd/4th metatarsals over-used (1.3-2.2x the published norm) and the hallux/toes under-used (0.2-0.5x) — the published 1st-MTP-pain pattern that routes to a 2nd-metatarsal 'dancer's fracture'. Plus published peak landing forces per sport in body weights.</title>
+<desc>Left: footprint with 10 zones colored over/under/normal vs norm. Right: findings, injury note, and published force ranges.</desc>
+<defs><marker id="ar" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#64748b"/></marker><marker id="arr" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#e11d48"/></marker></defs>
+<rect x="4" y="4" width="892" height="462" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"/>
+<text x="24" y="36" font-size="18" fill="#0f172a" font-weight="700" text-anchor="start">Zone load vs the field — down to the 2nd metatarsal</text><text x="24" y="55" font-size="11.5" fill="#475569" font-weight="400" text-anchor="start">Which regions are over/under-used vs published norms for THIS movement; overload maps to injury</text>
+<rect x="24" y="74" width="300" height="358" rx="12" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1.6"/>
+<text x="40" y="100" font-size="12" fill="#0f172a" font-weight="700" text-anchor="start">Your foot map — ballet relevé</text>
+<ellipse cx="168" cy="208" rx="75" ry="91" fill="#dbe4ef" stroke="#94a3b8" stroke-width="1.3"/><ellipse cx="168" cy="348" rx="54" ry="70" fill="#dbe4ef" stroke="#94a3b8" stroke-width="1.3"/><rect x="114" y="222" width="108" height="91" fill="#dbe4ef"/>
+<circle cx="146" cy="375" r="13" fill="#94a3b8" opacity="0.4" stroke="#fff" stroke-width="1.3"/>
+<text x="145.5" y="378.06" font-size="8" fill="#0f172a" font-weight="700" text-anchor="middle">0.8×</text>
+<circle cx="190" cy="375" r="13" fill="#94a3b8" opacity="0.4" stroke="#fff" stroke-width="1.3"/>
+<text x="190.5" y="378.06" font-size="8" fill="#0f172a" font-weight="700" text-anchor="middle">0.8×</text>
+<circle cx="168" cy="275" r="13" fill="#94a3b8" opacity="0.4" stroke="#fff" stroke-width="1.3"/>
+<text x="168.0" y="278.9" font-size="8" fill="#0f172a" font-weight="700" text-anchor="middle">0.8×</text>
+<circle cx="138" cy="203" r="13" fill="#94a3b8" opacity="0.4" stroke="#fff" stroke-width="1.3"/>
+<text x="138.0" y="206.54000000000002" font-size="8" fill="#0f172a" font-weight="700" text-anchor="middle">1.1×</text>
+<circle cx="153" cy="198" r="13" fill="#e11d48" opacity="0.85" stroke="#fff" stroke-width="1.3"/>
+<text x="153.0" y="201.18" font-size="8" fill="#ffffff" font-weight="700" text-anchor="middle">1.3×</text>
+<circle cx="168" cy="195" r="13" fill="#e11d48" opacity="0.85" stroke="#fff" stroke-width="1.3"/>
+<text x="168.0" y="198.5" font-size="8" fill="#ffffff" font-weight="700" text-anchor="middle">1.8×</text>
+<circle cx="183" cy="198" r="13" fill="#e11d48" opacity="0.85" stroke="#fff" stroke-width="1.3"/>
+<text x="183.0" y="201.18" font-size="8" fill="#ffffff" font-weight="700" text-anchor="middle">2.2×</text>
+<circle cx="198" cy="203" r="13" fill="#94a3b8" opacity="0.4" stroke="#fff" stroke-width="1.3"/>
+<text x="198.0" y="206.54000000000002" font-size="8" fill="#0f172a" font-weight="700" text-anchor="middle">0.8×</text>
+<circle cx="132" cy="147" r="13" fill="#2563eb" opacity="0.85" stroke="#fff" stroke-width="1.3"/>
+<text x="132.0" y="150.26" font-size="8" fill="#ffffff" font-weight="700" text-anchor="middle">0.2×</text>
+<circle cx="177" cy="139" r="13" fill="#2563eb" opacity="0.85" stroke="#fff" stroke-width="1.3"/>
+<text x="177.0" y="142.22" font-size="8" fill="#ffffff" font-weight="700" text-anchor="middle">0.5×</text>
+<text x="40" y="400" font-size="9" fill="#64748b" font-weight="400" text-anchor="start">● over-used  ● under-used  ● normal   ·   number = ×norm</text>
+<text x="40" y="418" font-size="8.5" fill="#64748b" font-weight="400" text-anchor="start">met2 / met4 are interpolated from neighbors</text>
+<rect x="340" y="74" width="536" height="358" rx="12" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.6"/>
+<text x="356" y="100" font-size="12.5" fill="#0f172a" font-weight="700" text-anchor="start">Vs the ballet-relevé norm (cited)</text>
+<text x="356" y="124" font-size="10.5" fill="#e11d48" font-weight="700" text-anchor="start">🔴 Over-used:</text>
+<text x="460" y="124" font-size="10" fill="#475569" font-weight="400" text-anchor="start">met4 2.2× · met3 1.8× · met2 1.3× (interp)</text>
+<text x="356" y="144" font-size="10.5" fill="#2563eb" font-weight="700" text-anchor="start">🔵 Under-used:</text>
+<text x="460" y="144" font-size="10" fill="#475569" font-weight="400" text-anchor="start">hallux 0.2× · toes 0.5×</text>
+<rect x="356" y="158" width="504" height="62" rx="8" fill="#fdecef" stroke="#e11d48" stroke-width="1.6"/>
+<text x="370" y="180" font-size="10" fill="#0f172a" font-weight="700" text-anchor="start">⚠ 2nd-met overload + hallux off-loaded = the published 1st-MTP-pain pattern</text>
+<text x="370" y="197" font-size="9.5" fill="#475569" font-weight="400" text-anchor="start">→ the "dancer's fracture" route (base of 2nd met). Cue big-toe engagement,</text>
+<text x="370" y="211" font-size="9.5" fill="#475569" font-weight="400" text-anchor="start">check the 1st ray.</text>
+<text x="356" y="246" font-size="10.5" fill="#0f172a" font-weight="700" text-anchor="start">Published peak landing force (× body weight):</text>
+<text x="370" y="266" font-size="9.5" fill="#475569" font-weight="400" text-anchor="start">• Gymnastics landing</text>
+<text x="720" y="266" font-size="9.5" fill="#0f172a" font-weight="700" text-anchor="end">7.1–15.8 ×BW</text>
+<text x="730" y="266" font-size="8" fill="#64748b" font-weight="400" text-anchor="start">published</text>
+<text x="370" y="284" font-size="9.5" fill="#475569" font-weight="400" text-anchor="start">• Figure-skating (1-leg)</text>
+<text x="720" y="284" font-size="9.5" fill="#0f172a" font-weight="700" text-anchor="end">5–8 ×BW</text>
+<text x="730" y="284" font-size="8" fill="#64748b" font-weight="400" text-anchor="start">published</text>
+<text x="370" y="302" font-size="9.5" fill="#475569" font-weight="400" text-anchor="start">• Running</text>
+<text x="720" y="302" font-size="9.5" fill="#0f172a" font-weight="700" text-anchor="end">2.5–3 ×BW</text>
+<text x="730" y="302" font-size="8" fill="#f59e0b" font-weight="400" text-anchor="start">estimated</text>
+<text x="370" y="320" font-size="9.5" fill="#475569" font-weight="400" text-anchor="start">• Ballet jump</text>
+<text x="720" y="320" font-size="9.5" fill="#0f172a" font-weight="700" text-anchor="end">1–2 ×BW</text>
+<text x="730" y="320" font-size="8" fill="#f59e0b" font-weight="400" text-anchor="start">estimated</text>
+<text x="356" y="350" font-size="9" fill="#64748b" font-weight="400" text-anchor="start">Confidence flagged per value (published / published-order / estimated);</text>
+<text x="356" y="365" font-size="9" fill="#64748b" font-weight="400" text-anchor="start">the DB tightens as sources + our own captures are added.</text>
+<text x="356" y="392" font-size="8.5" fill="#64748b" font-weight="400" text-anchor="start">Sources: gymnastics Front. Sports 2025 · skating ACSM · running PMC5112690 ·</text>
+<text x="356" y="405" font-size="8.5" fill="#64748b" font-weight="400" text-anchor="start">ballet Children 2022 · 2nd-met injury Physiopedia (refs/plantar_norms.json).</text>
+<text x="24" y="452" font-size="9.5" fill="#64748b" font-weight="400" text-anchor="start">Rubrics get specific: per-zone load vs the field's research, overload → the injury it predicts. Not a medical device.</text>
+</svg>

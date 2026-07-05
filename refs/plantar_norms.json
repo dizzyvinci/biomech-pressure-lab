@@ -1,0 +1,71 @@
+{
+  "schema_version": "0.1",
+  "about": "Per-zone plantar load norms per sport/movement, for flagging OVER/UNDER-used foot regions vs the field. dist_pct = % of total plantar load per zone (~sums 100). peak_force_BW = peak vertical GRF in body weights. Every value carries a confidence flag: 'published' (a value/range stated in a cited paper), 'published_order' (the RANK ordering is from a paper; magnitudes filled to match), or 'estimated' (biomechanically reasonable, no direct source yet). Add sources -> the DB gets more rigid.",
+  "zones": ["heel_med", "heel_lat", "midfoot", "met1", "met2", "met3", "met4", "met5", "hallux", "toes"],
+  "sensor_map": {
+    "note": "our 8-FSR rig senses these directly; met2 & met4 are INTERPOLATED from neighbors (met2~mean(met1,met3), met4~mean(met3,met5)).",
+    "sensed": ["heel_med", "heel_lat", "midfoot", "met1", "met3", "met5", "hallux", "toes"],
+    "interpolated": ["met2", "met4"]
+  },
+  "sources": {
+    "gym_grf":     {"cite": "Biomechanics of landing in gymnasts: a scoping review, Front. Sports Act. Living, 2025", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12179790/", "finding": "peak vertical GRF 7.1-15.8 x BW; mats & stiff landings raise it"},
+    "niu2014":     {"cite": "Niu et al., 'Peak Vertical GRF during Two-Leg Landing', BioMed Research International, 2014", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4160626/", "finding": "drop landing 60 cm ~2.38-4.91 x BW"},
+    "run_press":   {"cite": "Foot orthoses & forefoot peak plantar pressure in running, 2016", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5112690/", "finding": "forefoot peak ~281-313 kPa; total ~333-364 kPa"},
+    "run_region":  {"cite": "Baropodometric on-field assessment, elite soccer, Sports (MDPI), 2025", "url": "https://www.mdpi.com/2075-4663/13/11/408", "finding": "highest at central met heads > 1st met > heel > 1st toe > lateral mets; central forefoot rises walking->running"},
+    "skate_grf":   {"cite": "Landing GRF in figure skaters and non-skaters; ACSM 'Science of Figure Skating: Jumps'", "url": "https://acsm.org/the-science-of-figure-skating-jumps/", "finding": "single-leg landing ~5 x BW (some estimates to ~8 x); knee/ankle flexion absorbs"},
+    "dance_press": {"cite": "Foot deformity & 1st MTP joint plantar pain in DanceSport athletes, Children, 2022", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9406650/", "finding": "1st-MTP pain -> LESS hallux load, MORE met-head load; heel height raises 1st-met-head pressure"},
+    "met2_injury": {"cite": "Metatarsal stress fractures in athletes (reviews)", "url": "https://www.physio-pedia.com/Metatarsal_Stress_Fractures_in_the_Athletic_Population", "finding": "2nd metatarsal longest/most rigid -> #1 stress-fracture site; base of 2nd met = 'dancer's fracture'"}
+  },
+  "profiles": {
+    "running_rearfoot": {
+      "movement": "distance running, heel/rearfoot strike, stance",
+      "peak_force_BW": {"typical": 2.6, "range": [2.2, 3.0], "confidence": "estimated"},
+      "peak_pressure_kPa": {"forefoot": [281, 313], "total": [333, 364], "confidence": "published", "source": "run_press"},
+      "dist_pct": {"heel_med": 20, "heel_lat": 15, "midfoot": 6, "met1": 10, "met2": 12, "met3": 11, "met4": 6, "met5": 5, "hallux": 9, "toes": 6},
+      "dist_confidence": "published_order", "dist_source": "run_region",
+      "watch_zones": ["met2", "heel_med"],
+      "injury": "2nd-met stress fracture (over-striders), heel fat-pad; watch central-met overload"
+    },
+    "running_forefoot": {
+      "movement": "running, forefoot/mid strike, stance",
+      "peak_force_BW": {"typical": 2.8, "range": [2.4, 3.2], "confidence": "estimated"},
+      "peak_pressure_kPa": {"forefoot": [281, 313], "confidence": "published", "source": "run_press"},
+      "dist_pct": {"heel_med": 6, "heel_lat": 5, "midfoot": 3, "met1": 14, "met2": 18, "met3": 16, "met4": 9, "met5": 6, "hallux": 13, "toes": 10},
+      "dist_confidence": "published_order", "dist_source": "run_region",
+      "watch_zones": ["met2", "met3"],
+      "injury": "2nd/3rd-met stress fracture, sesamoiditis (under met1); central mets carry most"
+    },
+    "gymnastics_landing": {
+      "movement": "two-foot stick landing / dismount",
+      "peak_force_BW": {"typical": 10, "range": [7.1, 15.8], "confidence": "published", "source": "gym_grf"},
+      "dist_pct": {"heel_med": 11, "heel_lat": 9, "midfoot": 5, "met1": 15, "met2": 15, "met3": 13, "met4": 8, "met5": 6, "hallux": 11, "toes": 7},
+      "dist_confidence": "estimated", "note": "forefoot contacts first then heel; magnitudes estimated",
+      "watch_zones": ["met2", "met3", "heel_med"],
+      "injury": "very high BW impacts -> central-met & heel stress; stiff landings raise force (gym_grf)"
+    },
+    "figure_skating_landing": {
+      "movement": "single-leg jump landing, back outside edge",
+      "peak_force_BW": {"typical": 5, "range": [5, 8], "confidence": "published", "source": "skate_grf"},
+      "dist_pct": {"heel_med": 5, "heel_lat": 8, "midfoot": 3, "met1": 12, "met2": 14, "met3": 15, "met4": 11, "met5": 12, "hallux": 9, "toes": 11},
+      "dist_confidence": "estimated", "note": "ball + lateral(outside) edge; in a rigid boot; magnitudes estimated",
+      "watch_zones": ["met3", "met5", "met2"],
+      "injury": "60-100 landings/day on one leg -> lateral-column & central-met overload, navicular"
+    },
+    "ballet_releve": {
+      "movement": "relevé / demi-pointe (on the ball)",
+      "peak_force_BW": {"typical": 1.2, "range": [1.0, 1.6], "confidence": "estimated"},
+      "dist_pct": {"heel_med": 3, "heel_lat": 3, "midfoot": 3, "met1": 19, "met2": 16, "met3": 12, "met4": 6, "met5": 5, "hallux": 18, "toes": 15},
+      "dist_confidence": "published_order", "dist_source": "dance_press",
+      "watch_zones": ["met1", "hallux", "met2"],
+      "injury": "1st-MTP overload -> hallux valgus / sesamoiditis; if hallux UNDER-loaded, load shifts to met2 (dancer's fracture)"
+    },
+    "ballet_pointe": {
+      "movement": "en pointe (full pointe)",
+      "peak_force_BW": {"typical": 1.5, "range": [1.2, 2.0], "confidence": "estimated"},
+      "dist_pct": {"heel_med": 1, "heel_lat": 1, "midfoot": 1, "met1": 18, "met2": 16, "met3": 11, "met4": 6, "met5": 5, "hallux": 21, "toes": 20},
+      "dist_confidence": "estimated", "note": "COG shifts anteriorly onto met shafts (met2_injury); magnitudes estimated",
+      "watch_zones": ["hallux", "met2", "met1"],
+      "injury": "base of 2nd met stress fracture ('dancer's fracture'); hallux/1st-ray load extreme"
+    }
+  }
+}
