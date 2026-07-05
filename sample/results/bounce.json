@@ -1,0 +1,11 @@
+{
+  "bouncing": true,
+  "freq_hz": 2.8,
+  "band_power_frac": 0.999,
+  "cycles_session": 168,
+  "cycles_per_day": 40320,
+  "vs_daily_steps": 5.8,
+  "forefoot_pti_session": 22806.6,
+  "unit": "rel\u00b7s",
+  "hours_per_day": 4.0
+}

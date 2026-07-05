@@ -45,7 +45,9 @@
     "pti_norm":    {"cite": "Plantar pressure-time integral (air-insole & walking-duration study), Sci Reports, 2024", "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11336220/", "finding": "PTI = area under the peak-pressure-time curve during stance; met2 ~38.4 kPa*s, met1 ~44-58 kPa*s. Running = HIGHER peak but LOWER PTI (shorter contact). PTI is a BETTER injury/tissue-breakdown predictor than peak. 4 forefoot regions (hallux, M1, M2-3, M4-5) most ulcer-susceptible"},
     "heel_lift":   {"cite": "In-shoe heel lifts & plantar pressure (PubMed 24440428); optimized heel-lift design (J Biomech 2016)", "url": "https://pubmed.ncbi.nlm.nih.gov/24440428/", "finding": "raising the heel ATTENUATES heel peak pressure but INCREASES forefoot pressure + PTI; a lift alone trades heel pain for forefoot overload. PORON ~15 Shore reduces the downside; optimized lifts that preserve midfoot function improve distribution"},
     "cut_press":   {"cite": "In-shoe tri-axial stress during max-effort cutting (J Biomech 2014); basketball maneuver plantar loads (PMC5941807)", "url": "https://www.sciencedirect.com/science/article/abs/pii/S0021929014005491", "finding": "cutting PEAK pressure at 2nd met head; max SHEAR at 1st met head (lateral-shuffle medial shear 312.2 kPa; 45-deg sidestep propulsion shear 463.0 kPa). Forefoot/MTPj = primary contact -> 1st & 2nd met injury-susceptible"},
-    "hv_press":    {"cite": "Plantar-pressure transfer medial->central forefoot in hallux valgus, BMC Musculoskelet Disord, 2019", "url": "https://bmcmusculoskeletdisord.biomedcentral.com/articles/10.1186/s12891-019-2531-2", "finding": "hallux pressure DECREASED (affected 197 vs contralateral 221 kPa); load transfers medial (hallux/met1) -> central forefoot"}
+    "hv_press":    {"cite": "Plantar-pressure transfer medial->central forefoot in hallux valgus, BMC Musculoskelet Disord, 2019", "url": "https://bmcmusculoskeletdisord.biomedcentral.com/articles/10.1186/s12891-019-2531-2", "finding": "hallux pressure DECREASED (affected 197 vs contralateral 221 kPa); load transfers medial (hallux/met1) -> central forefoot"},
+    "seat_load":   {"cite": "Loading the feet in seating (clinical seating); differentiating sitting/standing/walking by regional plantar pressure", "url": "https://seatingmatters.com/resources/the-importance-of-loading-the-feet-in-seating", "finding": "~19% of body weight passes through the feet in normal sitting; forefoot-vs-heel share shifts with seat/footplate angle (25 deg tilt -> forefoot)"},
+    "tap_freq":    {"cite": "Sensor-based quantification of repetitive lower-limb movements (MDS-UPDRS-III), 2024; insole foot-tap tests", "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12819309/", "finding": "toe-tap median frequency ~2.8 Hz (~16 deg), heel-down; ball-of-foot force cycling — the biomechanics of leg-bounce / fidget"}
   },
   "metrics": {
     "peak_pressure_kPa": "the single highest pressure a region sees (magnitude).",
@@ -215,6 +217,19 @@
       "injury": "metatarsalgia, met stress fx, plantar plate tear, sesamoiditis, plantar fasciitis (forefoot overload from restricted dorsiflexion)",
       "chain_injury": "the common thread behind toe-walking + heel-pain avoidance; drives PF + forefoot problems",
       "management_note": "restore dorsiflexion to drop forefoot pressure. Tight NON-hypermobile calf -> eccentric/mobilize; HYPERMOBILE -> LOAD/strengthen (a lax system needs control, not more stretch); severe/resistant -> gastroc recession is the surgical option."
+    },
+    "seated_bounce": {
+      "movement": "seated leg-bounce / toe-tap (at-rest forefoot loading — the 'jiggle')",
+      "condition": true, "adaptive": true,
+      "peak_force_BW": {"typical": 0.2, "note": "~19% BW through the feet in sitting; forefoot-dominant when bouncing (heel-down toe-tap)", "confidence": "published", "source": "seat_load"},
+      "frequency_hz": {"typical": 2.8, "range": [2.0, 3.5], "confidence": "published", "source": "tap_freq"},
+      "dist_pct": {"heel_med": 5, "heel_lat": 4, "midfoot": 4, "met1": 16, "met2": 16, "met3": 14, "met4": 8, "met5": 6, "hallux": 15, "toes": 12},
+      "dist_confidence": "estimated (forefoot-dominant, heel stays light)", "dist_source": "seat_load",
+      "watch_zones": ["met2", "met3", "hallux"],
+      "injury": "cumulative FOREFOOT dose (pressure-time integral) with little rest -> metatarsalgia / sesamoiditis / met stress in forefoot-loaders",
+      "chain_injury": "at ~2.8 Hz x hours = TENS OF THOUSANDS of forefoot cycles/day — often MORE than daily walking steps; invisible to step counters; stacks on gait",
+      "baseline_note": "A self-regulating / stim movement (ADHD / autism / anxiety). The goal is to DOSE it (soft forefoot pad while seated, vary the pattern), NOT to suppress it. analysis/bounce.py quantifies the hidden dose (cycles/day + forefoot PTI).",
+      "management_note": "protect the forefoot during long bouncing (soft met pad / cushion), give the ball of the foot rest windows; don't pathologize the movement itself."
     }
   }
 }

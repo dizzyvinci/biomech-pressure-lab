@@ -41,4 +41,23 @@ already does — and avoiding a painful heel reinforces all of it. The engine wa
 > an already-lax system. Reversing toe-walking isn't always the goal; if it's kept,
 > protect the forefoot (met pad / cushion) and preserve ankle motion.
 
+## At-rest matters too — the leg-bounce dose ([`analysis/bounce.py`](../analysis/bounce.py))
+Foot tools only ever look at gait. But **leg-bouncing / toe-tapping** is repetitive
+forefoot loading at **~2.8 Hz** ([measured](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12819309/))
+that no step-counter counts — and at that rate, a few hours a day is **tens of thousands
+of forefoot cycles, often more than a full day of walking steps.**
+
+![the hidden forefoot dose](bounce.svg)
+
+`bounce.py` detects the bounce (FFT), counts the cycles, and integrates the **forefoot
+pressure-time (dose)** — the cumulative load that peak pressure misses. Demo: **40,320
+cycles/day ≈ 5.8× a typical 7,000 steps.**
+```bash
+python bounce.py --demo --hours-per-day 4
+```
+For a forefoot-loader this **stacks on top of gait** — the ball of the foot never rests.
+But leg-bounce is a **self-regulating / stim movement** (ADHD / autism / anxiety); the
+goal is to **dose** it (soft forefoot pad while seated, ball-of-foot rest windows, vary
+the pattern), *not* to suppress it. Measure it so you can manage it.
+
 Not medical advice — a screening/training aid; work with a clinician who knows your history.

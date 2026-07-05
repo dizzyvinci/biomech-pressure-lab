@@ -77,6 +77,10 @@ The **balance module** in depth — posturography, Romberg, fall-risk → device
 
 ![Heel lifts and PTI](docs/footwear.svg)
 
+**The hidden forefoot dose** — **leg-bounce / toe-tap** is ~2.8 Hz forefoot loading no step-counter sees (~40k cycles/day, ~5.8× your steps); `bounce.py` measures the dose ([conditions.md](docs/conditions.md)):
+
+![The hidden forefoot dose](docs/bounce.svg)
+
 > 🧭 **Also:** a new [**balance module**](docs/balance.md) (posturography — sway, Romberg quotient, fall-risk flags) turns the same rig into a stability screen for balance issues, not just foot pain. And [**prototype_status.md**](docs/prototype_status.md) is the "is it ready to build/pitch?" summary + the ordered-vs-printed BOM. Print models + STL export: [hardware/](hardware/README.md).
 
 ### ▶️ See it work — no hardware needed

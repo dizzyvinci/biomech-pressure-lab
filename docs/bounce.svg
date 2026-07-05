@@ -1,0 +1,43 @@
+<svg viewBox="0 0 900 440" xmlns="http://www.w3.org/2000/svg" role="img" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif">
+<title>The hidden forefoot dose of leg-bouncing: at ~2.8 Hz for 4 hours a day that is ~40,320 forefoot loading cycles, about 5.8x a typical day's 7,000 walking steps, and invisible to step counters. It stacks onto gait on the ball of the foot. bounce.py detects the bounce and integrates the forefoot pressure-time dose. Framed as a self-regulating movement to dose, not suppress.</title>
+<desc>Left: bars of forefoot loading cycles per day (walking 7,000 vs leg-bounce 40,320). Right: the 2.8 Hz waveform, gait+bounce stacking, and a dose-don't-suppress framing.</desc>
+<defs><marker id="ar" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#64748b"/></marker><marker id="arr" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#e11d48"/></marker></defs>
+<rect x="4" y="4" width="892" height="432" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"/>
+<text x="24" y="36" font-size="18" fill="#0f172a" font-weight="700" text-anchor="start">The hidden forefoot dose — leg-bounce / toe-tap</text><text x="24" y="55" font-size="11.5" fill="#475569" font-weight="400" text-anchor="start">Repetitive forefoot loading at ~2.8 Hz that no step-counter or gait lab counts</text>
+<rect x="24" y="74" width="470" height="330" rx="12" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1.6"/>
+<text x="40" y="100" font-size="12" fill="#0f172a" font-weight="700" text-anchor="start">Forefoot loading cycles per day</text>
+<text x="40" y="140" font-size="10.5" fill="#0f172a" font-weight="700" text-anchor="start">Walking (a day's steps)</text>
+<rect x="40" y="150" width="400" height="26" rx="6" fill="#ffffff" stroke="#e2e8f0" stroke-width="1"/>
+<rect x="40" y="150" width="62" height="26" rx="6" fill="#2563eb"/>
+<text x="110.22222222222223" y="168" font-size="11" fill="#0f172a" font-weight="700" text-anchor="start">7,000</text>
+<text x="44" y="192" font-size="8.5" fill="#64748b" font-weight="400" text-anchor="start">~7,000 steps</text>
+<text x="40" y="220" font-size="10.5" fill="#0f172a" font-weight="700" text-anchor="start">Leg-bounce (4 h @ 2.8 Hz)</text>
+<rect x="40" y="230" width="400" height="26" rx="6" fill="#ffffff" stroke="#e2e8f0" stroke-width="1"/>
+<rect x="40" y="230" width="358" height="26" rx="6" fill="#e11d48"/>
+<text x="406.4" y="248" font-size="11" fill="#0f172a" font-weight="700" text-anchor="start">40,320</text>
+<text x="44" y="272" font-size="8.5" fill="#64748b" font-weight="400" text-anchor="start">≈ 5.8× your walking</text>
+<text x="40" y="320" font-size="9.5" fill="#0f172a" font-weight="700" text-anchor="start">Bouncing a few hours can out-load a full day of walking —</text>
+<text x="40" y="335" font-size="9.5" fill="#475569" font-weight="400" text-anchor="start">on the ball of the foot, the spot that's already overloaded</text>
+<text x="40" y="349" font-size="9.5" fill="#475569" font-weight="400" text-anchor="start">in toe-walking / equinus. And it never registers as "activity."</text>
+<text x="40" y="378" font-size="8.5" fill="#64748b" font-weight="400" text-anchor="start">analysis/bounce.py detects the ~2.8 Hz bounce, counts cycles,</text>
+<text x="40" y="391" font-size="8.5" fill="#64748b" font-weight="400" text-anchor="start">and integrates forefoot pressure-time (the dose peak misses).</text>
+<rect x="510" y="74" width="366" height="330" rx="12" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.6"/>
+<text x="526" y="100" font-size="12" fill="#0f172a" font-weight="700" text-anchor="start">~2.8 Hz forefoot loading</text>
+<polyline points="526,140 529,127 532,124 535,133 538,147 542,156 545,152 548,140 551,127 554,124 557,133 560,147 563,156 566,152 569,139 572,127 576,125 579,134 582,148 585,156 588,152 591,139 594,127 597,125 600,134 604,148 607,156 610,152 613,139 616,127 619,125 622,134 625,148 628,156 631,152 634,139 638,127 641,125 644,134 647,148 650,156 653,151 656,138 659,127 662,125 666,135 669,148 672,156 675,151 678,138 681,126 684,125 687,135 690,149 693,156 696,151 700,138 703,126 706,125 709,135 712,149 715,156 718,151 721,138 724,126 728,125 731,135 734,149 737,156 740,151 743,137 746,126 749,125 752,136 755,149 758,156 762,150 765,137 768,126 771,125 774,136 777,150 780,156 783,150 786,137 790,126 793,125 796,136 799,150 802,156 805,150 808,137 811,126 814,126 817,136 820,150 824,156 827,150 830,136 833,125 836,126 839,137 842,150 845,156 848,150 852,136 855,125 858,126" fill="none" stroke="#e11d48" stroke-width="2"/>
+<text x="526" y="172" font-size="8.5" fill="#64748b" font-weight="400" text-anchor="start">each bump = one load on the ball of the foot</text>
+<text x="526" y="202" font-size="10.5" fill="#0f172a" font-weight="700" text-anchor="start">Your total forefoot exposure:</text>
+<rect x="526" y="212" width="334" height="26" rx="5" fill="#eff6ff" stroke="#2563eb" stroke-width="1.2"/>
+<text x="536" y="229" font-size="9" fill="#2563eb" font-weight="700" text-anchor="start">gait steps</text>
+<text x="640" y="229" font-size="11" fill="#64748b">+</text>
+<rect x="660" y="212" width="200" height="26" rx="5" fill="#fdecef" stroke="#e11d48" stroke-width="1.2"/>
+<text x="670" y="229" font-size="9" fill="#e11d48" font-weight="700" text-anchor="start">at-rest bounce dose</text>
+<text x="526" y="256" font-size="9" fill="#475569" font-weight="400" text-anchor="start">= what the ball of your foot actually sees all day.</text>
+<rect x="526" y="274" width="334" height="116" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.6"/>
+<text x="540" y="296" font-size="11" fill="#16a34a" font-weight="700" text-anchor="start">✓ Dose it, don't suppress it</text>
+<text x="540" y="316" font-size="9.5" fill="#475569" font-weight="400" text-anchor="start">Leg-bounce is a self-regulating / stim movement</text>
+<text x="540" y="330" font-size="9.5" fill="#475569" font-weight="400" text-anchor="start">(ADHD / autism / anxiety) — it's not the enemy.</text>
+<text x="540" y="350" font-size="9.5" fill="#475569" font-weight="400" text-anchor="start">Protect the forefoot while you do it (soft met pad,</text>
+<text x="540" y="364" font-size="9.5" fill="#475569" font-weight="400" text-anchor="start">cushion), take ball-of-foot rest windows, vary the</text>
+<text x="540" y="378" font-size="9.5" fill="#0f172a" font-weight="700" text-anchor="start">pattern. Measure it so you can manage it.</text>
+<text x="24" y="428" font-size="9" fill="#64748b" font-weight="400" text-anchor="start">Sources: seated foot load (seating clinical) · toe-tap 2.8 Hz PMC12819309 · PTI PMC11336220. Not medical advice.</text>
+</svg>

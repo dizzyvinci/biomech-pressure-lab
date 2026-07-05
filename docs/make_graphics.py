@@ -10,6 +10,7 @@ Produces: physical_setup.svg, pipeline.svg, software_metrics.svg,
           day_in_the_life.svg, balance_detail.svg
 Numbers shown come from the committed worked example (sample/results/).
 """
+import math
 import os
 
 NAVY, SLATE, MUTE = "#0f172a", "#475569", "#64748b"
@@ -858,6 +859,57 @@ def g_footwear():
                 "Left: heel-lift trade-off with a side-view foot + wedge and the design rule. Right: peak-vs-PTI bars for running/walking/standing.")
 
 
+def g_bounce():
+    w, h = 900, 440
+    b = [head(w, "The hidden forefoot dose — leg-bounce / toe-tap",
+              "Repetitive forefoot loading at ~2.8 Hz that no step-counter or gait lab counts")]
+    # LEFT: cycles/day comparison
+    b.append(box(24, 74, 470, 330, PANEL, BORDER, 1.6, 12))
+    b.append(T(40, 100, "Forefoot loading cycles per day", 12, NAVY, "700"))
+    scale = 400 / 45000.0
+    for i, (lab, v, c, sub) in enumerate([
+            ("Walking (a day's steps)", 7000, BLUE, "~7,000 steps"),
+            ("Leg-bounce (4 h @ 2.8 Hz)", 40320, RED, "≈ 5.8× your walking")]):
+        y = 140 + i * 80
+        b.append(T(40, y, lab, 10.5, NAVY, "700"))
+        b.append(box(40, y + 10, 400, 26, "#ffffff", BORDER, 1, 6))
+        b.append(f'<rect x="40" y="{y+10}" width="{v*scale:.0f}" height="26" rx="6" fill="{c}"/>')
+        b.append(T(40 + v * scale + 8, y + 28, f"{v:,}", 11, NAVY, "700"))
+        b.append(T(44, y + 52, sub, 8.5, MUTE))
+    b.append(T(40, 320, "Bouncing a few hours can out-load a full day of walking —", 9.5, NAVY, "700"))
+    b.append(T(40, 335, "on the ball of the foot, the spot that's already overloaded", 9.5, SLATE))
+    b.append(T(40, 349, "in toe-walking / equinus. And it never registers as \"activity.\"", 9.5, SLATE))
+    b.append(T(40, 378, "analysis/bounce.py detects the ~2.8 Hz bounce, counts cycles,", 8.5, MUTE))
+    b.append(T(40, 391, "and integrates forefoot pressure-time (the dose peak misses).", 8.5, MUTE))
+
+    # RIGHT: concept + framing
+    b.append(box(510, 74, 366, 330, "#ffffff", BORDER, 1.6, 12))
+    b.append(T(526, 100, "~2.8 Hz forefoot loading", 12, NAVY, "700"))
+    # waveform
+    pts = " ".join(f"{526 + x*3.1:.0f},{140 - 16*math.sin(x*0.9):.0f}" for x in range(0, 108))
+    b.append(f'<polyline points="{pts}" fill="none" stroke="{RED}" stroke-width="2"/>')
+    b.append(T(526, 172, "each bump = one load on the ball of the foot", 8.5, MUTE))
+    b.append(T(526, 202, "Your total forefoot exposure:", 10.5, NAVY, "700"))
+    b.append(box(526, 212, 334, 26, BLUEBG, BLUE, 1.2, 5))
+    b.append(T(536, 229, "gait steps", 9, BLUE, "700"))
+    b.append('<text x="640" y="229" font-size="11" fill="#64748b">+</text>')
+    b.append(box(660, 212, 200, 26, REDBG, RED, 1.2, 5))
+    b.append(T(670, 229, "at-rest bounce dose", 9, RED, "700"))
+    b.append(T(526, 256, "= what the ball of your foot actually sees all day.", 9, SLATE))
+    b.append(box(526, 274, 334, 116, GREENBG, GREEN, 1.6, 8))
+    b.append(T(540, 296, "✓ Dose it, don't suppress it", 11, GREEN, "700"))
+    b.append(T(540, 316, "Leg-bounce is a self-regulating / stim movement", 9.5, SLATE))
+    b.append(T(540, 330, "(ADHD / autism / anxiety) — it's not the enemy.", 9.5, SLATE))
+    b.append(T(540, 350, "Protect the forefoot while you do it (soft met pad,", 9.5, SLATE))
+    b.append(T(540, 364, "cushion), take ball-of-foot rest windows, vary the", 9.5, SLATE))
+    b.append(T(540, 378, "pattern. Measure it so you can manage it.", 9.5, NAVY, "700"))
+    b.append(T(24, 428, "Sources: seated foot load (seating clinical) · toe-tap 2.8 Hz PMC12819309 · PTI PMC11336220. Not medical advice.",
+               9, MUTE))
+    return wrap(w, h, "\n".join(b),
+                "The hidden forefoot dose of leg-bouncing: at ~2.8 Hz for 4 hours a day that is ~40,320 forefoot loading cycles, about 5.8x a typical day's 7,000 walking steps, and invisible to step counters. It stacks onto gait on the ball of the foot. bounce.py detects the bounce and integrates the forefoot pressure-time dose. Framed as a self-regulating movement to dose, not suppress.",
+                "Left: bars of forefoot loading cycles per day (walking 7,000 vs leg-bounce 40,320). Right: the 2.8 Hz waveform, gait+bounce stacking, and a dose-don't-suppress framing.")
+
+
 def main():
     for name, fn in [("physical_setup", g_physical), ("pipeline", g_pipeline),
                      ("software_metrics", g_software), ("day_in_the_life", g_day),
@@ -865,7 +917,7 @@ def main():
                      ("balance_assist", g_balance_assist), ("beam_balance", g_beam_balance),
                      ("landing_lab", g_landing_lab), ("zone_load", g_zone_load), ("chain", g_chain),
                      ("pressure_atlas", g_pressure_atlas), ("conditions", g_conditions),
-                     ("footwear", g_footwear)]:
+                     ("footwear", g_footwear), ("bounce", g_bounce)]:
         with open(os.path.join(HERE, f"{name}.svg"), "w", encoding="utf-8") as f:
             f.write(fn())
         print(f"-> {name}.svg")
