@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.env
+
+# Analysis outputs (regenerated)
+results/
+analysis/results/
+
+# Raw captures (large / personal) — commit a small sample if you want
+logs/
+*.log
+
+# Scans / meshes (large binaries)
+scans/
+*.stl
+*.obj
+*.ply
+
+# Arduino / PlatformIO build
+firmware/**/build/
+.pio/
+
+# OS
+.DS_Store
+Thumbs.db
