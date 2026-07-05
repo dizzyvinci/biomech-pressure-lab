@@ -4,6 +4,8 @@ Design and 3D-print your own **custom insole** — a soft cushion + firm shell w
 
 > **Part of the biomech-lab family — the hardware pressure side.** Its sibling repo **`biomech-lab`** covers *markerless motion / joint video analysis* (webcam→OpenSim, DICOM/MRI bone geometry). **This** repo is the **build-your-own** side: a 3D-printed custom insole (and, optionally, a smart insole + pressure plate you fabricate yourself).
 
+> 🎤 **The one-pager pitch:** [**PITCH.md**](PITCH.md) — "a $100 wearable that does what a $5k+ gait lab does, all day."
+
 ## 🚦 Start here — pick your path
 
 **🖨️ Path 1 — Printer-first (recommended, simplest).** No electronics, no soldering, no wiring. Scan your orthotic, design an insole with the relief window placed **where it hurts** (you already know), print it in TPU, wear it, tweak by feel, reprint. The fast route to a real custom insole.
