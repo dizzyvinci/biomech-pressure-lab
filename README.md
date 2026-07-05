@@ -2,6 +2,8 @@
 
 A DIY toolkit to measure your own foot **geometry**, **plantar pressure**, and **motion across movements**, then feed it into a **3D-printed custom insole** with a targeted relief window under your hot spot — and verify it worked. Built around an iPhone + a Bambu H2D.
 
+> **Part of the biomech-lab family — the hardware pressure side.** Its sibling repo **`biomech-lab`** covers *markerless motion / joint video analysis* (webcam→OpenSim, DICOM/MRI bone geometry). **This** repo is the **build-your-own hardware** side: a **smart insole + pressure plate** you fabricate yourself, plus the analysis that drives a 3D-printed insole. Separate repos, complementary data — **motion + structure + pressure**.
+
 ```
   iPhone LiDAR/photo ─┐
    (foot/orthotic)    ├─► foot GEOMETRY (STL)
