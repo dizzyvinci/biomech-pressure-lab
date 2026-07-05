@@ -19,8 +19,12 @@ python balance.py ../sample/sample_balance.csv --calibration ../sample/calibrati
 python analyze_pressure.py "../sample/sample_day_*.csv" --calibration ../sample/calibration.json --out ../sample/results  # 5. plots
 python day_summary.py "../sample/sample_day_*.csv" ../sample/sample_seated_bounce.csv --calibration ../sample/calibration.json --walk-hours 10 --bounce-hours 4 --out ../sample/results  # 5b. all-day dose (peak/PTI/cycles)
 python nerve_fascia.py --day ../sample/results/day.json --out ../sample/results   # 5c. all-day dose → nerve/fascia impact
-cd ../hardware && python build_insole.py --spec ../sample/results/insole_spec.json --out .     # 6. data → printable insole
+python trend.py --demo --out ../sample/results                                    # 5d. (demo) CPTS per structure over weeks
+cd ../hardware && python build_insole.py --spec ../sample/results/insole_spec.json --out .     # 6. data → printable insole (follows the structure target)
 ```
+Step 6's insole now **follows the structure read** — the sample's medial-heel/pronation pattern
+auto-enables **arch support** ([results/report_trend.md](results/report_trend.md) shows the trend view;
+a Morton's forefoot pattern would instead add a **metatarsal pad**).
 Steps 5b–5c turn a **real day** (walking `sample_day_*.csv` + at-rest bouncing `sample_seated_bounce.csv`)
 into the **CPTS all-day dose** and the **nerve/fascia** read ([results/report_nerve_fascia.md](results/report_nerve_fascia.md),
 [results/day.json](results/day.json)). One-command equivalent: `nerve_fascia.py --logs "…csv" --calibration … --walk-hours 10 --bounce-hours 4`.

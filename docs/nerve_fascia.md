@@ -87,6 +87,33 @@ already encodes any under-loading (a toe-walker's light heel reads low), so CPTS
 structure report + JSON. `--day` also accepts a hand-written summary (`pressure_kPa` + `pti_kPa_s` +
 `gait_steps_per_day` + `bounce_cycles_per_day`).
 
+## It feeds the insole
+
+`interpret.py` writes a `structure_target` into the insole spec, and
+[`build_insole.py`](../hardware/build_insole.py) **acts on it**:
+- **Morton's** target → a **metatarsal pad** proximal to the met heads (splays met2-4, offloads
+  the interdigital nerve), plus a forefoot relief.
+- **plantar fascia / tibial** target → auto-enabled **arch support** (windlass unload /
+  anti-pronation traction).
+- **Baxter's / fascia** medial-heel target → the aggressive medial-heel relief already carried
+  by the hot-spot logic.
+
+So the print follows the *structure*, not just the peak-pressure zone.
+
+## Track it over time
+
+The point of a dose model is watching your numbers **move**. [`analysis/trend.py`](../analysis/trend.py)
+logs each day's CPTS per structure and charts the trend:
+
+```bash
+python analysis/trend.py record results/day.json --date 2026-07-05 --history results/cpts_history.jsonl
+python analysis/trend.py chart  --history results/cpts_history.jsonl --out results/
+python analysis/trend.py --demo --out results/     # ~6 weeks, forefoot dose falling after an intervention
+```
+
+A falling forefoot line after a met pad / rest-window habit is the intervention working; a rising
+line says the dose is creeping back ([sample trend](../sample/results/report_trend.md)).
+
 ---
 **Not a medical device; not medical advice.** Associations are published; the zone-weights the
 module uses are *estimated* from anatomy + those papers. Confirming which nerve or fascia is

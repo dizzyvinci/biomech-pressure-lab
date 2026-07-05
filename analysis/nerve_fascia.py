@@ -95,6 +95,28 @@ def band(frac):
     return ("🔴 HIGH", "high") if frac >= 0.66 else ("🟠 elevated", "elevated") if frac >= 0.33 else ("🟢 watch", "watch")
 
 
+def analyze(day, db):
+    """Full read: per-zone CPTS + gradient + ranked per-structure load + forefoot/heel totals.
+    Shared by the CLI and by trend.py (so both score identically)."""
+    press = day.get("pressure_kPa", {})
+    C = cpts(day)
+    G = gradients(press)
+    scored = []
+    for name, s in db.get("structures", {}).items():
+        if name == "about":
+            continue
+        zs = s["loads_from"]
+        load = round(sum(C.get(z, 0) for z in zs), 1)
+        peak_z = max(zs, key=lambda z: press.get(z, 0))
+        grad = round(max((G.get(z, 0) for z in zs), default=0), 0)
+        scored.append({"name": name, "s": s, "load": load, "peak_z": peak_z,
+                       "peak_kPa": press.get(peak_z, 0), "grad": grad, "zones": zs})
+    scored.sort(key=lambda x: x["load"], reverse=True)
+    return {"cpts": C, "grad": G, "structures": scored,
+            "forefoot": round(sum(C[z] for z in FOREFOOT), 0),
+            "heel": round(sum(C[z] for z in HEEL_MID), 0)}
+
+
 def main():
     ap = argparse.ArgumentParser(description="Map the all-day foot-pressure dose to nerves & fascia.")
     ap.add_argument("--demo", action="store_true")
@@ -127,23 +149,10 @@ def main():
         raise SystemExit("pass --demo, --day day.json, or --logs '*.csv' [--calibration cal.json]")
 
     press = day.get("pressure_kPa", {})
-    C = cpts(day)
-    G = gradients(press)
+    res = analyze(day, db)
+    C, G, scored = res["cpts"], res["grad"], res["structures"]
     anchor = db["metrics"]["cumulative_plantar_tissue_stress_MPa_s_day"]["healing_anchor_MPa_s_day"]
-
-    # per-structure load = summed CPTS of the zones that drive it (+ its peak zone & max gradient)
-    scored = []
-    for name, s in structs.items():
-        if name == "about":
-            continue
-        zs = s["loads_from"]
-        load = round(sum(C.get(z, 0) for z in zs), 1)
-        peak_z = max(zs, key=lambda z: press.get(z, 0))
-        grad = round(max((G.get(z, 0) for z in zs), default=0), 0)
-        scored.append({"name": name, "s": s, "load": load, "peak_z": peak_z,
-                       "peak_kPa": press.get(peak_z, 0), "grad": grad, "zones": zs})
     mx = max((x["load"] for x in scored), default=1) or 1
-    scored.sort(key=lambda x: x["load"], reverse=True)
 
     L = ["# Nerve & fascia load — from the all-day pressure dose",
          "_Which nerves/fascia your day's loading overloads, via **CPTS = PTI × cycles/day** "

@@ -93,6 +93,12 @@ The **balance module** in depth — posturography, Romberg, fall-risk → device
 
 ![Nerve & fascia impact](docs/nerve_fascia.svg)
 
+**Track the dose over time** — the whole point of a dose model is watching your numbers *move*. `analysis/trend.py` logs each day's CPTS per structure and charts the trend, so a met pad / rest-window habit / calf work shows up as a **falling line** (here, forefoot structures drop after a week-3 intervention while the heel-only Baxter's holds flat — [report_trend.md](sample/results/report_trend.md)):
+
+![CPTS trend over time](sample/results/trend.png)
+
+The insole builder now **acts on the structure read**: `build_insole.py` adds a **metatarsal pad** proximal to the met heads when Morton's is the target, and auto-enables **arch support** for a plantar-fascia / tibial-nerve target — so the print follows the nerve/fascia finding, not just the hot spot.
+
 > 🧭 **Also:** a new [**balance module**](docs/balance.md) (posturography — sway, Romberg quotient, fall-risk flags) turns the same rig into a stability screen for balance issues, not just foot pain. And [**prototype_status.md**](docs/prototype_status.md) is the "is it ready to build/pitch?" summary + the ordered-vs-printed BOM. Print models + STL export: [hardware/](hardware/README.md).
 
 ### ▶️ See it work — no hardware needed
