@@ -43,15 +43,5 @@ Flagging these so you don't think they're required for the insole build — **pr
 
 ---
 
-## 🧴 CHEEQ — your separate venture (tagged, NOT the foot lab)
-> **Cheeq is your own startup**, with its own repo **[dizzyvinci/cheeq](https://github.com/dizzyvinci/cheeq)** (research, product spec, brand, business plan, patent, pitch deck). It has **nothing to do with the insole build** — it's noted here only so its silicone parts don't get mixed into the foot shopping.
-
-**⭐ The real, authoritative BOM lives in the Cheeq repo — buy from there, not this file:**
-[`02_product/build-protocol-V1.md`](https://github.com/dizzyvinci/cheeq/blob/main/02_product/build-protocol-V1.md) (full tools + silicone kit, ratios, casting order).
-
-Gist (see that file for specs/quantities):
-- **Tools (one-time, ~$300+ — the real cost driver):** vacuum chamber + pump (degassing), 0.1 g gram scale, mixing cups/brushes/mold-release, IR thermometer.
-- **Silicones (~$20/puck):** Dragon Skin FX-Pro (skin) · Ecoflex Gel + Slacker (deadened "fat") · **Ecoflex 00-50 / Dragon Skin 10 (firm backing — silicone, *not* PLA)** · Body Double/alginate (lifecast pores) · Silc-Pig pigment · Shin-Etsu KMP-600 (matte powder).
-- **Vendors:** Smooth-On / Reynolds Advanced Materials (+ Shin-Etsu, Technogel).
-
-**Correction to an earlier note of mine:** the H2D is **not** needed for Cheeq — the backing is silicone, and the mold is a lifecast, not a 3D print. **Tag: CHEEQ · source of truth = the cheeq repo.**
+## 🧴 CHEEQ — separate private venture (NOT the foot lab)
+> Cheeq is a **separate, private** project of the maintainer, tracked in **its own private repo**. It has **nothing to do with the insole build**, and its materials/specs are **intentionally kept out of this public repo** (patent-pending). Nothing here is needed for Cheeq, and none of Cheeq's parts belong in the foot shopping.
