@@ -39,7 +39,7 @@ Both paths share the same **electronics rig** (you need the sensors either way).
 | **Bambu Lab H2D** | 1,699 | [Bambu store](https://us.store.bambulab.com/products/h2d) | Dual nozzle → soft + firm in one print. Sale ends Jul 15. |
 | **H2D TPU High-Flow Kit** | 34 | [Bambu store](https://us.store.bambulab.com/products/h2d-tpu-high-flow-kit) | Footwear-tuned TPU hotends. |
 | **Firm TPU — Bambu TPU 95A HF** | ~30 | [Bambu store](https://us.store.bambulab.com/products/tpu-95a-hf) | Support shell. |
-| **Soft cushion TPU** — ColorFabb VarioShore *or* Polymaker PolyFlex | ~40 | [VarioShore](https://www.amazon.com/s?k=colorfabb+varioshore+tpu) · [PolyFlex](https://www.amazon.com/s?k=polymaker+polyflex+tpu95) | The "won't bottom out" heel layer. |
+| **Soft cushion TPU — Bambu TPU 85A** | ~34 | [Bambu store](https://us.store.bambulab.com/products/tpu-85a-tpu-90a) | The squishy heel layer (won't bottom out). Alt: [ColorFabb VarioShore](https://www.amazon.com/s?k=colorfabb+varioshore+tpu) (foaming, Amazon). |
 | **PLA Basic / PETG** | ~25 | [PLA](https://us.store.bambulab.com/products/pla-basic-filament) · [PETG](https://us.store.bambulab.com/collections/petg) | Enclosure + Cheeq molds. |
 
 **Path B total: Core (~$100) + ~$1,830 printer & materials.**
