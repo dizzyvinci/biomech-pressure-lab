@@ -23,10 +23,14 @@ added**. `analysis/zone_load.py` reads it.
 per-zone magnitude splits are `published_order` or `estimated` and clearly marked.
 **Contributions = add a paper + tighten a distribution + flip a flag to `published`.**
 
-## What's in it (v0.1)
-Profiles: `running_rearfoot`, `running_forefoot`, `gymnastics_landing`,
-`figure_skating_landing`, `ballet_releve`, `ballet_pointe`. Each has `dist_pct` (10
-zones), `peak_force_BW`, `watch_zones`, an `injury` note, and source refs.
+## What's in it (v0.2)
+Profiles: running (rear/forefoot), gymnastics/figure-skating/jump landings, ballet
+(relevé/pointe), and **soccer** (`soccer_sprint`, `soccer_cut`). Each has `dist_pct`
+(10 zones), `peak_force_BW`, `watch_zones`, an `injury` note, and source refs. Plus:
+- **`zone_anatomy`** — every zone's **anatomical position** (`pos_frac` + `pos_mm` on a
+  255 mm reference foot + landmark), so flags report *where on the foot* in mm.
+- **`chain_rules`** — foot-loading **signatures → kinetic-chain injuries** (hamstring,
+  ACL, shin splints, ankle) with sources; profiles carry a `chain_injury` note.
 
 Key sourced facts:
 | | Finding | Source |

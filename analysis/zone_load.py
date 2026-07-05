@@ -45,6 +45,15 @@ def to_10zone(mean8):
     return {z: round(100 * d[z] / tot, 1) for z in ZONES10}
 
 
+def zone_mm(db, z, foot_len):
+    fr = db.get("zone_anatomy", {}).get(z, {}).get("pos_frac")
+    if not fr:
+        return None
+    ref = db["foot_reference"]
+    w = foot_len * (ref["width_mm"] / ref["length_mm"])
+    return (round(fr[0] * w), round(fr[1] * foot_len))
+
+
 def compare(ath, norm):
     over, under, rows = [], [], []
     for z in ZONES10:
@@ -65,6 +74,8 @@ def main():
     ap.add_argument("--profile", required=True)
     ap.add_argument("--calibration")
     ap.add_argument("--bodyweight-kg", type=float)
+    ap.add_argument("--foot-length-mm", type=float, default=255.0,
+                    help="your foot length (mm) -> report zone positions in mm on YOUR foot")
     ap.add_argument("--out", default="results")
     args = ap.parse_args()
     os.makedirs(args.out, exist_ok=True)
@@ -110,8 +121,20 @@ def main():
 
     if over:
         L.append("\n**Over-used** (≥1.3× the norm): " + ", ".join(f"{z} ({r}×)" for z, r in over))
+        for z, r in over:
+            mm = zone_mm(db, z, args.foot_length_mm)
+            lm = db.get("zone_anatomy", {}).get(z, {}).get("landmark", "")
+            if mm:
+                L.append(f"  · **{z}** at ~(x {mm[0]}, y {mm[1]}) mm on your {args.foot_length_mm:.0f} mm foot — {lm}")
     if under:
         L.append("**Under-used** (≤0.7× the norm): " + ", ".join(f"{z} ({r}×)" for z, r in under))
+
+    if prof.get("chain_injury"):
+        L.append(f"\n🔗 **Kinetic chain (it's all connected to the foot):** {prof['chain_injury']}")
+        cr = prof.get("chain_rule")
+        if cr and cr in db.get("chain_rules", {}):
+            rule = db["chain_rules"][cr]
+            L.append(f"   signature: _{rule['signal']}_ → {', '.join(rule['chain'])}")
 
     watch = prof.get("watch_zones", [])
     flagged = [z for z, _ in over if z in watch]

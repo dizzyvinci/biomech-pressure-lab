@@ -17,6 +17,7 @@ use. Three layers:
 | [`gait_cue.py`](gait_cue.py) | insole → **glasses** | Detects **freezing of gait** (Freeze Index) → emits a **cue-event stream** (visual floor-lines, metronome, haptic) that Parkinson's cueing glasses / laser-shoes act on | `--demo` (2 freezes → 10 cue events) |
 | [`apple_watch.py`](apple_watch.py) | **Watch** → insole | Reads an **Apple Health export** (Walking Steadiness, asymmetry, double-support, speed) and cross-references the insole findings for a **two-source fall-risk view** | `sample/apple_health_export_sample.xml` |
 | [`walker.py`](walker.py) | walker ↔ insole → **walker** | Fuses **handle load + foot load** → % weight through the walker (rehab trend), lean, and a **grab detector** that fires **brake + alert** on a near-fall | `--demo` (3 grabs → brake commands) |
+| [`video_force.py`](video_force.py) | **video** → force | Estimates peak **vGRF from CoM trajectory** (pose) — check vs the cited DB range; flags **L/R asymmetry** (ACL precursor). Fills in when there's no insole | `--demo` (6.8× BW; 20% asym) |
 
 ## What's built vs what needs the device
 These modules implement the **algorithms + the data contracts**. The last hop to a

@@ -1,5 +1,5 @@
 {
-  "profile": "running_forefoot",
+  "profile": "soccer_sprint",
   "athlete_pct": {
     "heel_med": 2.4,
     "heel_lat": 2.4,
@@ -14,16 +14,12 @@
   },
   "over_used": [
     [
-      "met1",
-      1.46
-    ],
-    [
       "met3",
-      1.38
+      1.47
     ],
     [
       "met4",
-      1.44
+      1.62
     ]
   ],
   "under_used": [

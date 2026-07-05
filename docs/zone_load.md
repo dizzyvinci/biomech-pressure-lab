@@ -39,9 +39,14 @@ the #1 stress-fracture site). **Every value is flagged** `published` / `publishe
 / `estimated` — see [refs/README](../refs/README.md). "Estimation is fine; exact is
 better," and the DB tightens as sources + our own captures are added.
 
-**More demographics, same engine:** add a `profile` (sprinting, volleyball/basketball
-jump-landing for ACL, soccer cut, martial-arts kick, clinical walking) and the whole
-over/under-use + injury read comes for free. **Video → force** estimation (2D-pose →
+**Now included (v0.2):** over-used zones report their **anatomical position in mm** on
+your foot (`--foot-length-mm`, e.g. *met2 ≈ (38, 189) mm*), and the profile prints its
+**kinetic-chain injury** — foot loading connects to **hamstring / ACL / shin**, not just
+the foot (see [video_force.md](video_force.md)). **soccer** (`soccer_sprint`,
+`soccer_cut`) and `jump_landing` (ACL) profiles are in.
+
+**More demographics, same engine:** add a `profile` (martial-arts kick, tennis serve,
+clinical walking) and the whole over/under-use + injury read comes for free. **Video → force** estimation (2D-pose →
 GRF, [PMC11057390](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11057390/)) is a natural
 connector: it *estimates* the force; this DB gives the *published* range to check it.
 

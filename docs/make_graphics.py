@@ -648,12 +648,64 @@ def g_zone_load():
                 "Left: footprint with 10 zones colored over/under/normal vs norm. Right: findings, injury note, and published force ranges.")
 
 
+def g_chain():
+    w, h = 900, 480
+    b = [head(w, "Kinetic chain — it's all connected to the foot",
+              "A foot-loading signature is the input; the injury often shows up up the chain")]
+    # LEFT: leg with injury sites
+    b.append(box(24, 74, 250, 372, PANEL, BORDER, 1.6, 12))
+    b.append(T(40, 100, "Where it shows up", 12, NAVY, "700"))
+    lx = 120
+    b.append(f'<rect x="{lx-22}" y="120" width="44" height="86" rx="14" fill="#cbd5e1"/>')   # thigh
+    b.append(f'<circle cx="{lx}" cy="212" r="15" fill="#b6c2d4"/>')                            # knee
+    b.append(f'<rect x="{lx-16}" y="224" width="32" height="82" rx="12" fill="#cbd5e1"/>')     # shin
+    b.append(f'<circle cx="{lx}" cy="312" r="12" fill="#b6c2d4"/>')                            # ankle
+    b.append(f'<rect x="{lx-14}" y="318" width="74" height="18" rx="8" fill="#cbd5e1"/>')      # foot
+    def site(y, cyc, lab, col):
+        return (f'<circle cx="{lx+ (22 if cyc else 0)}" cy="{y}" r="4.5" fill="{col}"/>' +
+                f'<line x1="{lx+(26 if cyc else 4)}" y1="{y}" x2="176" y2="{y}" stroke="{col}" stroke-width="1.2"/>' +
+                T(180, y + 3, lab, 8.5, NAVY, "700"))
+    b.append(site(150, True, "hamstring", RED))
+    b.append(T(180, 163, "(sprint late-swing)", 7.5, MUTE))
+    b.append(site(212, False, "ACL", RED))
+    b.append(T(180, 225, "(landing / cut)", 7.5, MUTE))
+    b.append(site(262, False, "shin splints (MTSS)", BLUE))
+    b.append(site(312, False, "ankle sprain", BLUE))
+    b.append(site(330, False, "2nd-met stress fx · PF", AMBER))
+    b.append(T(40, 400, "Foot marker positions are anatomical", 8.5, MUTE))
+    b.append(T(40, 415, "(mm on your foot, e.g. met2 ≈ 38×189).", 8.5, MUTE))
+
+    # RIGHT: signature -> chain rows
+    b.append(box(290, 74, 586, 372, "#ffffff", BORDER, 1.6, 12))
+    b.append(T(306, 100, "Foot-loading signature → chain injury", 12.5, NAVY, "700"))
+    rows = [
+        ("High vGRF + loading rate (stiff landing)", "ACL · tibial bone stress", "jump / gym", RED, REDBG),
+        ("L/R asymmetry > 10–15%", "non-contact ACL · hamstring", "soccer cut", RED, REDBG),
+        ("Over-stride: foot lands ahead in sprint", "HAMSTRING (late-swing eccentric)", "soccer sprint", AMBER, "#fff7ed"),
+        ("Medial collapse / overpronation", "shin splints (MTSS) · PF · knee valgus → ACL", "runner", BLUE, BLUEBG),
+        ("Lateral overload / supination", "ankle sprain · 5th-met (Jones) · IT band", "cutter", BLUE, BLUEBG),
+    ]
+    y = 118
+    for sig, inj, sport, c, cbg in rows:
+        b.append(box(306, y, 554, 52, cbg, c, 1.3, 8))
+        b.append(T(320, y + 20, sig, 10, NAVY, "700"))
+        b.append(f'<text x="500" y="{y+20}" font-size="11" fill="{MUTE}">→</text>')
+        b.append(T(320, y + 39, inj, 9.5, c, "700"))
+        b.append(T(848, y + 20, sport, 8.5, MUTE, "400", "end"))
+        y += 60
+    b.append(T(24, 466, "Rubrics can flag proximal injuries from the foot signature — and video→force (cited pose→GRF) "
+                        "estimates the load even without a sensor. Not a medical device.", 9.5, MUTE))
+    return wrap(w, h, "\n".join(b),
+                "Kinetic-chain injury map: foot-loading signatures map to injuries up the chain — high vGRF/loading rate -> ACL and tibial stress; L/R asymmetry >10-15% -> non-contact ACL and hamstring; overstride in sprint -> hamstring; medial collapse -> shin splints/plantar fasciitis/knee valgus; lateral overload -> ankle sprain/5th met/IT band. Foot markers are anatomical (mm).",
+                "Left: a leg with injury sites (hamstring, ACL, shin, ankle, foot). Right: five foot-signature -> chain-injury rows with the sport.")
+
+
 def main():
     for name, fn in [("physical_setup", g_physical), ("pipeline", g_pipeline),
                      ("software_metrics", g_software), ("day_in_the_life", g_day),
                      ("balance_detail", g_balance), ("balance_positions", g_balance_positions),
                      ("balance_assist", g_balance_assist), ("beam_balance", g_beam_balance),
-                     ("landing_lab", g_landing_lab), ("zone_load", g_zone_load)]:
+                     ("landing_lab", g_landing_lab), ("zone_load", g_zone_load), ("chain", g_chain)]:
         with open(os.path.join(HERE, f"{name}.svg"), "w", encoding="utf-8") as f:
             f.write(fn())
         print(f"-> {name}.svg")
