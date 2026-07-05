@@ -23,14 +23,30 @@ added**. `analysis/zone_load.py` reads it.
 per-zone magnitude splits are `published_order` or `estimated` and clearly marked.
 **Contributions = add a paper + tighten a distribution + flip a flag to `published`.**
 
-## What's in it (v0.2)
-Profiles: running (rear/forefoot), gymnastics/figure-skating/jump landings, ballet
-(relevé/pointe), and **soccer** (`soccer_sprint`, `soccer_cut`). Each has `dist_pct`
-(10 zones), `peak_force_BW`, `watch_zones`, an `injury` note, and source refs. Plus:
-- **`zone_anatomy`** — every zone's **anatomical position** (`pos_frac` + `pos_mm` on a
-  255 mm reference foot + landmark), so flags report *where on the foot* in mm.
-- **`chain_rules`** — foot-loading **signatures → kinetic-chain injuries** (hamstring,
-  ACL, shin splints, ankle) with sources; profiles carry a `chain_injury` note.
+## What's in it (v0.3)
+
+![plantar pressure atlas](../docs/pressure_atlas.svg)
+
+**Real per-zone peak pressures (kPa)** now populate the bottom-of-foot profiles:
+
+| Activity | Published peak pressures (kPa) | Source |
+|---|---|---|
+| Barefoot **walking** | hallux **280** · heel **264** · met1 **248** · met2 **246** · met3 **225** | [PMC2902454](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2902454/) |
+| Quiet **standing** | heel **139** vs forefoot **53** (heel 60% / midfoot 8% / forefoot 28% of load) | [Cavanagh](https://pubmed.ncbi.nlm.nih.gov/3583160/) |
+| **Running** | forefoot **313** · total **364** · rearfoot mid/hind ~**190** | [PMC5112690](https://pmc.ncbi.nlm.nih.gov/articles/PMC5112690/) |
+| **Basketball landing** | hallux **794** · forefoot **403** (central-forefoot 50% / hallux 25%) | [LER](https://lermagazine.com/special-section/defensive-game-planning/soccer-basketball-players-demonstrate-differences-in-plantar-pressure-patterns) |
+
+Plus **`clinical_thresholds`** — 200 kPa in-shoe / 450 & 750 kPa barefoot ulcer-risk
+([PMC10882031](https://pmc.ncbi.nlm.nih.gov/articles/PMC10882031/)) — with the explicit
+note that these are **neuropathic-tissue** limits, **not** athletic caps (healthy
+athletes routinely exceed them transiently).
+
+Profiles (12): **`standing`**, **`walking`** (baselines), running (rear/forefoot),
+gymnastics / figure-skating / **basketball** / jump landings, ballet (relevé/pointe),
+soccer (sprint/cut). Each: `dist_pct`, `peak_pressure_kPa` (where sourced),
+`peak_force_BW`, `watch_zones`, `injury` + `chain_injury`, sources. Plus:
+- **`zone_anatomy`** — each zone's **anatomical position** (`pos_mm` on a 255 mm foot).
+- **`chain_rules`** — foot **signatures → kinetic-chain injuries** (hamstring, ACL, shin).
 
 Key sourced facts:
 | | Finding | Source |

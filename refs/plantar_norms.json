@@ -1,88 +1,117 @@
 {
-  "schema_version": "0.2",
-  "about": "Per-zone plantar load norms + ANATOMICAL positions (mm) + kinetic-CHAIN injury links, per sport/movement. Used to flag OVER/UNDER-used foot regions vs the field and the injuries (foot-local AND proximal) they predict. Every value carries a confidence flag: 'published' (stated in a cited paper), 'published_order' (rank ordering from a paper; magnitudes filled to match), or 'estimated' (biomechanically reasonable, no direct source yet). Add sources -> the DB gets more rigid.",
+  "schema_version": "0.3",
+  "about": "Per-zone plantar load + PRESSURE (kPa) + anatomical mm positions + kinetic-chain injury links, per movement. Flags OVER/UNDER-used regions and the injuries they predict. Confidence per value: 'published' (a value/range in a cited paper), 'published_order' (rank from a paper; magnitudes fitted), 'estimated' (no direct source yet). v0.3 adds real per-zone peak pressures (kPa) for walking/standing/running/basketball and clinical thresholds. Bottom-of-foot focus.",
   "zones": ["heel_med", "heel_lat", "midfoot", "met1", "met2", "met3", "met4", "met5", "hallux", "toes"],
-  "foot_reference": {
-    "length_mm": 255, "width_mm": 95,
-    "axes": "x = medial(0) -> lateral(width); y = heel(0) -> toe(length)",
-    "note": "positions below are for a 255 mm reference foot; scale by YOUR foot length (x scales with width ~= 0.37 x length). zone_load.py --foot-length-mm does this."
-  },
+  "foot_reference": {"length_mm": 255, "width_mm": 95, "axes": "x = medial(0)->lateral(width); y = heel(0)->toe(length)", "note": "positions are for a 255 mm foot; scale by your length (zone_load.py --foot-length-mm)."},
+  "units": {"pressure": "kPa (1 N/cm^2 = 10 kPa)", "force": "peak vertical GRF in body weights (x BW)", "dist_pct": "% of total plantar load"},
   "zone_anatomy": {
     "heel_med":  {"pos_frac": [0.35, 0.08], "pos_mm": [33, 20],  "landmark": "medial calcaneus / heel fat pad"},
     "heel_lat":  {"pos_frac": [0.65, 0.08], "pos_mm": [62, 20],  "landmark": "lateral calcaneus"},
     "midfoot":   {"pos_frac": [0.50, 0.45], "pos_mm": [48, 115], "landmark": "midfoot / lateral arch"},
     "met1":      {"pos_frac": [0.30, 0.72], "pos_mm": [28, 184], "landmark": "1st metatarsal head (+ sesamoids)"},
-    "met2":      {"pos_frac": [0.40, 0.74], "pos_mm": [38, 189], "landmark": "2nd metatarsal head (longest ray; #1 stress-fx site)"},
+    "met2":      {"pos_frac": [0.40, 0.74], "pos_mm": [38, 189], "landmark": "2nd metatarsal head (longest; #1 stress-fx site)"},
     "met3":      {"pos_frac": [0.50, 0.75], "pos_mm": [48, 191], "landmark": "3rd metatarsal head"},
     "met4":      {"pos_frac": [0.60, 0.74], "pos_mm": [57, 189], "landmark": "4th metatarsal head"},
-    "met5":      {"pos_frac": [0.70, 0.72], "pos_mm": [67, 184], "landmark": "5th metatarsal head (Jones-fx base is proximal)"},
+    "met5":      {"pos_frac": [0.70, 0.72], "pos_mm": [67, 184], "landmark": "5th metatarsal head"},
     "hallux":    {"pos_frac": [0.26, 0.93], "pos_mm": [25, 237], "landmark": "great toe (1st MTP / hallux)"},
     "toes":      {"pos_frac": [0.56, 0.96], "pos_mm": [53, 245], "landmark": "lesser toes"}
   },
-  "sensor_map": {
-    "note": "our 8-FSR rig senses these directly; met2 & met4 are INTERPOLATED from neighbors.",
-    "sensed": ["heel_med", "heel_lat", "midfoot", "met1", "met3", "met5", "hallux", "toes"],
-    "interpolated": ["met2", "met4"]
+  "sensor_map": {"note": "8-FSR rig senses these; met2 & met4 are INTERPOLATED.", "sensed": ["heel_med", "heel_lat", "midfoot", "met1", "met3", "met5", "hallux", "toes"], "interpolated": ["met2", "met4"]},
+  "clinical_thresholds": {
+    "in_shoe_ulcer_kPa": 200,
+    "barefoot_kPa": [450, 750],
+    "confidence": "published", "source": "ulcer_thr",
+    "IMPORTANT": "These are DIABETIC/NEUROPATHIC-tissue ulcer-risk thresholds (~67% of studies use 200 kPa in-shoe). HEALTHY athletic tissue tolerates far higher transiently — running forefoot ~300-560 kPa, basketball-landing hallux ~800 kPa are normal. Use 200 kPa as a SUSTAINED-load caution (at-risk feet), NOT an athletic limit."
   },
   "sources": {
-    "gym_grf":     {"cite": "Biomechanics of landing in gymnasts: a scoping review, Front. Sports Act. Living, 2025", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12179790/", "finding": "peak vGRF 7.1-15.8 x BW"},
-    "niu2014":     {"cite": "Niu et al., BioMed Research International, 2014", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4160626/", "finding": "drop landing 60 cm ~2.38-4.91 x BW"},
-    "run_press":   {"cite": "Foot orthoses & forefoot peak plantar pressure in running, 2016", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5112690/", "finding": "forefoot peak ~281-313 kPa"},
-    "run_region":  {"cite": "Baropodometric assessment, elite soccer, Sports (MDPI), 2025", "url": "https://www.mdpi.com/2075-4663/13/11/408", "finding": "central met heads > 1st met > heel > 1st toe > lateral mets"},
-    "skate_grf":   {"cite": "Landing GRF in figure skaters; ACSM 'Science of Figure Skating: Jumps'", "url": "https://acsm.org/the-science-of-figure-skating-jumps/", "finding": "single-leg landing ~5 x BW (to ~8 x)"},
-    "dance_press": {"cite": "Foot deformity & 1st MTP plantar pain in DanceSport, Children, 2022", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9406650/", "finding": "1st-MTP pain -> less hallux, more met-head load"},
-    "met2_injury": {"cite": "Metatarsal stress fractures in athletes (reviews)", "url": "https://www.physio-pedia.com/Metatarsal_Stress_Fractures_in_the_Athletic_Population", "finding": "2nd met = #1 stress-fracture site; base of 2nd met = 'dancer's fracture'"},
-    "hsi_sprint":  {"cite": "Mechanism of hamstring strain in sprinting (PMC6188997); Soccer HSI video review, Front. Public Health, 2026", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6188997/", "finding": "late-swing eccentric strain JUST BEFORE foot-strike; overstride plausibly worsens it; #1 soccer injury"},
-    "acl_grf":     {"cite": "ACL landing biomechanics predict re-injury, Am J Sports Med (PMC4920967); drop-vertical-jump GRF", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4920967/", "finding": "high vGRF + loading rate at landing predicts ACL; ACL strain peaks with vGRF"},
-    "acl_asym":    {"cite": "Limb symmetry & landing mechanics after ACLR, PMC8359711", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8359711/", "finding": "L/R asymmetry >10-15% is a non-contact ACL precursor / return-to-sport flag"},
-    "pose_grf":    {"cite": "Estimation of vGRF in single-leg landing from 2D video + pose-estimation AI, 2024", "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11057390/", "finding": "2D-pose -> vGRF is feasible; basis for the video_force connector"}
+    "walk_norm":   {"cite": "Plantar pressure assessment in healthy adults, barefoot walking (MatScan/TekScan)", "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2902454/", "finding": "peak kPa: hallux 280, heel 264, met1 248, met2 246, met3 225"},
+    "stand_norm":  {"cite": "Cavanagh et al., pressure distribution under symptom-free feet, barefoot standing", "url": "https://pubmed.ncbi.nlm.nih.gov/3583160/", "finding": "load heel 60% / midfoot 8% / forefoot 28%; peak heel 139 kPa vs forefoot 53 kPa (heel 2.6x)"},
+    "run_press":   {"cite": "Foot orthoses & forefoot peak plantar pressure in running, 2016", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5112690/", "finding": "forefoot peak ~281-313 kPa; total ~333-364 kPa"},
+    "run_slope":   {"cite": "Foot-strike pattern & plantar pressure, uphill/downhill running, Front. Sports, 2025", "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12589005/", "finding": "rearfoot-strike mid/hind ~190 kPa early; heel +32% downhill, -24% uphill"},
+    "court_press": {"cite": "Regional foot pressure in running/cutting/jumping/landing; basketball vs soccer plantar patterns (LER)", "url": "https://lermagazine.com/special-section/defensive-game-planning/soccer-basketball-players-demonstrate-differences-in-plantar-pressure-patterns", "finding": "basketball peaks central-forefoot 50% / hallux 25%; landing hallux 79.4 N/cm^2 (=794 kPa), forefoot 40.3 N/cm^2 (=403 kPa)"},
+    "ulcer_thr":   {"cite": "Plantar pressure thresholds to prevent diabetic foot ulcers: systematic review, 2024", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10882031/", "finding": "200 kPa in-shoe mean peak pressure = most-agreed target; 450 & 750 kPa barefoot"},
+    "gym_grf":     {"cite": "Biomechanics of landing in gymnasts: scoping review, Front. Sports, 2025", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12179790/", "finding": "peak vGRF 7.1-15.8 x BW"},
+    "skate_grf":   {"cite": "Landing GRF in figure skaters; ACSM 'Science of Figure Skating'", "url": "https://acsm.org/the-science-of-figure-skating-jumps/", "finding": "single-leg landing ~5 x BW (to ~8)"},
+    "dance_press": {"cite": "Foot deformity & 1st-MTP pain, DanceSport, Children, 2022", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9406650/", "finding": "1st-MTP pain -> less hallux, more met-head load"},
+    "met2_injury": {"cite": "Metatarsal stress fractures in athletes (reviews)", "url": "https://www.physio-pedia.com/Metatarsal_Stress_Fractures_in_the_Athletic_Population", "finding": "2nd met = #1 stress-fx site ('dancer's fracture')"},
+    "hsi_sprint":  {"cite": "Hamstring strain in sprinting (PMC6188997); soccer HSI video review, 2026", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6188997/", "finding": "late-swing eccentric just before foot-strike; overstride worsens; #1 soccer injury"},
+    "acl_grf":     {"cite": "ACL landing biomechanics predict re-injury (PMC4920967)", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4920967/", "finding": "high vGRF + loading rate predicts ACL; strain peaks with vGRF"},
+    "acl_asym":    {"cite": "Limb symmetry & landing after ACLR (PMC8359711)", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8359711/", "finding": "L/R asymmetry >10-15% = non-contact ACL precursor"},
+    "pose_grf":    {"cite": "vGRF in single-leg landing from 2D video + pose AI, 2024", "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11057390/", "finding": "2D-pose -> vGRF feasible; basis for video_force"}
   },
   "chain_rules": {
-    "_note": "foot-loading SIGNATURES -> kinetic-chain injuries (foot-local AND proximal). It's all connected to the foot.",
-    "high_loading_rate":        {"signal": "steep dF/dt at landing (hard/stiff)", "chain": ["ACL (vGRF peak co-times with ACL strain)", "tibial bone stress"], "source": "acl_grf"},
-    "lr_asymmetry_gt_10pct":    {"signal": "L/R peak-force or load asymmetry > 10-15%", "chain": ["non-contact ACL (asymmetry precursor)", "hamstring (side dominance)"], "source": "acl_asym"},
-    "overstride_forefoot_late": {"signal": "foot lands well ahead of the body in sprint", "chain": ["hamstring strain (late-swing eccentric, pre-contact)"], "source": "hsi_sprint"},
-    "medial_collapse":          {"signal": "medial forefoot / arch overload (overpronation)", "chain": ["medial tibial stress syndrome (shin splints)", "plantar fasciitis", "knee valgus -> ACL"], "source": "acl_asym"},
-    "lateral_overload":         {"signal": "lateral-column overload (supination)", "chain": ["lateral ankle sprain", "5th-met (Jones) stress fx", "IT band"], "source": "met2_injury"}
+    "_note": "foot-loading SIGNATURES -> kinetic-chain injuries (foot-local AND proximal).",
+    "high_loading_rate":        {"signal": "steep dF/dt at landing (stiff)", "chain": ["ACL", "tibial bone stress"], "source": "acl_grf"},
+    "lr_asymmetry_gt_10pct":    {"signal": "L/R force or load asymmetry >10-15%", "chain": ["non-contact ACL", "hamstring"], "source": "acl_asym"},
+    "overstride_forefoot_late": {"signal": "foot lands ahead of body in sprint", "chain": ["hamstring strain (late-swing)"], "source": "hsi_sprint"},
+    "medial_collapse":          {"signal": "medial forefoot/arch overload (pronation)", "chain": ["MTSS (shin splints)", "plantar fasciitis", "knee valgus -> ACL"], "source": "acl_asym"},
+    "lateral_overload":         {"signal": "lateral-column overload (supination)", "chain": ["lateral ankle sprain", "5th-met (Jones)", "IT band"], "source": "met2_injury"}
   },
   "profiles": {
+    "standing": {
+      "movement": "quiet barefoot standing (baseline)",
+      "peak_force_BW": {"typical": 0.5, "note": "per foot; bodyweight split across two feet", "confidence": "published"},
+      "peak_pressure_kPa": {"heel_med": 139, "heel_lat": 120, "midfoot": 40, "met1": 53, "met2": 53, "met3": 53, "met4": 45, "met5": 40, "hallux": 40, "toes": 20, "confidence": "heel & forefoot published; others estimated", "source": "stand_norm"},
+      "dist_pct": {"heel_med": 32, "heel_lat": 28, "midfoot": 8, "met1": 6, "met2": 5, "met3": 5, "met4": 4, "met5": 4, "hallux": 4, "toes": 4},
+      "dist_confidence": "published", "dist_source": "stand_norm",
+      "watch_zones": ["heel_med"],
+      "injury": "heel bears ~60% in stance (139 kPa, 2.6x forefoot)"
+    },
+    "walking": {
+      "movement": "barefoot level walking (clinical baseline)",
+      "peak_force_BW": {"typical": 1.1, "range": [1.0, 1.3], "confidence": "published"},
+      "peak_pressure_kPa": {"heel_med": 264, "heel_lat": 230, "midfoot": 110, "met1": 248, "met2": 246, "met3": 225, "met4": 180, "met5": 150, "hallux": 280, "toes": 170, "confidence": "hallux/heel/met1-3 published; others estimated", "source": "walk_norm"},
+      "dist_pct": {"heel_med": 14, "heel_lat": 12, "midfoot": 8, "met1": 12, "met2": 11, "met3": 10, "met4": 6, "met5": 5, "hallux": 12, "toes": 10},
+      "dist_confidence": "published_order", "dist_source": "walk_norm",
+      "watch_zones": ["hallux", "heel_med", "met2"],
+      "injury": "hallux/heel/central-met are the gait peak-pressure regions",
+      "chain_injury": "the clinical baseline; medial collapse -> PF / MTSS"
+    },
     "running_rearfoot": {
-      "movement": "distance running, heel/rearfoot strike, stance",
+      "movement": "distance running, heel/rearfoot strike",
       "peak_force_BW": {"typical": 2.6, "range": [2.2, 3.0], "confidence": "estimated"},
-      "peak_pressure_kPa": {"forefoot": [281, 313], "total": [333, 364], "confidence": "published", "source": "run_press"},
+      "peak_pressure_kPa": {"total": [333, 364], "rearfoot_early": 190, "forefoot": [281, 313], "confidence": "published", "source": "run_slope"},
       "dist_pct": {"heel_med": 20, "heel_lat": 15, "midfoot": 6, "met1": 10, "met2": 12, "met3": 11, "met4": 6, "met5": 5, "hallux": 9, "toes": 6},
-      "dist_confidence": "published_order", "dist_source": "run_region",
+      "dist_confidence": "published_order", "dist_source": "run_press",
       "watch_zones": ["met2", "heel_med"],
       "injury": "2nd-met stress fx (over-striders), heel fat-pad",
-      "chain_injury": "over-stride -> hamstring (late-swing); medial collapse -> shin splints / PF"
+      "chain_injury": "over-stride -> hamstring; medial collapse -> shin splints / PF"
     },
     "running_forefoot": {
-      "movement": "running, forefoot/mid strike, stance",
+      "movement": "running, forefoot/mid strike",
       "peak_force_BW": {"typical": 2.8, "range": [2.4, 3.2], "confidence": "estimated"},
-      "peak_pressure_kPa": {"forefoot": [281, 313], "confidence": "published", "source": "run_press"},
+      "peak_pressure_kPa": {"forefoot": [281, 313], "total": [333, 364], "met2": 313, "met3": 290, "met1": 260, "hallux": 240, "confidence": "forefoot published; per-zone estimated from it", "source": "run_press"},
       "dist_pct": {"heel_med": 6, "heel_lat": 5, "midfoot": 3, "met1": 14, "met2": 18, "met3": 16, "met4": 9, "met5": 6, "hallux": 13, "toes": 10},
-      "dist_confidence": "published_order", "dist_source": "run_region",
+      "dist_confidence": "published_order", "dist_source": "run_press",
       "watch_zones": ["met2", "met3"],
       "injury": "2nd/3rd-met stress fx, sesamoiditis (under met1)",
-      "chain_injury": "Achilles / calf (forefoot loading); central mets carry most"
+      "chain_injury": "Achilles / calf (forefoot loading)"
+    },
+    "basketball_landing": {
+      "movement": "basketball jump / layup landing",
+      "peak_force_BW": {"typical": 5, "range": [3, 7], "confidence": "estimated"},
+      "peak_pressure_kPa": {"hallux": 794, "met1": 400, "met2": 403, "met3": 380, "met4": 250, "met5": 200, "heel_med": 150, "heel_lat": 150, "midfoot": 80, "toes": 250, "confidence": "hallux & forefoot published (N/cm^2 x10); others estimated", "source": "court_press"},
+      "dist_pct": {"heel_med": 4, "heel_lat": 4, "midfoot": 2, "met1": 12, "met2": 16, "met3": 16, "met4": 6, "met5": 5, "hallux": 25, "toes": 10},
+      "dist_confidence": "published_order", "dist_source": "court_press",
+      "watch_zones": ["hallux", "met2", "met3"],
+      "injury": "hallux (turf toe / sesamoid) + central-met; wooden court raises hallux vs asphalt",
+      "chain_injury": "high landing force -> ACL", "chain_rule": "high_loading_rate"
     },
     "gymnastics_landing": {
       "movement": "two-foot stick landing / dismount",
       "peak_force_BW": {"typical": 10, "range": [7.1, 15.8], "confidence": "published", "source": "gym_grf"},
       "dist_pct": {"heel_med": 11, "heel_lat": 9, "midfoot": 5, "met1": 15, "met2": 15, "met3": 13, "met4": 8, "met5": 6, "hallux": 11, "toes": 7},
-      "dist_confidence": "estimated",
-      "watch_zones": ["met2", "met3", "heel_med"],
+      "dist_confidence": "estimated", "watch_zones": ["met2", "met3", "heel_med"],
       "injury": "central-met & heel stress from very high BW impacts",
-      "chain_injury": "high vGRF -> ACL / tibial stress; stiff landings raise force"
+      "chain_injury": "high vGRF -> ACL / tibial stress", "chain_rule": "high_loading_rate"
     },
     "figure_skating_landing": {
       "movement": "single-leg jump landing, back outside edge",
       "peak_force_BW": {"typical": 5, "range": [5, 8], "confidence": "published", "source": "skate_grf"},
       "dist_pct": {"heel_med": 5, "heel_lat": 8, "midfoot": 3, "met1": 12, "met2": 14, "met3": 15, "met4": 11, "met5": 12, "hallux": 9, "toes": 11},
-      "dist_confidence": "estimated",
-      "watch_zones": ["met3", "met5", "met2"],
-      "injury": "lateral-column & central-met overload, navicular (60-100 landings/day, one leg)",
-      "chain_injury": "single-leg repetition -> hip/knee asymmetry; loading-rate on the landing leg"
+      "dist_confidence": "estimated", "watch_zones": ["met3", "met5", "met2"],
+      "injury": "lateral-column & central-met overload, navicular",
+      "chain_injury": "single-leg repetition -> hip/knee asymmetry"
     },
     "ballet_releve": {
       "movement": "relevé / demi-pointe (on the ball)",
@@ -90,46 +119,42 @@
       "dist_pct": {"heel_med": 3, "heel_lat": 3, "midfoot": 3, "met1": 19, "met2": 16, "met3": 12, "met4": 6, "met5": 5, "hallux": 18, "toes": 15},
       "dist_confidence": "published_order", "dist_source": "dance_press",
       "watch_zones": ["met1", "hallux", "met2"],
-      "injury": "1st-MTP overload -> hallux valgus / sesamoiditis; hallux UNDER-load shifts to met2 (dancer's fracture)",
-      "chain_injury": "forefoot bias -> Achilles / FHL tendon; posterior chain"
+      "injury": "1st-MTP overload -> hallux valgus/sesamoiditis; hallux UNDER-load shifts to met2 (dancer's fracture)",
+      "chain_injury": "forefoot bias -> Achilles / FHL"
     },
     "ballet_pointe": {
       "movement": "en pointe (full pointe)",
       "peak_force_BW": {"typical": 1.5, "range": [1.2, 2.0], "confidence": "estimated"},
       "dist_pct": {"heel_med": 1, "heel_lat": 1, "midfoot": 1, "met1": 18, "met2": 16, "met3": 11, "met4": 6, "met5": 5, "hallux": 21, "toes": 20},
-      "dist_confidence": "estimated",
-      "watch_zones": ["hallux", "met2", "met1"],
-      "injury": "base of 2nd-met stress fx ('dancer's fracture'); hallux/1st-ray load extreme",
-      "chain_injury": "COG shifts onto met shafts -> ankle / posterior-tibial"
+      "dist_confidence": "estimated", "watch_zones": ["hallux", "met2", "met1"],
+      "injury": "base of 2nd-met stress fx ('dancer's fracture'); hallux/1st-ray extreme",
+      "chain_injury": "COG onto met shafts -> ankle / post-tib"
     },
     "soccer_sprint": {
-      "movement": "maximal sprint / acceleration (foot-strike)",
+      "movement": "maximal sprint / acceleration",
       "peak_force_BW": {"typical": 3.0, "range": [2.5, 3.5], "confidence": "estimated"},
       "dist_pct": {"heel_med": 6, "heel_lat": 5, "midfoot": 3, "met1": 16, "met2": 17, "met3": 15, "met4": 8, "met5": 6, "hallux": 13, "toes": 11},
-      "dist_confidence": "estimated",
-      "watch_zones": ["met1", "met2"],
-      "injury": "central-met load; turf-toe (1st MTP)",
-      "chain_injury": "**HAMSTRING strain** — late-swing eccentric just before foot-strike (#1 soccer injury); over-stride (foot lands far ahead) lengthens the eccentric load",
+      "dist_confidence": "estimated", "watch_zones": ["met1", "met2"],
+      "injury": "central-met load; turf-toe",
+      "chain_injury": "**HAMSTRING strain** — late-swing eccentric just before foot-strike (#1 soccer injury); over-stride lengthens the eccentric load",
       "chain_rule": "overstride_forefoot_late"
     },
     "soccer_cut": {
       "movement": "plant-and-cut change of direction",
       "peak_force_BW": {"typical": 3.5, "range": [3.0, 4.5], "confidence": "estimated"},
       "dist_pct": {"heel_med": 8, "heel_lat": 12, "midfoot": 5, "met1": 12, "met2": 13, "met3": 12, "met4": 10, "met5": 12, "hallux": 9, "toes": 7},
-      "dist_confidence": "estimated",
-      "watch_zones": ["met5", "heel_lat"],
+      "dist_confidence": "estimated", "watch_zones": ["met5", "heel_lat"],
       "injury": "lateral ankle sprain, 5th-met (Jones)",
-      "chain_injury": "**non-contact ACL** — deceleration + knee valgus + L/R asymmetry >10-15%; compare the plant leg to the other side",
+      "chain_injury": "**non-contact ACL** — deceleration + valgus + L/R asymmetry >10-15%",
       "chain_rule": "lr_asymmetry_gt_10pct"
     },
     "jump_landing": {
       "movement": "two-foot / single-leg jump landing (volleyball, basketball)",
       "peak_force_BW": {"typical": 4.0, "range": [3.0, 6.0], "confidence": "published", "source": "acl_grf"},
       "dist_pct": {"heel_med": 9, "heel_lat": 8, "midfoot": 5, "met1": 15, "met2": 16, "met3": 14, "met4": 8, "met5": 7, "hallux": 11, "toes": 7},
-      "dist_confidence": "estimated",
-      "watch_zones": ["met2"],
-      "injury": "central-met & bone stress from repeated impacts",
-      "chain_injury": "**ACL** — high vGRF + loading rate + L/R asymmetry are the flags; land soft & symmetric",
+      "dist_confidence": "estimated", "watch_zones": ["met2"],
+      "injury": "central-met & bone stress",
+      "chain_injury": "**ACL** — high vGRF + loading rate + L/R asymmetry; land soft & symmetric",
       "chain_rule": "high_loading_rate"
     }
   }

@@ -160,6 +160,25 @@ def main():
                  f"(range {force.get('range','?')}, {force.get('confidence')}). "
                  f"Add --calibration + --bodyweight-kg to compare yours._")
 
+    # real pressure (kPa): published reference + clinical caution + your actual (if calibrated)
+    pk = prof.get("peak_pressure_kPa", {})
+    ct = db.get("clinical_thresholds", {})
+    ref_vals = [(z, pk[z]) for z in prof.get("watch_zones", []) if isinstance(pk.get(z), (int, float))]
+    if ref_vals:
+        L.append("\n**Reference peak pressure (published):** "
+                 + " · ".join(f"{z} ~{v} kPa" for z, v in ref_vals) + f"  ({pk.get('confidence', '')})")
+    if pk and ct:
+        L.append(f"_Caution: {ct['in_shoe_ulcer_kPa']} kPa in-shoe / {ct['barefoot_kPa']} kPa barefoot are "
+                 f"**at-risk/neuropathic** ulcer thresholds — healthy athletic tissue tolerates far higher transiently._")
+    if cal is not None:
+        peaks = dict(zip(SENSOR_ZONES, f.max(0)))
+        hi = max(peaks, key=peaks.get)
+        L.append(f"**Your peak pressure:** {hi} **{peaks[hi]:.0f} kPa** (highest sensed zone)"
+                 + (f" vs published ~{pk[hi]} kPa" if isinstance(pk.get(hi), (int, float)) else ""))
+        thr = ct.get("in_shoe_ulcer_kPa")
+        if thr and peaks[hi] > thr:
+            L.append(f"  · above the {thr} kPa in-shoe caution (normal for healthy athletic loading; flag only for at-risk feet).")
+
     src = prof.get("dist_source") or prof.get("note")
     if src and src in db["sources"]:
         s = db["sources"][src]

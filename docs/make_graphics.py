@@ -700,12 +700,66 @@ def g_chain():
                 "Left: a leg with injury sites (hamstring, ACL, shin, ankle, foot). Right: five foot-signature -> chain-injury rows with the sport.")
 
 
+def g_pressure_atlas():
+    w, h = 900, 490
+    b = [head(w, "Plantar pressure atlas — real kPa (bottom of the foot)",
+              "Published peak pressures per foot region; the engine compares you to these, not guesses")]
+    # LEFT: footprint with walking peak kPa, colored by magnitude
+    kpa = {"heel_med": 264, "heel_lat": 230, "midfoot": 110, "met1": 248, "met2": 246,
+           "met3": 225, "met4": 180, "met5": 150, "hallux": 280, "toes": 170}
+    XY10 = {"heel_med": (.35, .08), "heel_lat": (.65, .08), "midfoot": (.50, .45),
+            "met1": (.30, .72), "met2": (.40, .74), "met3": (.50, .75), "met4": (.60, .74),
+            "met5": (.70, .72), "hallux": (.26, .93), "toes": (.56, .96)}
+    def pcol(v):
+        return RED if v >= 250 else AMBER if v >= 180 else BLUE
+    b.append(box(24, 74, 300, 372, PANEL, BORDER, 1.6, 12))
+    b.append(T(40, 100, "Barefoot walking — peak kPa", 12, NAVY, "700"))
+    cx, top, length, width = 172, 130, 280, 150
+    b.append(footprint(cx, top, length, width))
+    for z, (xn, yn) in XY10.items():
+        sx = cx - width / 2 + xn * width; sy = top + (1 - yn) * length
+        c = pcol(kpa[z])
+        b.append(f'<circle cx="{sx:.0f}" cy="{sy:.0f}" r="14" fill="{c}" opacity="0.85" stroke="#fff" stroke-width="1.3"/>')
+        b.append(T(sx, sy + 3.5, f"{kpa[z]}", 8, "#ffffff", "700", "middle"))
+    b.append(T(40, 420, "● ≥250  ● 180–249  ● <180 kPa  ·  hallux 280 & heel 264 lead", 9, MUTE))
+    b.append(T(40, 435, "(healthy adults; hallux/heel/met1–3 published)", 8.5, MUTE))
+
+    # RIGHT: peak central-forefoot pressure by activity + thresholds
+    b.append(box(340, 74, 536, 372, "#ffffff", BORDER, 1.6, 12))
+    b.append(T(356, 100, "Peak central-forefoot pressure by activity", 12, NAVY, "700"))
+    bx0, bw, scale = 356, 420, 420 / 850.0        # 0..850 kPa
+    acts = [("Standing", 53, MUTE), ("Walking", 246, BLUE), ("Running", 313, AMBER),
+            ("Basketball land", 403, RED), ("Basketball hallux", 794, RED)]
+    for i, (lab, v, c) in enumerate(acts):
+        y = 128 + i * 42
+        b.append(T(bx0, y - 2, lab, 9.5, NAVY, "700"))
+        b.append(box(bx0, y + 4, bw, 16, PANEL, BORDER, 1, 4))
+        b.append(f'<rect x="{bx0}" y="{y+4}" width="{v*scale:.0f}" height="16" rx="4" fill="{c}"/>')
+        b.append(T(bx0 + v * scale + 6, y + 16, f"{v} kPa", 9, NAVY, "700"))
+    # threshold lines
+    for thr, lab, col in [(200, "200 in-shoe", "#0f172a"), (450, "450 barefoot", "#7c2d12"), (750, "750", "#7c2d12")]:
+        x = bx0 + thr * scale
+        b.append(f'<line x1="{x:.0f}" y1="120" x2="{x:.0f}" y2="336" stroke="{col}" stroke-width="1" stroke-dasharray="3 3"/>')
+        b.append(T(x, 350, lab, 7.5, col, "700", "middle"))
+    b.append(T(356, 372, "Dashed = diabetic/neuropathic-tissue ulcer thresholds (200 kPa in-shoe;", 8.5, MUTE))
+    b.append(T(356, 385, "450/750 barefoot). Healthy athletes routinely exceed them transiently —", 8.5, MUTE))
+    b.append(T(356, 398, "e.g. basketball-landing hallux ~794 kPa. Context matters, not a hard cap.", 8.5, MUTE))
+    b.append(T(356, 424, "Sources: walking PMC2902454 · standing Cavanagh · running PMC5112690 ·", 8, MUTE))
+    b.append(T(356, 436, "basketball LER · thresholds PMC10882031 (refs/plantar_norms.json).", 8, MUTE))
+    b.append(T(24, 470, "Every number is confidence-flagged (published / estimated) and gets more rigid as sources + our own captures are added.",
+               9.5, MUTE))
+    return wrap(w, h, "\n".join(b),
+                "Plantar pressure atlas: a footprint labeled with published barefoot-walking peak pressures per zone (hallux 280, heel 264, met1 248, met2 246, met3 225 kPa) and a bar chart of peak central-forefoot pressure by activity (standing 53, walking 246, running 313, basketball landing 403, basketball hallux 794 kPa) against the 200/450/750 kPa clinical thresholds.",
+                "Left: footprint with per-zone kPa colored by magnitude. Right: peak pressure by activity vs ulcer thresholds.")
+
+
 def main():
     for name, fn in [("physical_setup", g_physical), ("pipeline", g_pipeline),
                      ("software_metrics", g_software), ("day_in_the_life", g_day),
                      ("balance_detail", g_balance), ("balance_positions", g_balance_positions),
                      ("balance_assist", g_balance_assist), ("beam_balance", g_beam_balance),
-                     ("landing_lab", g_landing_lab), ("zone_load", g_zone_load), ("chain", g_chain)]:
+                     ("landing_lab", g_landing_lab), ("zone_load", g_zone_load), ("chain", g_chain),
+                     ("pressure_atlas", g_pressure_atlas)]:
         with open(os.path.join(HERE, f"{name}.svg"), "w", encoding="utf-8") as f:
             f.write(fn())
         print(f"-> {name}.svg")
