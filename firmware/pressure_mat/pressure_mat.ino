@@ -30,14 +30,20 @@ void setup() {
 void loop() {
   Serial.print(millis());
   for (int r = 0; r < N_ROWS; r++) {
-    digitalWrite(ROW_PIN[r], HIGH);                 // energize this row
+    // maker hack (anti-ghost, docs/maker_hacks.md): hold every OTHER row LOW as an active sink
+    // so idle cells sit near 0 V and can't pass sneak current — only the scanned row is HIGH.
+    for (int k = 0; k < N_ROWS; k++) digitalWrite(ROW_PIN[k], k == r ? HIGH : LOW);
     for (int c = 0; c < N_COLS; c++) {
       muxSelect(c);
       delayMicroseconds(SETTLE_US);
+      analogRead(MUX_SIG);                          // maker hack: discard the 1st read so the mux
+      delayMicroseconds(SETTLE_US);                 // channel settles — kills channel-to-channel bleed
       Serial.print(","); Serial.print(analogRead(MUX_SIG));
     }
     digitalWrite(ROW_PIN[r], LOW);
   }
   Serial.println();
   delay(20);                                        // ~50 Hz full frames (8x11)
+  // Full ghost fix = ground idle COLUMNS too (2nd mux / op-amp virtual ground) or a Schottky
+  // diode per cell; the row-sink + settle-read above is the no-extra-parts 80% version.
 }

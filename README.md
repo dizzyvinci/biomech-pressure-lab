@@ -85,6 +85,10 @@ The **balance module** in depth — posturography, Romberg, fall-risk → device
 
 ![Personal-lab scope](docs/lab_scope.svg)
 
+**Maker hacks** — cheap sensors have known failure modes (drift, ghosting, HX711 noise); these field-tested tricks claw most of the accuracy back — force-concentrator puck, driven-ground matrix scan, bicubic interpolation, median-then-average filtering. Baked into the firmware + scripts ([maker_hacks.md](docs/maker_hacks.md)):
+
+![Maker hacks](docs/maker_hacks.svg)
+
 > 🧭 **Also:** a new [**balance module**](docs/balance.md) (posturography — sway, Romberg quotient, fall-risk flags) turns the same rig into a stability screen for balance issues, not just foot pain. And [**prototype_status.md**](docs/prototype_status.md) is the "is it ready to build/pitch?" summary + the ordered-vs-printed BOM. Print models + STL export: [hardware/](hardware/README.md).
 
 ### ▶️ See it work — no hardware needed

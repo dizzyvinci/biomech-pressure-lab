@@ -947,6 +947,58 @@ def g_lab_scope():
                 "A scope table: measurement, what the papers use, our DIY build, and whether we can match (partial/yes/gap).")
 
 
+def g_maker_hacks():
+    w, h = 900, 500
+    b = [head(w, "Maker hacks — clawing back the accuracy cheap sensors lose",
+              "Every cheap part has a documented failure mode; these field-tested tricks recover most of it")]
+    panels = [
+        (24, "FSR insole", "drift · hysteresis", BLUE, BLUEBG, [
+            ("Force-concentrator puck", "funnel load onto the sensor the", "same way every time — the #1 win", "PRINT"),
+            ("Firm, flat backing", "a curved mount pre-loads →", "lost range + drift (Interlink)", ""),
+            ("Per-sensor fit + tune Rₘ", "fit each FSR's power-law; centre", "the divider on your force band", ""),
+        ]),
+        (312, "Velostat mat", "ghosting (crosstalk)", RED, REDBG, [
+            ("Sink idle rows + settle-read", "hold other rows at 0 V, discard", "the 1st mux read — no parts", "CODE"),
+            ("Diode / op-amp virtual gnd", "block the reverse sneak path", "entirely — the full fix", ""),
+            ("Bicubic-interpolate the grid", "8×11 → smooth map; bicubic ≈", "linear error, beats blocky", "CODE"),
+        ]),
+        (600, "Load-cell plate", "HX711 noise · drift", GREEN, GREENBG, [
+            ("Median-THEN-average", "median rejects the spikes an", "average would smear (10–15×)", "CODE"),
+            ("Right SPS for the job", "10 SPS quiet stands; 80 SPS", "(noisiest) only for landings", ""),
+            ("Warm up · re-tare on drift", "1–2 min warm-up; re-zero when", "the empty baseline wanders", ""),
+        ]),
+    ]
+    for x, name, problem, c, cbg, hacks in panels:
+        b.append(box(x, 74, 276, 340, "#ffffff", BORDER, 1.6, 12))
+        b.append(f'<rect x="{x}" y="74" width="276" height="30" rx="12" fill="{NAVY}"/>')
+        b.append(f'<rect x="{x}" y="90" width="276" height="14" fill="{NAVY}"/>')
+        b.append(T(x + 16, 94, name, 12.5, "#ffffff", "700"))
+        b.append(box(x + 16, 116, 244, 24, cbg, c, 1.3, 6))
+        b.append(T(x + 28, 132, "⚠ " + problem, 9.5, c, "700"))
+        yy = 160
+        for title, l1, l2, tag in hacks:
+            b.append(f'<circle cx="{x+22}" cy="{yy+4}" r="3.5" fill="{c}"/>')
+            b.append(T(x + 34, yy + 8, title, 10, NAVY, "700"))
+            if tag:
+                tagc = GREEN if tag == "CODE" else BLUE
+                tbg = GREENBG if tag == "CODE" else BLUEBG
+                b.append(box(x + 208, yy - 5, 52, 16, tbg, tagc, 1, 5))
+                b.append(T(x + 234, yy + 6, tag, 7.5, tagc, "700", "middle"))
+            b.append(T(x + 34, yy + 24, l1, 8.5, SLATE))
+            b.append(T(x + 34, yy + 37, l2, 8.5, SLATE))
+            yy += 60
+    b.append(box(24, 426, 852, 34, PANEL2, BORDER, 1.4, 8))
+    b.append(T(40, 447, "Universal:", 10, NAVY, "700"))
+    b.append(T(116, 447, "precondition (break-in the first minute)  ·  ladder-calibrate + per-sensor fit  ·  "
+                         "twist + shorten + shield leads  ·  re-tare on drift, not on a schedule", 9.2, SLATE))
+    b.append(T(24, 484, "Ethos: r≈0.87, not 1.0 — recover repeatability, read trends, don't quote absolutes. Baked into "
+                        "force_plate.ino · pressure_mat.ino · mat_heatmap.py · fsr_puck.scad. Sources in docs/maker_hacks.md. Not a medical device.",
+               9, MUTE))
+    return wrap(w, h, "\n".join(b),
+                "Maker hacks that recover the accuracy cheap sensors lose, per instrument. FSR insole (drift/hysteresis): force-concentrator puck, firm flat backing, per-sensor fit + tune the divider. Velostat mat (ghosting): sink idle rows + settle-read, diode/op-amp virtual ground, bicubic interpolation. Load-cell plate (HX711 noise/drift): median-then-average filter, right SPS for the job (10 quiet / 80 landings), warm up and re-tare on drift. Universal: precondition, ladder-calibrate, shield leads, re-tare on drift. Ethos r=0.87 not 1.0.",
+                "Three instrument panels (FSR insole, Velostat mat, load-cell plate), each with a problem chip and three hacks tagged CODE or PRINT where baked into the repo, plus a universal strip.")
+
+
 def main():
     for name, fn in [("physical_setup", g_physical), ("pipeline", g_pipeline),
                      ("software_metrics", g_software), ("day_in_the_life", g_day),
@@ -954,7 +1006,8 @@ def main():
                      ("balance_assist", g_balance_assist), ("beam_balance", g_beam_balance),
                      ("landing_lab", g_landing_lab), ("zone_load", g_zone_load), ("chain", g_chain),
                      ("pressure_atlas", g_pressure_atlas), ("conditions", g_conditions),
-                     ("footwear", g_footwear), ("bounce", g_bounce), ("lab_scope", g_lab_scope)]:
+                     ("footwear", g_footwear), ("bounce", g_bounce), ("lab_scope", g_lab_scope),
+                     ("maker_hacks", g_maker_hacks)]:
         with open(os.path.join(HERE, f"{name}.svg"), "w", encoding="utf-8") as f:
             f.write(fn())
         print(f"-> {name}.svg")

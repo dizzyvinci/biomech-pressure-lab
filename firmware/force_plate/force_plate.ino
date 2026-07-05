@@ -26,23 +26,45 @@ const float BODY_N = 700.0;        // your body weight in N (for x BW) — set a
 const int DOUT_PIN = 5;            // HX711 data
 const int SCK_PIN  = 4;            // HX711 clock
 float     CAL      = -7050;        // scale factor — CALIBRATE with a known mass
+const int SAMPLES  = 5;            // maker hack: median-trim window. Use 1-3 for fast LANDINGS
+                                   // (keeps the rate up), 7-15 for quiet STANDS / calibration.
 
 HX711 scale;
+
+// maker hack (docs/maker_hacks.md): median-then-trimmed-mean. A plain average SMEARS the
+// HX711's impulse spikes; sorting N reads and dropping the outer quartiles rejects them first.
+float readKg(int n) {
+  if (n < 1) n = 1;
+  if (n > 15) n = 15;
+  float b[15];
+  for (int i = 0; i < n; i++) b[i] = scale.get_units(1);
+  for (int i = 1; i < n; i++) {                // insertion sort
+    float k = b[i]; int j = i - 1;
+    while (j >= 0 && b[j] > k) { b[j + 1] = b[j]; j--; }
+    b[j + 1] = k;
+  }
+  int lo = n / 4, hi = n - n / 4;              // trim outer quartiles (= median for small n)
+  if (hi <= lo) { lo = 0; hi = n; }
+  float sum = 0;
+  for (int i = lo; i < hi; i++) sum += b[i];
+  return sum / (hi - lo);
+}
 
 void setup() {
   Serial.begin(115200);
   scale.begin(DOUT_PIN, SCK_PIN);
   scale.set_scale(CAL);
-  scale.tare();                    // zero with the plate empty
+  scale.tare();                    // zero the empty plate — WARM UP 1-2 min first (thermal drift)
   Serial.println("t_ms,total_N,total_BW");
 }
 
 void loop() {
-  float kg = scale.get_units(1);   // one averaged read
+  float kg = readKg(SAMPLES);
   if (kg < 0) kg = 0;
   float n = kg * 9.81;
   Serial.printf("%lu,%.1f,%.2f\n", millis(), n, n / BODY_N);
-  // HX711 ~10 SPS default; tie its RATE pin HIGH for 80 SPS (better for landings).
+  // Sample rate: HX711 default 10 SPS is the QUIET rate; tie RATE pin HIGH for 80 SPS ONLY for
+  // fast landings (80 SPS is the noisiest). Large SAMPLES also lowers effective rate.
 }
 
 #else

@@ -29,9 +29,14 @@ and the scope in [`../docs/lab_scope.md`](../docs/lab_scope.md).
 |---|---|---|---|
 | [`force_plate.scad`](force_plate.scad) | [`force_plate.stl`](force_plate.stl) | PETG, 100% infill | **Force plate** — 4× load-cell corner feet + top → **vertical GRF (×BW)**, ICC>0.94 (CoP via the 4-HX711 upgrade) |
 | [`pressure_mat.scad`](pressure_mat.scad) | [`pressure_mat.stl`](pressure_mat.stl) | PLA/PETG | **Velostat pressure-mat frame** — electrode-alignment comb → a **full-foot pressure map** |
+| [`fsr_puck.scad`](fsr_puck.scad) | [`fsr_puck.stl`](fsr_puck.stl) | **rigid** PLA/PETG | **FSR force-concentrator puck** — one per sensor; funnels load onto the FSR the same way every time (the #1 repeatability hack) |
 
 Firmware: [`../firmware/force_plate/`](../firmware/force_plate/force_plate.ino) (1 HX711 → total force; 4-HX711 CoP upgrade in-sketch)
 and [`../firmware/pressure_mat/`](../firmware/pressure_mat/pressure_mat.ino) (Velostat matrix scan).
+
+**Dial in the accuracy:** [`../docs/maker_hacks.md`](../docs/maker_hacks.md) — the field-tested tricks
+(anti-ghosting scan, median filtering, force-concentrator puck, bicubic interpolation) that recover
+most of what the cheap sensors lose. The code-able ones are already in the firmware + `analysis/mat_heatmap.py`.
 
 ## Print now (STLs are committed)
 The `.stl` files above are already rendered at the default parameters — **drop them straight into Bambu Studio and slice.** No OpenSCAD needed unless you want to customize.

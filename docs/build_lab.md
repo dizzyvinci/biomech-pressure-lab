@@ -52,6 +52,18 @@ Python heatmap (`matplotlib.imshow` of the row×col array). Caveats in the sketc
 (ground inactive columns or add per-cell diodes) and, for a big matrix, drive rows with a
 **74HC595 shift register** instead of one GPIO each.
 
+## 3 · Dial in the accuracy — maker hacks
+Cheap sensors drift, ghost, and read blocky — but the maker/research community has field-tested
+tricks that recover most of it. The full cited toolbox is [**maker_hacks.md**](maker_hacks.md);
+the code-able ones are already baked in:
+- **Force plate:** median-then-average filtering + "right SPS for the job" in the firmware.
+- **Velostat mat:** an anti-ghosting scan (idle rows sunk LOW + settle-throwaway read) in the
+  firmware, and [`analysis/mat_heatmap.py`](../analysis/mat_heatmap.py) to **bicubic-interpolate**
+  the coarse grid into a clean pressure map (`--demo` runs with no hardware).
+- **FSR insole:** print a [`hardware/fsr_puck.scad`](../hardware/fsr_puck.scad) force-concentrator
+  per sensor — the single biggest repeatability win — and calibrate **per sensor**.
+- **Everything:** precondition (break it in), ladder-calibrate against known masses, re-tare on drift.
+
 ## Honest limits (see [lab_scope.md](lab_scope.md))
 Still coarse + resistive (drift → recalibrate); **no shear/6-axis**. But vertical GRF and a
 real pressure map, from prints + ~$150, is the data that matters for finding *your* hot

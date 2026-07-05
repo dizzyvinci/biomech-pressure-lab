@@ -1,0 +1,73 @@
+<svg viewBox="0 0 900 500" xmlns="http://www.w3.org/2000/svg" role="img" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif">
+<title>Maker hacks that recover the accuracy cheap sensors lose, per instrument. FSR insole (drift/hysteresis): force-concentrator puck, firm flat backing, per-sensor fit + tune the divider. Velostat mat (ghosting): sink idle rows + settle-read, diode/op-amp virtual ground, bicubic interpolation. Load-cell plate (HX711 noise/drift): median-then-average filter, right SPS for the job (10 quiet / 80 landings), warm up and re-tare on drift. Universal: precondition, ladder-calibrate, shield leads, re-tare on drift. Ethos r=0.87 not 1.0.</title>
+<desc>Three instrument panels (FSR insole, Velostat mat, load-cell plate), each with a problem chip and three hacks tagged CODE or PRINT where baked into the repo, plus a universal strip.</desc>
+<defs><marker id="ar" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#64748b"/></marker><marker id="arr" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#e11d48"/></marker></defs>
+<rect x="4" y="4" width="892" height="492" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"/>
+<text x="24" y="36" font-size="18" fill="#0f172a" font-weight="700" text-anchor="start">Maker hacks — clawing back the accuracy cheap sensors lose</text><text x="24" y="55" font-size="11.5" fill="#475569" font-weight="400" text-anchor="start">Every cheap part has a documented failure mode; these field-tested tricks recover most of it</text>
+<rect x="24" y="74" width="276" height="340" rx="12" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.6"/>
+<rect x="24" y="74" width="276" height="30" rx="12" fill="#0f172a"/>
+<rect x="24" y="90" width="276" height="14" fill="#0f172a"/>
+<text x="40" y="94" font-size="12.5" fill="#ffffff" font-weight="700" text-anchor="start">FSR insole</text>
+<rect x="40" y="116" width="244" height="24" rx="6" fill="#eff6ff" stroke="#2563eb" stroke-width="1.3"/>
+<text x="52" y="132" font-size="9.5" fill="#2563eb" font-weight="700" text-anchor="start">⚠ drift · hysteresis</text>
+<circle cx="46" cy="164" r="3.5" fill="#2563eb"/>
+<text x="58" y="168" font-size="10" fill="#0f172a" font-weight="700" text-anchor="start">Force-concentrator puck</text>
+<rect x="232" y="155" width="52" height="16" rx="5" fill="#eff6ff" stroke="#2563eb" stroke-width="1"/>
+<text x="258" y="166" font-size="7.5" fill="#2563eb" font-weight="700" text-anchor="middle">PRINT</text>
+<text x="58" y="184" font-size="8.5" fill="#475569" font-weight="400" text-anchor="start">funnel load onto the sensor the</text>
+<text x="58" y="197" font-size="8.5" fill="#475569" font-weight="400" text-anchor="start">same way every time — the #1 win</text>
+<circle cx="46" cy="224" r="3.5" fill="#2563eb"/>
+<text x="58" y="228" font-size="10" fill="#0f172a" font-weight="700" text-anchor="start">Firm, flat backing</text>
+<text x="58" y="244" font-size="8.5" fill="#475569" font-weight="400" text-anchor="start">a curved mount pre-loads →</text>
+<text x="58" y="257" font-size="8.5" fill="#475569" font-weight="400" text-anchor="start">lost range + drift (Interlink)</text>
+<circle cx="46" cy="284" r="3.5" fill="#2563eb"/>
+<text x="58" y="288" font-size="10" fill="#0f172a" font-weight="700" text-anchor="start">Per-sensor fit + tune Rₘ</text>
+<text x="58" y="304" font-size="8.5" fill="#475569" font-weight="400" text-anchor="start">fit each FSR's power-law; centre</text>
+<text x="58" y="317" font-size="8.5" fill="#475569" font-weight="400" text-anchor="start">the divider on your force band</text>
+<rect x="312" y="74" width="276" height="340" rx="12" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.6"/>
+<rect x="312" y="74" width="276" height="30" rx="12" fill="#0f172a"/>
+<rect x="312" y="90" width="276" height="14" fill="#0f172a"/>
+<text x="328" y="94" font-size="12.5" fill="#ffffff" font-weight="700" text-anchor="start">Velostat mat</text>
+<rect x="328" y="116" width="244" height="24" rx="6" fill="#fdecef" stroke="#e11d48" stroke-width="1.3"/>
+<text x="340" y="132" font-size="9.5" fill="#e11d48" font-weight="700" text-anchor="start">⚠ ghosting (crosstalk)</text>
+<circle cx="334" cy="164" r="3.5" fill="#e11d48"/>
+<text x="346" y="168" font-size="10" fill="#0f172a" font-weight="700" text-anchor="start">Sink idle rows + settle-read</text>
+<rect x="520" y="155" width="52" height="16" rx="5" fill="#f0fdf4" stroke="#16a34a" stroke-width="1"/>
+<text x="546" y="166" font-size="7.5" fill="#16a34a" font-weight="700" text-anchor="middle">CODE</text>
+<text x="346" y="184" font-size="8.5" fill="#475569" font-weight="400" text-anchor="start">hold other rows at 0 V, discard</text>
+<text x="346" y="197" font-size="8.5" fill="#475569" font-weight="400" text-anchor="start">the 1st mux read — no parts</text>
+<circle cx="334" cy="224" r="3.5" fill="#e11d48"/>
+<text x="346" y="228" font-size="10" fill="#0f172a" font-weight="700" text-anchor="start">Diode / op-amp virtual gnd</text>
+<text x="346" y="244" font-size="8.5" fill="#475569" font-weight="400" text-anchor="start">block the reverse sneak path</text>
+<text x="346" y="257" font-size="8.5" fill="#475569" font-weight="400" text-anchor="start">entirely — the full fix</text>
+<circle cx="334" cy="284" r="3.5" fill="#e11d48"/>
+<text x="346" y="288" font-size="10" fill="#0f172a" font-weight="700" text-anchor="start">Bicubic-interpolate the grid</text>
+<rect x="520" y="275" width="52" height="16" rx="5" fill="#f0fdf4" stroke="#16a34a" stroke-width="1"/>
+<text x="546" y="286" font-size="7.5" fill="#16a34a" font-weight="700" text-anchor="middle">CODE</text>
+<text x="346" y="304" font-size="8.5" fill="#475569" font-weight="400" text-anchor="start">8×11 → smooth map; bicubic ≈</text>
+<text x="346" y="317" font-size="8.5" fill="#475569" font-weight="400" text-anchor="start">linear error, beats blocky</text>
+<rect x="600" y="74" width="276" height="340" rx="12" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.6"/>
+<rect x="600" y="74" width="276" height="30" rx="12" fill="#0f172a"/>
+<rect x="600" y="90" width="276" height="14" fill="#0f172a"/>
+<text x="616" y="94" font-size="12.5" fill="#ffffff" font-weight="700" text-anchor="start">Load-cell plate</text>
+<rect x="616" y="116" width="244" height="24" rx="6" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.3"/>
+<text x="628" y="132" font-size="9.5" fill="#16a34a" font-weight="700" text-anchor="start">⚠ HX711 noise · drift</text>
+<circle cx="622" cy="164" r="3.5" fill="#16a34a"/>
+<text x="634" y="168" font-size="10" fill="#0f172a" font-weight="700" text-anchor="start">Median-THEN-average</text>
+<rect x="808" y="155" width="52" height="16" rx="5" fill="#f0fdf4" stroke="#16a34a" stroke-width="1"/>
+<text x="834" y="166" font-size="7.5" fill="#16a34a" font-weight="700" text-anchor="middle">CODE</text>
+<text x="634" y="184" font-size="8.5" fill="#475569" font-weight="400" text-anchor="start">median rejects the spikes an</text>
+<text x="634" y="197" font-size="8.5" fill="#475569" font-weight="400" text-anchor="start">average would smear (10–15×)</text>
+<circle cx="622" cy="224" r="3.5" fill="#16a34a"/>
+<text x="634" y="228" font-size="10" fill="#0f172a" font-weight="700" text-anchor="start">Right SPS for the job</text>
+<text x="634" y="244" font-size="8.5" fill="#475569" font-weight="400" text-anchor="start">10 SPS quiet stands; 80 SPS</text>
+<text x="634" y="257" font-size="8.5" fill="#475569" font-weight="400" text-anchor="start">(noisiest) only for landings</text>
+<circle cx="622" cy="284" r="3.5" fill="#16a34a"/>
+<text x="634" y="288" font-size="10" fill="#0f172a" font-weight="700" text-anchor="start">Warm up · re-tare on drift</text>
+<text x="634" y="304" font-size="8.5" fill="#475569" font-weight="400" text-anchor="start">1–2 min warm-up; re-zero when</text>
+<text x="634" y="317" font-size="8.5" fill="#475569" font-weight="400" text-anchor="start">the empty baseline wanders</text>
+<rect x="24" y="426" width="852" height="34" rx="8" fill="#eef2f7" stroke="#e2e8f0" stroke-width="1.4"/>
+<text x="40" y="447" font-size="10" fill="#0f172a" font-weight="700" text-anchor="start">Universal:</text>
+<text x="116" y="447" font-size="9.2" fill="#475569" font-weight="400" text-anchor="start">precondition (break-in the first minute)  ·  ladder-calibrate + per-sensor fit  ·  twist + shorten + shield leads  ·  re-tare on drift, not on a schedule</text>
+<text x="24" y="484" font-size="9" fill="#64748b" font-weight="400" text-anchor="start">Ethos: r≈0.87, not 1.0 — recover repeatability, read trends, don't quote absolutes. Baked into force_plate.ino · pressure_mat.ino · mat_heatmap.py · fsr_puck.scad. Sources in docs/maker_hacks.md. Not a medical device.</text>
+</svg>
