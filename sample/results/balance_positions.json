@@ -1,0 +1,184 @@
+{
+  "per_position": {
+    "firm_ec": {
+      "position": "firm_ec",
+      "canonical": "firm_ec",
+      "path_mm": 858.5,
+      "vel_mms": 34.4,
+      "area_mm2": 471.4,
+      "ml_rms": 4.37,
+      "ap_rms": 5.83,
+      "ml_range": 20.0,
+      "ap_range": 28.6,
+      "trunk_sway": 0.092,
+      "dur_s": 25.0,
+      "load": {
+        "heel": 76.0,
+        "fore": 22.0,
+        "medial": 49.0,
+        "lateral": 47.0
+      }
+    },
+    "firm_eo": {
+      "position": "firm_eo",
+      "canonical": "firm_eo",
+      "path_mm": 807.7,
+      "vel_mms": 32.3,
+      "area_mm2": 207.8,
+      "ml_rms": 2.92,
+      "ap_rms": 3.86,
+      "ml_range": 12.8,
+      "ap_range": 15.2,
+      "trunk_sway": 0.047,
+      "dur_s": 25.0,
+      "load": {
+        "heel": 76.0,
+        "fore": 22.0,
+        "medial": 48.0,
+        "lateral": 48.0
+      }
+    },
+    "foam_ec": {
+      "position": "foam_ec",
+      "canonical": "foam_ec",
+      "path_mm": 1224.2,
+      "vel_mms": 49.0,
+      "area_mm2": 1640.1,
+      "ml_rms": 7.92,
+      "ap_rms": 11.0,
+      "ml_range": 29.6,
+      "ap_range": 50.9,
+      "trunk_sway": 0.533,
+      "dur_s": 25.0,
+      "load": {
+        "heel": 76.0,
+        "fore": 22.0,
+        "medial": 48.0,
+        "lateral": 49.0
+      }
+    },
+    "foam_eo": {
+      "position": "foam_eo",
+      "canonical": "foam_eo",
+      "path_mm": 875.5,
+      "vel_mms": 35.0,
+      "area_mm2": 613.6,
+      "ml_rms": 4.85,
+      "ap_rms": 6.73,
+      "ml_range": 20.8,
+      "ap_range": 31.6,
+      "trunk_sway": 0.14,
+      "dur_s": 25.0,
+      "load": {
+        "heel": 76.0,
+        "fore": 22.0,
+        "medial": 48.0,
+        "lateral": 49.0
+      }
+    },
+    "los": {
+      "position": "los",
+      "canonical": "los",
+      "path_mm": 3012.2,
+      "vel_mms": 100.5,
+      "area_mm2": 4663.4,
+      "ml_rms": 6.58,
+      "ap_rms": 37.65,
+      "ml_range": 29.4,
+      "ap_range": 152.3,
+      "trunk_sway": 0.131,
+      "dur_s": 30.0,
+      "load": {
+        "heel": 64.0,
+        "fore": 34.0,
+        "medial": 49.0,
+        "lateral": 48.0
+      },
+      "los": {
+        "forward": 103.5,
+        "backward": 48.8,
+        "right": 14.7,
+        "left": 14.7,
+        "los_area_mm2": 2435.0,
+        "reach_mm": 103.5
+      }
+    },
+    "single_leg_L": {
+      "position": "single_leg_L",
+      "canonical": "single_leg_l",
+      "path_mm": 875.9,
+      "vel_mms": 58.5,
+      "area_mm2": 1259.7,
+      "ml_rms": 8.25,
+      "ap_rms": 8.69,
+      "ml_range": 31.2,
+      "ap_range": 35.1,
+      "trunk_sway": 0.434,
+      "dur_s": 15.0,
+      "load": {
+        "heel": 57.0,
+        "fore": 40.0,
+        "medial": 50.0,
+        "lateral": 47.0
+      }
+    },
+    "single_leg_R": {
+      "position": "single_leg_R",
+      "canonical": "single_leg_r",
+      "path_mm": 717.7,
+      "vel_mms": 47.9,
+      "area_mm2": 623.2,
+      "ml_rms": 6.18,
+      "ap_rms": 6.83,
+      "ml_range": 27.8,
+      "ap_range": 35.6,
+      "trunk_sway": 0.221,
+      "dur_s": 15.0,
+      "load": {
+        "heel": 58.0,
+        "fore": 39.0,
+        "medial": 51.0,
+        "lateral": 45.0
+      }
+    },
+    "tandem": {
+      "position": "tandem",
+      "canonical": "tandem",
+      "path_mm": 916.4,
+      "vel_mms": 45.9,
+      "area_mm2": 743.2,
+      "ml_rms": 9.14,
+      "ap_rms": 4.37,
+      "ml_range": 30.3,
+      "ap_range": 21.5,
+      "trunk_sway": 0.316,
+      "dur_s": 20.0,
+      "load": {
+        "heel": 67.0,
+        "fore": 30.0,
+        "medial": 49.0,
+        "lateral": 48.0
+      }
+    }
+  },
+  "mctsib": {
+    "conditions": {
+      "firm_eo": 207.8,
+      "firm_ec": 471.4,
+      "foam_eo": 613.6,
+      "foam_ec": 1640.1
+    },
+    "composite_mm2": 733.0,
+    "ratio_vision_removed": 2.27,
+    "ratio_surface_removed": 2.95,
+    "ratio_vestibular": 7.89
+  },
+  "single_leg": {
+    "left_mm2": 1259.7,
+    "right_mm2": 623.2,
+    "worse": "left",
+    "asymmetry_pct": 51.0,
+    "left_hold_s": 15.0,
+    "right_hold_s": 15.0
+  }
+}

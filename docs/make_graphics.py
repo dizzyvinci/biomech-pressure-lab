@@ -382,10 +382,63 @@ def g_balance():
                 "Three panels: standing figure with COP trace, sway-ellipse comparison, and a metrics/Romberg/directives panel.")
 
 
+def g_balance_positions():
+    w, h = 900, 500
+    b = [head(w, "Balance across positions — mCTSIB & beyond",
+              "Label each stance; the module runs the standard sensory + stability protocols")]
+    # ---- mCTSIB 2x2 grid ----
+    b.append(box(24, 74, 430, 330, PANEL, BORDER, 1.6, 12))
+    b.append(T(40, 100, "mCTSIB — which sense you rely on", 12.5, NAVY, "700"))
+    b.append(T(190, 126, "FIRM ground", 10, MUTE, "700", "middle"))
+    b.append(T(330, 126, "FOAM pad", 10, MUTE, "700", "middle"))
+    b.append(T(58, 192, "eyes", 9, SLATE, "700", "middle") + T(58, 205, "OPEN", 9, SLATE, "700", "middle"))
+    b.append(T(58, 300, "eyes", 9, SLATE, "700", "middle") + T(58, 313, "SHUT", 9, SLATE, "700", "middle"))
+    for cx, cy, area, red in [(130, 145, 208, False), (270, 145, 614, False),
+                              (130, 255, 471, False), (270, 255, 1640, True)]:
+        cw, ch = 120, 92
+        r = min(40, (area ** 0.5) * 0.9)
+        b.append(box(cx, cy, cw, ch, REDBG if red else "#ffffff", RED if red else LINE, 1.8 if red else 1.3))
+        b.append(f'<circle cx="{cx+cw/2:.0f}" cy="{cy+40}" r="{r:.0f}" fill="{RED if red else BLUE}" opacity="{0.35 if red else 0.22}"/>')
+        b.append(T(cx + cw / 2, cy + 44, f"{area}", 11.5, NAVY, "700", "middle"))
+        b.append(T(cx + cw / 2, cy + ch - 8, "mm²", 8, MUTE, "400", "middle"))
+    b.append(T(40, 392, "↓ take away vision   → take away ground-feel   ◣ foam+shut = vestibular only", 8.5, MUTE))
+    # ---- right: verdict + single-leg + LOS ----
+    b.append(box(470, 74, 406, 330, "#ffffff", BORDER, 1.6, 12))
+    b.append(T(486, 100, "Read-out (worked example)", 12.5, NAVY, "700"))
+    for i, (lab, val, note, red) in enumerate([
+            ("vision (shut/open, firm)", "×2.3", "vision-reliant", False),
+            ("somatosensory (foam, open)", "×2.95", "leans on foot feel", False),
+            ("vestibular (foam + shut)", "×7.9", "FAILURE MODE", True)]):
+        y = 126 + i * 26
+        b.append(T(486, y, lab, 9.5, SLATE))
+        b.append(T(712, y, val, 11, RED if red else NAVY, "700", "end"))
+        b.append(T(724, y, note, 8.5, RED if red else MUTE, "700" if red else "400"))
+    b.append(T(486, 224, "Single-leg  L vs R", 10.5, NAVY, "700"))
+    b.append(f'<rect x="486" y="232" width="{1260/1640*300:.0f}" height="15" rx="4" fill="{RED}"/>')
+    b.append(T(486 + 1260 / 1640 * 300 + 6, 244, "L 1260", 9, RED, "700"))
+    b.append(f'<rect x="486" y="252" width="{623/1640*300:.0f}" height="15" rx="4" fill="{GREEN}"/>')
+    b.append(T(486 + 623 / 1640 * 300 + 6, 264, "R 623", 9, GREEN, "700"))
+    b.append(T(486, 286, "51% asymmetry — left weaker → train it", 9.5, SLATE))
+    b.append(T(486, 320, "Limits of Stability (lean)", 10.5, NAVY, "700"))
+    ccx, ccy, k = 545, 360, 0.28
+    for dx, dy, mm, lab in [(0, -104, 104, "fwd"), (0, 49, 49, "back"), (-15, 0, 15, "L"), (15, 0, 15, "R")]:
+        b.append(f'<line x1="{ccx}" y1="{ccy}" x2="{ccx+dx*k:.0f}" y2="{ccy+dy*k:.0f}" stroke="{BLUE}" stroke-width="3"/>')
+    b.append(f'<circle cx="{ccx}" cy="{ccy}" r="2.5" fill="{NAVY}"/>')
+    b.append(T(ccx + 12, ccy - 22, "fwd 104", 8.5, MUTE) + T(ccx + 12, ccy + 16, "back 49", 8.5, MUTE)
+             + T(ccx + 12, ccy + 2, "L/R 15", 8.5, MUTE))
+    b.append(T(660, 356, "A/P > M/L (foot is longer than", 9, MUTE) + T(660, 369, "wide) — compare within an axis.", 9, MUTE))
+    b.append(T(24, 430, "Read: vision-reliant, and foam + eyes-shut is the failure mode → a vestibular contribution "
+                        "and real fall risk; left leg weaker.", 10.5, RED, "700"))
+    b.append(T(24, 452, "Same ~$100 rig, same 8 sensors — now a full sensory-organization + stability screen.", 10, MUTE))
+    return wrap(w, h, "\n".join(b),
+                "Balance across positions: an mCTSIB 2x2 grid (firm/foam x eyes open/closed) with sway values, sensory-reliance ratios (vision x2.3, somatosensory x2.95, vestibular x7.9 = failure mode), single-leg L-vs-R asymmetry, and a limits-of-stability lean diagram.",
+                "Left: mCTSIB 2x2 grid of sway. Right: sensory ratios, single-leg bars, and an LOS reach cross.")
+
+
 def main():
     for name, fn in [("physical_setup", g_physical), ("pipeline", g_pipeline),
                      ("software_metrics", g_software), ("day_in_the_life", g_day),
-                     ("balance_detail", g_balance)]:
+                     ("balance_detail", g_balance), ("balance_positions", g_balance_positions)]:
         with open(os.path.join(HERE, f"{name}.svg"), "w", encoding="utf-8") as f:
             f.write(fn())
         print(f"-> {name}.svg")

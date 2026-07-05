@@ -4,6 +4,8 @@
 
 ![Balance module detail](balance_detail.svg)
 
+> 🧭 **More stances?** [**balance_positions.md**](balance_positions.md) runs the full clinical battery — **mCTSIB** (firm/foam × eyes open/closed → vision/somatosensory/**vestibular** reliance), **single-leg L vs R** asymmetry, **tandem**, and **Limits of Stability** — with `analysis/balance_positions.py`.
+
 ## Who it's for
 Anyone screening or training **postural stability**: older adults (fall risk), vestibular / proprioceptive issues, neurological conditions, hypermobility, post-injury return-to-play. **Not a diagnosis** — a screening/training aid to use with a clinician.
 

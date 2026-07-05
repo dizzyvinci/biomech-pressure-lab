@@ -125,6 +125,47 @@ def standing(dur_s, sig_ml_mm, sig_ap_mm, rng, total=45.0, cx0=.50, cy0=.22):
     return t, np.clip(F, 0, None), (ax, ay, az)
 
 
+def fsr_from_cop(cx, cy, rng, total=45.0):
+    """COP (normalized) -> 8 FSR forces (same decoupled mapping as standing())."""
+    n = len(cx)
+    fF = np.clip((cy - .08) / .64, 0, 1)
+    u_h = np.clip((cx - .35) / .30, 0, 1)
+    u_f = np.clip((cx - .30) / .40, 0, 1)
+    heel, fore = total * (1 - fF), total * fF
+    F = np.zeros((n, 8))
+    F[:, IDX["hm"]] = heel * (1 - u_h); F[:, IDX["hl"]] = heel * u_h
+    F[:, IDX["m1"]] = fore * (1 - u_f); F[:, IDX["m5"]] = fore * u_f
+    F[:, 2] = 1.2
+    F *= (1 + 0.015 * rng.standard_normal(F.shape))
+    return np.clip(F, 0, None)
+
+
+def imu_from_cop(cx, cy, gain, rng):
+    n = len(cx)
+    ax = gain * np.gradient(cx) * FS + 0.03 * rng.standard_normal(n)
+    ay = gain * np.gradient(cy) * FS + 0.03 * rng.standard_normal(n)
+    az = 9.81 + 0.03 * rng.standard_normal(n)
+    return ax, ay, az
+
+
+def quiet_cop(dur, sig_ml, sig_ap, rng, cx0=.50, cy0=.22):
+    n = int(dur * FS); t = np.arange(n) / FS
+    cx = cx0 + (sig_ml / FOOT_W_MM_) * sway_unit(t, [0.15, 0.4, 0.9], rng)
+    cy = cy0 + (sig_ap / FOOT_L_MM_) * sway_unit(t, [0.12, 0.35, 0.7], rng)
+    return t, cx, cy, (sig_ml + sig_ap) / 6.0
+
+
+def los_cop(dur, rng, cx0=.50, cy0=.22):
+    """Intentional lean: COP visits front / right / back / left extremes and returns."""
+    n = int(dur * FS); t = np.arange(n) / FS; u = t / max(dur, 1e-6)
+    fr = [0, .12, .25, .37, .50, .62, .75, .87, 1.0]
+    xs = [cx0, cx0, cx0, .68, cx0, cx0, cx0, .32, cx0]
+    ys = [cy0, .82, cy0, .30, cy0, .11, cy0, .30, cy0]
+    cx = np.interp(u, fr, xs) + 0.006 * rng.standard_normal(n)
+    cy = np.interp(u, fr, ys) + 0.006 * rng.standard_normal(n)
+    return t, cx, cy, 0.9
+
+
 def frame(t, F, a, b, rng, imu, label_col, label):
     ax, ay, az = imu
     n = len(t)
@@ -173,7 +214,29 @@ def main():
     pd.concat(parts, ignore_index=True) \
         .to_csv(os.path.join(args.out, "sample_balance.csv"), index=False)
 
-    print(f"wrote cal_points.csv, sample_day_shoe/barefoot.csv, sample_balance.csv -> {args.out}/")
+    # balance ACROSS POSITIONS — mCTSIB (firm/foam x eyes) + single-leg L/R + tandem + LOS.
+    # Seeded story: vision-reliant + a vestibular (foam-EC) failure; left leg weaker.
+    conds = [
+        ("firm_eo",      quiet_cop(25, 3.0, 4.0, rng)),
+        ("firm_ec",      quiet_cop(25, 4.5, 6.0, rng)),
+        ("foam_eo",      quiet_cop(25, 5.0, 7.0, rng)),
+        ("foam_ec",      quiet_cop(25, 8.5, 11.5, rng)),
+        ("single_leg_L", quiet_cop(15, 9.0, 9.0, rng, cy0=.34)),
+        ("single_leg_R", quiet_cop(15, 6.5, 7.0, rng, cy0=.34)),
+        ("tandem",       quiet_cop(20, 10.0, 4.5, rng, cy0=.28)),
+        ("los",          los_cop(30, rng)),
+    ]
+    pparts, toff = [], 0.0
+    for label, (tt, cx, cy, gain) in conds:
+        F = fsr_from_cop(cx, cy, rng)
+        tg = tt + toff
+        pparts.append(frame(tg, F, a, b, rng, imu_from_cop(cx, cy, gain, rng), "activity", label))
+        toff = tg[-1] + 1 / FS
+    pd.concat(pparts, ignore_index=True) \
+        .to_csv(os.path.join(args.out, "sample_balance_positions.csv"), index=False)
+
+    print(f"wrote cal_points.csv, sample_day_shoe/barefoot.csv, sample_balance.csv, "
+          f"sample_balance_positions.csv -> {args.out}/")
 
 
 if __name__ == "__main__":

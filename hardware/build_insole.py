@@ -43,6 +43,12 @@ def clamp(v, lo, hi):
     return max(lo, min(hi, v))
 
 
+def suggest_arch(spec):
+    """A STARTING arch-dome height (mm) from the posting directive — a first guess to
+    tune by feel or replace with a measured/scanned arch. Not a prescription."""
+    return {"medial": 13.0, "lateral": 15.0, "neutral": 10.0}.get(spec.get("posting", "neutral"), 10.0)
+
+
 def relief_params(spec):
     zone = spec.get("relief_window_zone", "heel_med")
     zx, zy = ZONE_XY.get(zone, (.35, .08))
@@ -220,6 +226,8 @@ def main():
     ap.add_argument("--forefoot-width", type=float, default=95.0)
     ap.add_argument("--heel-width", type=float, default=62.0)
     ap.add_argument("--arch-height", type=float, default=0.0)
+    ap.add_argument("--arch-auto", action="store_true",
+                    help="start the arch dome from the posting directive (tune by feel)")
     # scan fit
     ap.add_argument("--scan", help="STL of your orthotic/foot to carve the relief into")
     args = ap.parse_args()
@@ -228,6 +236,12 @@ def main():
         data = json.load(f)
     spec = data.get("chosen", data)
     os.makedirs(args.out, exist_ok=True)
+
+    sa = suggest_arch(spec)
+    print(f"   suggested arch ~{sa:.0f} mm (from posting={spec.get('posting')}; "
+          f"a starting guess — measure/scan for the real value)")
+    if args.arch_auto and args.arch_height == 0.0:
+        args.arch_height = sa
 
     if args.scan:
         pts = stl_points(args.scan)

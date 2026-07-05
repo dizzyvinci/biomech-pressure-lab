@@ -41,6 +41,10 @@ The **balance module** in depth — posturography, Romberg, fall-risk → device
 
 ![Balance module detail](docs/balance_detail.svg)
 
+**Balance across stance positions** — mCTSIB sensory reliance, single-leg asymmetry, tandem, limits-of-stability ([balance_positions.md](docs/balance_positions.md)):
+
+![Balance across positions](docs/balance_positions.svg)
+
 > 🧭 **Also:** a new [**balance module**](docs/balance.md) (posturography — sway, Romberg quotient, fall-risk flags) turns the same rig into a stability screen for balance issues, not just foot pain. And [**prototype_status.md**](docs/prototype_status.md) is the "is it ready to build/pitch?" summary + the ordered-vs-printed BOM. Print models + STL export: [hardware/](hardware/README.md).
 
 ### ▶️ See it work — no hardware needed
