@@ -947,6 +947,102 @@ def g_lab_scope():
                 "A scope table: measurement, what the papers use, our DIY build, and whether we can match (partial/yes/gap).")
 
 
+def g_nerve_fascia():
+    w, h = 900, 520
+    b = [head(w, "From foot pressure → nerve & fascia impact",
+              "CPTS (the all-day dose) + the pressure gradient → which nerves & fascia your loading overloads")]
+    # ---- LEFT: foot map with structures ----
+    b.append(box(24, 74, 300, 410, PANEL, BORDER, 1.6, 12))
+    b.append(T(40, 100, "Where the load lands", 12.5, NAVY, "700"))
+    cx, top, length, width = 176, 120, 290, 150
+    b.append(footprint(cx, top, length, width, "#e7edf4"))
+
+    def zx(i):
+        return zone_xy(cx, top, length, width, i)
+    hm = zx(0); m1 = zx(3); m3 = zx(4); m5 = zx(5)
+    # plantar fascia band (heel -> forefoot), amber, translucent
+    b.append(f'<path d="M{hm[0]-6:.0f} {hm[1]-4:.0f} L{m1[0]-4:.0f} {m1[1]+6:.0f} '
+             f'L{m5[0]+4:.0f} {m5[1]+6:.0f} L{hm[0]+10:.0f} {hm[1]-2:.0f} Z" '
+             f'fill="{AMBER}" opacity="0.22" stroke="{AMBER}" stroke-width="1.2"/>')
+    b.append(T(cx + 40, (hm[1]+m3[1])/2, "plantar fascia", 8.5, "#b45309", "700"))
+    b.append(T(cx + 44, (hm[1]+m3[1])/2 + 12, "(tension · windlass)", 7.5, MUTE))
+    # Morton interdigital markers at met2/met3/met4 interspaces
+    for (px, py) in [((m1[0]+m3[0])/2, (m1[1]+m3[1])/2), (m3[0], m3[1]), ((m3[0]+m5[0])/2, (m3[1]+m5[1])/2)]:
+        b.append(f'<circle cx="{px:.0f}" cy="{py:.0f}" r="6.5" fill="{BLUE}" opacity="0.85" stroke="#fff" stroke-width="1.2"/>')
+    b.append(f'<line x1="{m5[0]+8:.0f}" y1="{m3[1]:.0f}" x2="266" y2="176" stroke="{BLUE}" stroke-width="1.2"/>')
+    b.append(T(268, 172, "Morton /", 8.5, BLUE, "700") + T(268, 183, "interdigital n.", 8.5, BLUE, "700"))
+    # Baxter at medial heel
+    b.append(f'<circle cx="{hm[0]-8:.0f}" cy="{hm[1]:.0f}" r="6.5" fill="{RED}" opacity="0.9" stroke="#fff" stroke-width="1.2"/>')
+    b.append(f'<line x1="{hm[0]-14:.0f}" y1="{hm[1]:.0f}" x2="70" y2="404" stroke="{RED}" stroke-width="1.2"/>')
+    b.append(T(40, 400, "Baxter's n.", 8.5, RED, "700") + T(40, 411, "(medial heel)", 7.5, MUTE))
+    # tibial at medial arch
+    mid = zone_xy(cx, top, length, width, 2)
+    b.append(f'<circle cx="{mid[0]-24:.0f}" cy="{mid[1]:.0f}" r="6.5" fill="{GREEN}" opacity="0.85" stroke="#fff" stroke-width="1.2"/>')
+    b.append(f'<line x1="{mid[0]-30:.0f}" y1="{mid[1]:.0f}" x2="60" y2="300" stroke="{GREEN}" stroke-width="1.2"/>')
+    b.append(T(40, 296, "post. tibial n.", 8.5, GREEN, "700") + T(40, 307, "(tarsal tunnel)", 7.5, MUTE))
+    b.append(T(40, 462, "peak → PTI → CPTS: one step → one step's", 8, MUTE))
+    b.append(T(40, 473, "dose → a whole DAY's dose.", 8, MUTE))
+
+    # ---- MIDDLE: the all-day dose ----
+    b.append(box(344, 74, 250, 410, "#ffffff", BORDER, 1.6, 12))
+    b.append(T(360, 100, "The all-day dose (CPTS)", 12, NAVY, "700"))
+    b.append(T(360, 118, "PTI × cycles/day (MPa·s/day)", 9, MUTE))
+    # forefoot vs heel bars (log-ish: forefoot huge)
+    b.append(T(360, 146, "forefoot", 9.5, NAVY, "700"))
+    b.append(f'<rect x="360" y="152" width="210" height="20" rx="5" fill="{RED}"/>')
+    b.append(T(366, 166, "≈ 10,600", 9, "#ffffff", "700"))
+    b.append(T(360, 190, "heel / mid", 9.5, NAVY, "700"))
+    b.append(f'<rect x="360" y="196" width="14" height="20" rx="5" fill="{BLUE}"/>')
+    b.append(T(380, 210, "≈ 100", 9, SLATE, "700"))
+    # bounce callout
+    b.append(box(360, 230, 218, 62, REDBG, RED, 1.4, 8))
+    b.append(T(372, 250, "⚡ 85% of forefoot cycles", 10, RED, "700"))
+    b.append(T(372, 265, "= the at-rest bounce/tap dose", 8.5, SLATE))
+    b.append(T(372, 278, "no step-counter ever sees.", 8.5, SLATE))
+    # structure ranking bars
+    b.append(T(360, 314, "Structure load (this demo day)", 9.5, NAVY, "700"))
+    ranks = [("plantar fascia", 8477, AMBER), ("Morton / interdigital", 6246, BLUE),
+             ("post. tibial", 1969, GREEN), ("Baxter's nerve", 54, RED)]
+    mxr = 8477
+    for i, (nm, v, c) in enumerate(ranks):
+        y = 330 + i * 32
+        b.append(T(360, y, nm, 8.5, SLATE))
+        b.append(box(360, y + 4, 210, 15, "#ffffff", BORDER, 1, 4))
+        b.append(f'<rect x="360" y="{y+4}" width="{max(4, 210*v/mxr):.0f}" height="15" rx="4" fill="{c}"/>')
+        b.append(T(574, y + 15, f"{v:,}", 8, MUTE, "700", "end"))
+
+    # ---- RIGHT: tell them apart ----
+    b.append(box(614, 74, 262, 410, PANEL2, BORDER, 1.6, 12))
+    b.append(T(630, 100, "Same spot — which structure?", 12, NAVY, "700"))
+    b.append(box(630, 116, 230, 78, "#ffffff", BORDER, 1.3, 8))
+    b.append(T(642, 136, "Medial heel pain: read the clock", 9.5, NAVY, "700"))
+    b.append(f'<circle cx="648" cy="153" r="4" fill="{AMBER}"/>')
+    b.append(T(658, 156, "MORNING first-steps → fascia", 8.5, SLATE))
+    b.append(f'<circle cx="648" cy="173" r="4" fill="{RED}"/>')
+    b.append(T(658, 176, "worse THROUGH THE DAY → Baxter", 8.5, SLATE))
+    b.append(T(630, 214, "Forefoot burning / numb toes,", 9, SLATE))
+    b.append(T(630, 227, "'pebble', Mulder's click → Morton.", 9, SLATE))
+    b.append(T(630, 245, "Medial-ANKLE Tinel, radiating", 9, SLATE))
+    b.append(T(630, 258, "sole → tarsal tunnel (tibial).", 9, SLATE))
+    b.append(box(630, 276, 230, 92, GREENBG, GREEN, 1.4, 8))
+    b.append(T(642, 296, "Manage the dose, don't suppress:", 9.5, GREEN, "700"))
+    b.append(T(642, 313, "• met pad PROXIMAL to the heads", 8.5, SLATE))
+    b.append(T(642, 327, "• wider toe box · ball-of-foot rests", 8.5, SLATE))
+    b.append(T(642, 341, "• offload heel AND cushion forefoot", 8.5, SLATE))
+    b.append(T(642, 355, "• calf length work (equinus = 23× PF)", 8.5, SLATE))
+    b.append(T(630, 392, "Steep forefoot gradient → subsurface", 8.5, MUTE))
+    b.append(T(630, 404, "shear near the digital nerves.", 8.5, MUTE))
+    b.append(T(630, 428, "analysis/nerve_fascia.py --demo", 8.5, NAVY, "700"))
+    b.append(T(630, 440, "refs: structures{} + CPTS metric", 8, MUTE))
+
+    b.append(T(24, 506, "CPTS anchor 140–275 MPa·s/day is a diabetic-ULCER figure (at-risk tissue), not a healthy limit — "
+                        "compare zones & track your own trend. Associations published; weights estimated. SCREENING, not diagnosis.",
+               8.5, MUTE))
+    return wrap(w, h, "\n".join(b),
+                "From foot pressure to nerve and fascia impact. A foot map marks plantar fascia (heel-to-forefoot tension band), Baxter's nerve (medial heel), Morton's/interdigital nerve (met2-4 interspaces), and posterior tibial nerve (tarsal tunnel, medial arch). The all-day dose CPTS = PTI x cycles/day is forefoot ~10,600 vs heel ~100 MPa.s/day, with 85% of forefoot cycles from the at-rest bounce dose; structure loads plantar fascia 8477, Morton 6246, tibial 1969, Baxter 54. Tell them apart: medial heel pain worse in the morning = fascia, worse through the day = Baxter's; forefoot burning/numb toes = Morton; medial-ankle Tinel = tarsal tunnel. Manage the dose (met pad, wider toe box, rest windows, calf work). Screening, not diagnosis.",
+                "Left: foot map with four structures marked on their zones. Middle: CPTS dose bars (forefoot vs heel), the 85% bounce-dose callout, and structure-load ranking. Right: how to tell the structures apart by symptom/time-of-day and how to manage the dose.")
+
+
 def g_maker_hacks():
     w, h = 900, 500
     b = [head(w, "Maker hacks — clawing back the accuracy cheap sensors lose",
@@ -1007,7 +1103,7 @@ def main():
                      ("landing_lab", g_landing_lab), ("zone_load", g_zone_load), ("chain", g_chain),
                      ("pressure_atlas", g_pressure_atlas), ("conditions", g_conditions),
                      ("footwear", g_footwear), ("bounce", g_bounce), ("lab_scope", g_lab_scope),
-                     ("maker_hacks", g_maker_hacks)]:
+                     ("maker_hacks", g_maker_hacks), ("nerve_fascia", g_nerve_fascia)]:
         with open(os.path.join(HERE, f"{name}.svg"), "w", encoding="utf-8") as f:
             f.write(fn())
         print(f"-> {name}.svg")

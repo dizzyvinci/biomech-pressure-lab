@@ -89,6 +89,10 @@ The **balance module** in depth — posturography, Romberg, fall-risk → device
 
 ![Maker hacks](docs/maker_hacks.svg)
 
+**Nerve & fascia impact** — the next question after *"where's the pressure?"* is *"what is the all-day dose doing to my nerves and fascia?"* Via **CPTS = PTI × cycles/day** (gait steps **+** the at-rest bounce dose), map the load onto the plantar fascia, Baxter's nerve, Morton's/interdigital nerve, and the posterior tibial nerve — with the differentiating clue for each ([nerve_fascia.md](docs/nerve_fascia.md)). *Screening, not diagnosis:*
+
+![Nerve & fascia impact](docs/nerve_fascia.svg)
+
 > 🧭 **Also:** a new [**balance module**](docs/balance.md) (posturography — sway, Romberg quotient, fall-risk flags) turns the same rig into a stability screen for balance issues, not just foot pain. And [**prototype_status.md**](docs/prototype_status.md) is the "is it ready to build/pitch?" summary + the ordered-vs-printed BOM. Print models + STL export: [hardware/](hardware/README.md).
 
 ### ▶️ See it work — no hardware needed

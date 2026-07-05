@@ -61,6 +61,16 @@ and cutting flipped to published (peak @ met2, 1st-met shear 312–463 kPa, [J B
 
 ![heel lifts & PTI](../docs/footwear.svg)
 
+**v0.6** adds a **`structures`** block — the **nerves & fascia** that specific loading patterns
+overload (plantar fascia, Baxter's nerve, Morton's/interdigital nerve, posterior tibial/tarsal
+tunnel), each with its zones, loading mode, differentiating clue, and citation — plus two metrics:
+**CPTS** (cumulative plantar tissue stress = PTI × cycles/day, the all-day dose, [PMID 29477099](https://pubmed.ncbi.nlm.nih.gov/29477099/))
+and the **pressure gradient** (subsurface shear near nerves, [PMC2387244](https://pmc.ncbi.nlm.nih.gov/articles/PMC2387244/)).
+Consumed by [`analysis/nerve_fascia.py`](../analysis/nerve_fascia.py) → [nerve_fascia.md](../docs/nerve_fascia.md).
+Associations are published; the zone-weights are `estimated`. Screening, not diagnosis.
+
+![nerve & fascia](../docs/nerve_fascia.svg)
+
 Key sourced facts:
 | | Finding | Source |
 |---|---|---|
