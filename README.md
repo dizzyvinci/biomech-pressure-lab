@@ -45,6 +45,8 @@ A DIY toolkit to measure your own foot **geometry**, **plantar pressure**, and *
 ---
 
 ## Smart-insole BOM (~$70–120 basic)
+
+> 🛒 **Ready to order?** [docs/parts_list.md](docs/parts_list.md) lists every part with direct buy links.
 | Part | Qty | ~$ | Notes |
 |---|---|---|---|
 | ESP32-S3 DevKitC-1 (or **Seeed XIAO ESP32-S3** for wearable) | 1 | 8–15 | BLE + enough ADC/SPI/I2C |
