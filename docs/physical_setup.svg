@@ -1,55 +1,47 @@
-<svg viewBox="0 0 900 470" xmlns="http://www.w3.org/2000/svg" role="img" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif">
-<title>The wearable setup: 8 FSRs in a thin foot sole, a ribbon up to an ankle pod holding the ESP32, LiPo and microSD; swap the sole between shoe and barefoot.</title>
-<desc>Left: a foot (bottom view) with eight red FSR dots and a ribbon leaving the instep. Center: the ribbon runs to an ankle pod labeled ESP32, LiPo, microSD, USB-C charge, button. Right: two modes — a strapped barefoot sole and an in-shoe insole — sharing the same pod.</desc>
-<rect x="4" y="4" width="892" height="462" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"/>
-<text x="24" y="36" font-size="19" font-weight="700" fill="#0f172a">The wearable setup — where the hardware sits</text>
-<text x="24" y="56" font-size="12" fill="#e11d48">Electronics stay OFF the foot · swap the sole for shoe vs barefoot · ~8–14 h on a 1000–1500 mAh LiPo</text>
-<defs><marker id="a" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#64748b"/></marker></defs>
-
-<!-- foot (bottom view) with FSR dots -->
-<g transform="translate(6,44) scale(0.72)">
-  <path d="M170 440 C135 440 112 428 112 400 C96 350 96 300 104 250 C108 210 106 165 116 128 C120 100 145 94 162 100 C180 92 200 96 206 122 C226 165 232 210 230 255 C236 320 230 400 218 424 C210 440 192 440 170 440 Z" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2"/>
-  <g fill="#e11d48">
-    <circle cx="131" cy="420" r="10"/><circle cx="209" cy="420" r="10"/><circle cx="170" cy="288" r="10"/><circle cx="118" cy="190" r="10"/>
-    <circle cx="170" cy="180" r="10"/><circle cx="222" cy="190" r="10"/><circle cx="116" cy="116" r="10"/><circle cx="183" cy="104" r="10"/>
-  </g>
-</g>
-<text x="120" y="410" font-size="11" font-weight="700" fill="#0f172a" text-anchor="middle">Foot sensor sole</text>
-<text x="120" y="426" font-size="9.5" fill="#64748b" text-anchor="middle">8 flat FSRs in pockets (soft TPU)</text>
-
-<!-- ribbon from instep up to pod -->
-<path d="M108 220 C 200 200, 250 180, 300 175" fill="none" stroke="#64748b" stroke-width="2.2" marker-end="url(#a)"/>
-<text x="215" y="176" font-size="9" fill="#64748b" text-anchor="middle">thin ribbon</text>
-
-<!-- ankle pod -->
-<rect x="300" y="120" width="180" height="110" rx="10" fill="#eef2f7" stroke="#94a3b8" stroke-width="1.6"/>
-<text x="390" y="146" font-size="14" font-weight="700" fill="#0f172a" text-anchor="middle">Ankle pod</text>
-<text x="390" y="167" font-size="10.5" fill="#475569" text-anchor="middle">ESP32-S3 · LiPo · microSD</text>
-<text x="390" y="184" font-size="10.5" fill="#475569" text-anchor="middle">USB-C charge · button</text>
-<text x="390" y="209" font-size="9.5" fill="#64748b" text-anchor="middle">clips to ankle / laces</text>
-<text x="390" y="252" font-size="10" fill="#e11d48" text-anchor="middle">logs continuously → SD → analyze at day's end</text>
-
-<!-- two modes -->
-<text x="560" y="112" font-size="12" font-weight="700" fill="#334155">Same pod, swap the sole:</text>
-
-<rect x="560" y="126" width="300" height="66" rx="9" fill="#f8fafc" stroke="#cbd5e1"/>
-<circle cx="592" cy="159" r="16" fill="#fdecef" stroke="#e11d48"/><text x="592" y="163" font-size="12" fill="#e11d48" text-anchor="middle">🦶</text>
-<text x="622" y="152" font-size="12" font-weight="700" fill="#0f172a">Barefoot mode</text>
-<text x="622" y="169" font-size="10" fill="#64748b">strapped TPU sole on the bare foot</text>
-<text x="622" y="184" font-size="10" fill="#64748b">→ your natural, unshod loading</text>
-
-<rect x="560" y="204" width="300" height="66" rx="9" fill="#f8fafc" stroke="#cbd5e1"/>
-<circle cx="592" cy="237" r="16" fill="#eef2f7" stroke="#94a3b8"/><text x="592" y="241" font-size="12" text-anchor="middle">👟</text>
-<text x="622" y="230" font-size="12" font-weight="700" fill="#0f172a">In-shoe mode</text>
-<text x="622" y="247" font-size="10" fill="#64748b">same carrier slipped into the shoe</text>
-<text x="622" y="262" font-size="10" fill="#64748b">→ how your footwear changes it</text>
-
-<text x="480" y="300" font-size="11" fill="#475569" text-anchor="middle">Long-press the button to switch shoe ⇄ barefoot — the analysis then reports the difference.</text>
-
-<!-- footer -->
-<line x1="20" y1="330" x2="880" y2="330" stroke="#e2e8f0"/>
-<text x="24" y="356" font-size="11.5" font-weight="700" fill="#0f172a">Why the pod is at the ankle, not underfoot</text>
-<text x="24" y="376" font-size="11" fill="#475569">A rigid ESP32 + battery underfoot is unwearable. Only the thin FSRs + wiring go on the foot;</text>
-<text x="24" y="392" font-size="11" fill="#475569">all the bulk lives in the ankle pod, joined by a slim ribbon — comfortable to wear most of a day.</text>
-<text x="24" y="420" font-size="10.5" fill="#64748b">Print files: hardware/ankle_pod.scad · hardware/barefoot_sole.scad · firmware/all_day_logger</text>
+<svg viewBox="0 0 900 560" xmlns="http://www.w3.org/2000/svg" role="img" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif">
+<title>How the rig is worn: an ankle pod holds the ESP32, LiPo, microSD and IMU; a thin ribbon runs to a paper-thin sole with 8 FSRs; swap the sole for barefoot vs in-shoe.</title>
+<desc>Left: schematic leg with an ankle pod and ribbon to under-foot sensors. Middle: top-down sole with 8 labeled FSR zones. Right: barefoot vs in-shoe sole swap.</desc>
+<defs><marker id="ar" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#64748b"/></marker><marker id="arr" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#e11d48"/></marker></defs>
+<rect x="4" y="4" width="892" height="552" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"/>
+<text x="24" y="36" font-size="18" fill="#0f172a" font-weight="700" text-anchor="start">How it's worn — electronics OFF the foot</text><text x="24" y="55" font-size="11.5" fill="#475569" font-weight="400" text-anchor="start">An ankle pod carries the brain + battery; only paper-thin FSRs sit under the foot</text>
+<rect x="30" y="78" width="300" height="400" rx="12" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1.6"/>
+<text x="46" y="104" font-size="12.5" fill="#0f172a" font-weight="700" text-anchor="start">Worn on the body</text>
+<rect x="150" y="120" width="46" height="150" rx="16" fill="#e6ebf2" stroke="#94a3b8"/>
+<rect x="150" y="270" width="150" height="34" rx="14" fill="#e6ebf2" stroke="#94a3b8"/>
+<text x="230" y="292" font-size="9.5" fill="#64748b" font-weight="400" text-anchor="middle">foot</text>
+<rect x="120" y="150" width="92" height="74" rx="10" fill="#ffffff" stroke="#e11d48" stroke-width="2"/>
+<text x="166" y="170" font-size="10.5" fill="#e11d48" font-weight="700" text-anchor="middle">ANKLE POD</text>
+<text x="166" y="186" font-size="8.5" fill="#475569" font-weight="400" text-anchor="middle">ESP32-S3</text>
+<text x="166" y="198" font-size="8.5" fill="#475569" font-weight="400" text-anchor="middle">LiPo + microSD</text>
+<text x="166" y="210" font-size="8.5" fill="#475569" font-weight="400" text-anchor="middle">IMU (motion)</text>
+<path d="M173 224 L173 258 Q173 286 210 288 L240 288" fill="none" stroke="#e11d48" stroke-width="2.4" marker-end="url(#arr)"/>
+<text x="196" y="250" font-size="8.5" fill="#e11d48" font-weight="700" text-anchor="start">thin ribbon</text>
+<text x="196" y="262" font-size="8" fill="#64748b" font-weight="400" text-anchor="start">(only wire on you)</text>
+<circle cx="232" cy="303" r="4.5" fill="#0f172a"/>
+<circle cx="252" cy="303" r="4.5" fill="#0f172a"/>
+<circle cx="272" cy="303" r="4.5" fill="#0f172a"/>
+<text x="300" y="306" font-size="8.5" fill="#64748b" font-weight="400" text-anchor="start">FSRs</text>
+<text x="46" y="350" font-size="10" fill="#475569" font-weight="400" text-anchor="start">• Nothing bulky underfoot — the sole</text>
+<text x="46" y="366" font-size="10" fill="#475569" font-weight="400" text-anchor="start">  is paper-thin.</text>
+<text x="46" y="388" font-size="10" fill="#475569" font-weight="400" text-anchor="start">• Pod straps at the ankle; the</text>
+<text x="46" y="404" font-size="10" fill="#475569" font-weight="400" text-anchor="start">  ribbon is the only thing on the</text>
+<text x="46" y="420" font-size="10" fill="#475569" font-weight="400" text-anchor="start">  foot besides the sensors.</text>
+<text x="46" y="448" font-size="10.5" fill="#e11d48" font-weight="700" text-anchor="start">→ solves "3D-print around the</text>
+<text x="46" y="464" font-size="10.5" fill="#e11d48" font-weight="700" text-anchor="start">   electronics": we don't.</text>
+<rect x="354" y="78" width="268" height="400" rx="12" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.6"/>
+<text x="370" y="104" font-size="12.5" fill="#0f172a" font-weight="700" text-anchor="start">Sensor sole — 8 FSR zones</text>
+<ellipse cx="488" cy="220" rx="75" ry="102" fill="#dbe4ef" stroke="#94a3b8" stroke-width="1.3"/><ellipse cx="488" cy="376" rx="54" ry="78" fill="#dbe4ef" stroke="#94a3b8" stroke-width="1.3"/><rect x="434" y="235" width="108" height="102" fill="#dbe4ef"/>
+<circle cx="466" cy="406" r="7" fill="#334155" stroke="#ffffff" stroke-width="1.2"/><text x="474.5" y="409.0" font-size="8.5" fill="#64748b" font-weight="400" text-anchor="start">heel_med</text><circle cx="510" cy="406" r="7" fill="#334155" stroke="#ffffff" stroke-width="1.2"/><text x="519.5" y="409.0" font-size="8.5" fill="#64748b" font-weight="400" text-anchor="start">heel_lat</text><circle cx="488" cy="295" r="7" fill="#334155" stroke="#ffffff" stroke-width="1.2"/><text x="497.0" y="298.0" font-size="8.5" fill="#64748b" font-weight="400" text-anchor="start">midfoot</text><circle cx="458" cy="214" r="7" fill="#334155" stroke="#ffffff" stroke-width="1.2"/><text x="467.0" y="217.0" font-size="8.5" fill="#64748b" font-weight="400" text-anchor="start">met1</text><circle cx="488" cy="208" r="7" fill="#334155" stroke="#ffffff" stroke-width="1.2"/><text x="497.0" y="211.0" font-size="8.5" fill="#64748b" font-weight="400" text-anchor="start">met3</text><circle cx="518" cy="214" r="7" fill="#334155" stroke="#ffffff" stroke-width="1.2"/><text x="527.0" y="217.0" font-size="8.5" fill="#64748b" font-weight="400" text-anchor="start">met5</text><circle cx="455" cy="154" r="7" fill="#334155" stroke="#ffffff" stroke-width="1.2"/><text x="464.0" y="157.0" font-size="8.5" fill="#64748b" font-weight="400" text-anchor="start">hallux</text><circle cx="496" cy="145" r="7" fill="#334155" stroke="#ffffff" stroke-width="1.2"/><text x="504.5" y="148.0" font-size="8.5" fill="#64748b" font-weight="400" text-anchor="start">toes</text>
+<text x="370" y="460" font-size="9.5" fill="#64748b" font-weight="400" text-anchor="start">heel · midfoot · met heads · hallux · toes</text>
+<rect x="646" y="78" width="224" height="400" rx="12" fill="#eef2f7" stroke="#e2e8f0" stroke-width="1.6"/>
+<text x="662" y="104" font-size="12.5" fill="#0f172a" font-weight="700" text-anchor="start">Swap the sole</text>
+<ellipse cx="720" cy="175" rx="39" ry="51" fill="#dbe4ef" stroke="#94a3b8" stroke-width="1.3"/><ellipse cx="720" cy="253" rx="28" ry="39" fill="#dbe4ef" stroke="#94a3b8" stroke-width="1.3"/><rect x="692" y="182" width="56" height="51" fill="#dbe4ef"/>
+<circle cx="708" cy="268" r="4.5" fill="#475569" stroke="#ffffff" stroke-width="1.2"/><circle cx="732" cy="268" r="4.5" fill="#475569" stroke="#ffffff" stroke-width="1.2"/><circle cx="720" cy="212" r="4.5" fill="#475569" stroke="#ffffff" stroke-width="1.2"/><circle cx="704" cy="172" r="4.5" fill="#475569" stroke="#ffffff" stroke-width="1.2"/><circle cx="720" cy="169" r="4.5" fill="#475569" stroke="#ffffff" stroke-width="1.2"/><circle cx="736" cy="172" r="4.5" fill="#475569" stroke="#ffffff" stroke-width="1.2"/><circle cx="703" cy="142" r="4.5" fill="#475569" stroke="#ffffff" stroke-width="1.2"/><circle cx="724" cy="138" r="4.5" fill="#475569" stroke="#ffffff" stroke-width="1.2"/>
+<text x="758" y="210" font-size="10" fill="#475569" font-weight="700" text-anchor="start">barefoot</text>
+<ellipse cx="720" cy="345" rx="39" ry="51" fill="#e7d9c3" stroke="#94a3b8" stroke-width="1.3"/><ellipse cx="720" cy="423" rx="28" ry="39" fill="#e7d9c3" stroke="#94a3b8" stroke-width="1.3"/><rect x="692" y="352" width="56" height="51" fill="#e7d9c3"/>
+<circle cx="708" cy="438" r="4.5" fill="#7c5e33" stroke="#ffffff" stroke-width="1.2"/><circle cx="732" cy="438" r="4.5" fill="#7c5e33" stroke="#ffffff" stroke-width="1.2"/><circle cx="720" cy="382" r="4.5" fill="#7c5e33" stroke="#ffffff" stroke-width="1.2"/><circle cx="704" cy="342" r="4.5" fill="#7c5e33" stroke="#ffffff" stroke-width="1.2"/><circle cx="720" cy="339" r="4.5" fill="#7c5e33" stroke="#ffffff" stroke-width="1.2"/><circle cx="736" cy="342" r="4.5" fill="#7c5e33" stroke="#ffffff" stroke-width="1.2"/><circle cx="703" cy="312" r="4.5" fill="#7c5e33" stroke="#ffffff" stroke-width="1.2"/><circle cx="724" cy="308" r="4.5" fill="#7c5e33" stroke="#ffffff" stroke-width="1.2"/>
+<text x="758" y="380" font-size="10" fill="#475569" font-weight="700" text-anchor="start">in-shoe</text>
+<text x="662" y="430" font-size="9.5" fill="#475569" font-weight="400" text-anchor="start">Same 8 sensors, two soles →</text>
+<text x="662" y="445" font-size="9.5" fill="#475569" font-weight="400" text-anchor="start">compare shoe vs barefoot load.</text>
+<text x="24" y="528" font-size="10.5" fill="#64748b" font-weight="400" text-anchor="start">Electronics ride at the ankle; the foot only carries thin FSRs + one ribbon. Reprint the sole cheaply when it wears.</text>
 </svg>

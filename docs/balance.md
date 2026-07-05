@@ -2,6 +2,8 @@
 
 **The extrapolation:** the same insole hardware (FSR center-of-pressure + IMU) is also a **wearable balance lab**. For people with **balance issues** — not just foot pain — `analysis/balance.py` turns a standing recording into standard **posturography** metrics + fall-risk flags. Same sensors, same pod, new capability.
 
+![Balance module detail](balance_detail.svg)
+
 ## Who it's for
 Anyone screening or training **postural stability**: older adults (fall risk), vestibular / proprioceptive issues, neurological conditions, hypermobility, post-injury return-to-play. **Not a diagnosis** — a screening/training aid to use with a clinician.
 

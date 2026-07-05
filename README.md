@@ -27,9 +27,17 @@ What you **order** vs what the printer **makes** (with lifespans / a day of use)
 
 ![BOM ordered vs printed](docs/parts_ordered_vs_printed.svg)
 
+**A day of use** — when you wear it, how long each piece lasts, battery per day:
+
+![A day of use](docs/day_in_the_life.svg)
+
 **Two software modules** from the same sensors — foot pressure *and* balance:
 
 ![Software modules](docs/software_metrics.svg)
+
+The **balance module** in depth — posturography, Romberg, fall-risk → device class:
+
+![Balance module detail](docs/balance_detail.svg)
 
 > 🧭 **Also:** a new [**balance module**](docs/balance.md) (posturography — sway, Romberg quotient, fall-risk flags) turns the same rig into a stability screen for balance issues, not just foot pain. And [**prototype_status.md**](docs/prototype_status.md) is the "is it ready to build/pitch?" summary + the ordered-vs-printed BOM. Print models + STL export: [hardware/](hardware/README.md).
 

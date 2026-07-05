@@ -18,6 +18,8 @@
 | **H2D printer + TPU filament** | |
 | ~$100 rig + ~$1,800 printer/materials | ~cents of filament per part |
 
+![A day of use](day_in_the_life.svg)
+
 ## ⏱️ Lifespans / a day of use
 | Piece | Lasts |
 |---|---|

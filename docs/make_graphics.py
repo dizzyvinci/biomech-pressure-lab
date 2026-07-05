@@ -1,0 +1,395 @@
+#!/usr/bin/env python3
+"""
+make_graphics.py — generate the fleshed-out annotated diagrams (SVG) from code,
+so geometry (footprint sensor dots, timelines, sway ellipses) is exact and the
+graphics are reproducible. Writes into docs/.
+
+    python make_graphics.py
+
+Produces: physical_setup.svg, pipeline.svg, software_metrics.svg,
+          day_in_the_life.svg, balance_detail.svg
+Numbers shown come from the committed worked example (sample/results/).
+"""
+import os
+
+NAVY, SLATE, MUTE = "#0f172a", "#475569", "#64748b"
+LINE, BORDER = "#94a3b8", "#e2e8f0"
+PANEL, PANEL2 = "#f8fafc", "#eef2f7"
+RED, REDBG = "#e11d48", "#fdecef"
+BLUE, BLUEBG = "#2563eb", "#eff6ff"
+AMBER = "#f59e0b"
+GREEN, GREENBG = "#16a34a", "#f0fdf4"
+FONT = "ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif"
+HERE = os.path.dirname(os.path.abspath(__file__))
+
+# 8-zone normalized layout (x: medial->lateral, y: heel->toe) — matches analysis
+ZONES = ["heel_med", "heel_lat", "midfoot", "met1", "met3", "met5", "hallux", "toes"]
+XY = [(.35, .08), (.65, .08), (.50, .45), (.30, .72),
+      (.50, .74), (.70, .72), (.28, .92), (.55, .95)]
+
+
+def esc(s):
+    return str(s).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+
+
+def wrap(w, h, body, title, desc):
+    title, desc = esc(title), esc(desc)
+    return (f'<svg viewBox="0 0 {w} {h}" xmlns="http://www.w3.org/2000/svg" role="img" '
+            f'font-family="{FONT}">\n<title>{title}</title>\n<desc>{desc}</desc>\n'
+            f'<defs><marker id="ar" markerWidth="9" markerHeight="9" refX="6" refY="3" '
+            f'orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="{MUTE}"/></marker>'
+            f'<marker id="arr" markerWidth="9" markerHeight="9" refX="6" refY="3" '
+            f'orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="{RED}"/></marker></defs>\n'
+            f'<rect x="4" y="4" width="{w-8}" height="{h-8}" rx="14" fill="#ffffff" '
+            f'stroke="{BORDER}" stroke-width="2"/>\n{body}\n</svg>\n')
+
+
+def T(x, y, s, size=11, fill=NAVY, weight="400", anchor="start"):
+    return (f'<text x="{x}" y="{y}" font-size="{size}" fill="{fill}" '
+            f'font-weight="{weight}" text-anchor="{anchor}">{esc(s)}</text>')
+
+
+def box(x, y, w, h, fill="#ffffff", stroke=LINE, sw=1.4, rx=8):
+    return f'<rect x="{x}" y="{y}" width="{w}" height="{h}" rx="{rx}" fill="{fill}" stroke="{stroke}" stroke-width="{sw}"/>'
+
+
+def head(w, title, sub):
+    return (T(24, 36, title, 18, NAVY, "700") +
+            T(24, 55, sub, 11.5, SLATE))
+
+
+def footprint(cx, top, length, width, fill="#dbe4ef", stroke=LINE):
+    """Top-down footbed: forefoot ellipse + heel ellipse, toe at 'top'."""
+    fw, hw = width / 2, width / 2 * 0.72
+    fore_cy = top + length * 0.30
+    heel_cy = top + length * 0.82
+    s = (f'<ellipse cx="{cx}" cy="{fore_cy:.0f}" rx="{fw:.0f}" ry="{length*0.34:.0f}" '
+         f'fill="{fill}" stroke="{stroke}" stroke-width="1.3"/>'
+         f'<ellipse cx="{cx}" cy="{heel_cy:.0f}" rx="{hw:.0f}" ry="{length*0.26:.0f}" '
+         f'fill="{fill}" stroke="{stroke}" stroke-width="1.3"/>'
+         f'<rect x="{cx-hw:.0f}" y="{top+length*0.35:.0f}" width="{2*hw:.0f}" '
+         f'height="{length*0.34:.0f}" fill="{fill}"/>')
+    return s
+
+
+def zone_xy(cx, top, length, width, i):
+    xn, yn = XY[i]
+    sx = cx - width / 2 + xn * width
+    sy = top + (1 - yn) * length
+    return sx, sy
+
+
+def dots(cx, top, length, width, hot=None, r=6, color="#334155", label=False):
+    out = []
+    for i in range(8):
+        sx, sy = zone_xy(cx, top, length, width, i)
+        c = RED if i == hot else color
+        out.append(f'<circle cx="{sx:.0f}" cy="{sy:.0f}" r="{r}" fill="{c}" '
+                   f'stroke="#ffffff" stroke-width="1.2"/>')
+        if label:
+            out.append(T(sx + r + 2, sy + 3, ZONES[i], 8.5, MUTE))
+    return "".join(out)
+
+
+# ---------------------------------------------------------------- worn setup
+def g_physical():
+    w, h = 900, 560
+    b = [head(w, "How it's worn — electronics OFF the foot",
+              "An ankle pod carries the brain + battery; only paper-thin FSRs sit under the foot")]
+    # LEFT: schematic leg + pod + ribbon
+    b.append(box(30, 78, 300, 400, PANEL, BORDER, 1.6, 12))
+    b.append(T(46, 104, "Worn on the body", 12.5, NAVY, "700"))
+    # shin + foot (schematic)
+    b.append('<rect x="150" y="120" width="46" height="150" rx="16" fill="#e6ebf2" stroke="#94a3b8"/>')
+    b.append('<rect x="150" y="270" width="150" height="34" rx="14" fill="#e6ebf2" stroke="#94a3b8"/>')
+    b.append(T(230, 292, "foot", 9.5, MUTE, "400", "middle"))
+    # ankle pod
+    b.append(box(120, 150, 92, 74, "#ffffff", RED, 2, 10))
+    b.append(T(166, 170, "ANKLE POD", 10.5, RED, "700", "middle"))
+    b.append(T(166, 186, "ESP32-S3", 8.5, SLATE, "400", "middle"))
+    b.append(T(166, 198, "LiPo + microSD", 8.5, SLATE, "400", "middle"))
+    b.append(T(166, 210, "IMU (motion)", 8.5, SLATE, "400", "middle"))
+    # ribbon path pod -> under foot
+    b.append(f'<path d="M173 224 L173 258 Q173 286 210 288 L240 288" fill="none" '
+             f'stroke="{RED}" stroke-width="2.4" marker-end="url(#arr)"/>')
+    b.append(T(196, 250, "thin ribbon", 8.5, RED, "700"))
+    b.append(T(196, 262, "(only wire on you)", 8, MUTE))
+    # sensor dots under foot
+    for sx in (232, 252, 272):
+        b.append(f'<circle cx="{sx}" cy="303" r="4.5" fill="{NAVY}"/>')
+    b.append(T(300, 306, "FSRs", 8.5, MUTE))
+    b.append(T(46, 350, "• Nothing bulky underfoot — the sole", 10, SLATE))
+    b.append(T(46, 366, "  is paper-thin.", 10, SLATE))
+    b.append(T(46, 388, "• Pod straps at the ankle; the", 10, SLATE))
+    b.append(T(46, 404, "  ribbon is the only thing on the", 10, SLATE))
+    b.append(T(46, 420, "  foot besides the sensors.", 10, SLATE))
+    b.append(T(46, 448, "→ solves \"3D-print around the", 10.5, RED, "700"))
+    b.append(T(46, 464, "   electronics\": we don't.", 10.5, RED, "700"))
+
+    # MIDDLE: the sensor sole with 8 labeled zones
+    b.append(box(354, 78, 268, 400, "#ffffff", BORDER, 1.6, 12))
+    b.append(T(370, 104, "Sensor sole — 8 FSR zones", 12.5, NAVY, "700"))
+    cx, top, length, width = 488, 130, 300, 150
+    b.append(footprint(cx, top, length, width))
+    b.append(dots(cx, top, length, width, hot=None, r=7, label=True))
+    b.append(T(370, 460, "heel · midfoot · met heads · hallux · toes", 9.5, MUTE))
+
+    # RIGHT: swap sole barefoot vs shoe
+    b.append(box(646, 78, 224, 400, PANEL2, BORDER, 1.6, 12))
+    b.append(T(662, 104, "Swap the sole", 12.5, NAVY, "700"))
+    b.append(footprint(720, 130, 150, 78, "#dbe4ef"))
+    b.append(dots(720, 130, 150, 78, r=4.5, color="#475569"))
+    b.append(T(758, 210, "barefoot", 10, SLATE, "700"))
+    b.append(footprint(720, 300, 150, 78, "#e7d9c3"))
+    b.append(dots(720, 300, 150, 78, r=4.5, color="#7c5e33"))
+    b.append(T(758, 380, "in-shoe", 10, SLATE, "700"))
+    b.append(T(662, 430, "Same 8 sensors, two soles →", 9.5, SLATE))
+    b.append(T(662, 445, "compare shoe vs barefoot load.", 9.5, SLATE))
+    b.append(T(24, 528, "Electronics ride at the ankle; the foot only carries thin FSRs + one ribbon. "
+                        "Reprint the sole cheaply when it wears.", 10.5, MUTE))
+    return wrap(w, h, "\n".join(b),
+                "How the rig is worn: an ankle pod holds the ESP32, LiPo, microSD and IMU; a thin ribbon runs to a paper-thin sole with 8 FSRs; swap the sole for barefoot vs in-shoe.",
+                "Left: schematic leg with an ankle pod and ribbon to under-foot sensors. Middle: top-down sole with 8 labeled FSR zones. Right: barefoot vs in-shoe sole swap.")
+
+
+# ---------------------------------------------------------------- closed loop
+def g_pipeline():
+    w, h = 900, 470
+    b = [head(w, "Measure → design → print → re-measure (with real numbers)",
+              "The committed worked example, end to end — every box is a script you can run")]
+    steps = [
+        ("1 · Wear & log", "shoe + barefoot, all day\nFSR ×8 + IMU → microSD", PANEL2, LINE),
+        ("2 · calibrate.py", "known weights → F=a·G^b\nR² = 1.00 → real kPa", REDBG, RED),
+        ("3 · interpret.py", "heel_med 645 kPa (40%)\nmedial pronation · +13 pts shoe", PANEL2, LINE),
+        ("4 · build_insole.py", "aggressive heel relief +\nmedial post → .scad/.stl", REDBG, RED),
+        ("5 · H2D prints", "soft TPU 85A heel/relief\n+ firm TPU 95A shell", PANEL2, LINE),
+        ("6 · Re-measure", "did heel load drop?\niterate the window", GREENBG, GREEN),
+    ]
+    x0, y0, bw, bh, gap = 34, 92, 250, 92, 40
+    positions = [(x0, y0), (x0 + bw + gap, y0), (x0 + 2 * (bw + gap), y0),
+                 (x0 + 2 * (bw + gap), y0 + bh + 54), (x0 + bw + gap, y0 + bh + 54),
+                 (x0, y0 + bh + 54)]
+    for (px, py), (title, body, fill, stroke) in zip(positions, steps):
+        b.append(box(px, py, bw, bh, fill, stroke, 1.6, 10))
+        b.append(T(px + 14, py + 24, title, 12.5, NAVY, "700"))
+        for j, line in enumerate(body.split("\n")):
+            b.append(T(px + 14, py + 44 + j * 15, line, 9.5, SLATE))
+    # arrows along the S-path
+    def arrow(x1, y1, x2, y2):
+        return f'<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke="{MUTE}" stroke-width="1.8" marker-end="url(#ar)"/>'
+    b.append(arrow(x0 + bw + 6, y0 + bh / 2, x0 + bw + gap - 4, y0 + bh / 2))
+    b.append(arrow(x0 + 2 * bw + gap + 6, y0 + bh / 2, x0 + 2 * (bw + gap) - 4, y0 + bh / 2))
+    b.append(arrow(positions[2][0] + bw / 2, y0 + bh + 6, positions[3][0] + bw / 2, y0 + bh + 54 - 4))
+    b.append(arrow(positions[3][0] - 6, y0 + bh + 54 + bh / 2, positions[4][0] + bw + 4, y0 + bh + 54 + bh / 2))
+    b.append(arrow(positions[4][0] - 6, y0 + bh + 54 + bh / 2, positions[5][0] + bw + 4, y0 + bh + 54 + bh / 2))
+    # loop-back arrow 6 -> 1
+    b.append(f'<path d="M{x0+bw/2} {y0+bh+54} L{x0+bw/2} {y0+bh+30} L{x0+bw/2} {y0+bh+6}" '
+             f'fill="none" stroke="{GREEN}" stroke-width="1.8" marker-end="url(#ar)"/>')
+    b.append(T(x0 + bw / 2 + 8, y0 + bh + 24, "iterate", 9, GREEN, "700"))
+    b.append(T(24, 440, "Calibration is the hinge: raw FSRs are nonlinear — without it the hot spot reads wrong. "
+                        "With it, every number above is real kPa.", 10.5, MUTE))
+    return wrap(w, h, "\n".join(b),
+                "Closed loop with real worked-example numbers: wear & log, calibrate to kPa (R2=1.0), interpret (heel_med 645 kPa), build_insole.py, print on H2D, re-measure and iterate.",
+                "Six connected steps in an S-layout with a loop-back arrow, each labeled with the script and its output.")
+
+
+# ---------------------------------------------------------------- software
+def g_software():
+    w, h = 900, 520
+    b = [head(w, "The software — two modules from one sensor set",
+              "The same FSR + IMU logs (calibrated to kPa) drive foot-pressure AND balance analysis")]
+    b.append(box(24, 74, 150, 40, PANEL2, LINE, 1.4))
+    b.append(T(99, 92, "Logs on SD", 11, NAVY, "700", "middle"))
+    b.append(T(99, 106, "FSR×8 + IMU", 8, MUTE, "400", "middle"))
+    b.append(box(24, 128, 150, 40, REDBG, RED, 1.6))
+    b.append(T(99, 146, "calibrate.py", 11, NAVY, "700", "middle"))
+    b.append(T(99, 160, "ADC → kPa (R²=1.0)", 8, MUTE, "400", "middle"))
+    b.append(f'<path d="M174 148 L210 148 L210 210 L250 210" fill="none" stroke="{MUTE}" stroke-width="1.6" marker-end="url(#ar)"/>')
+    b.append(f'<path d="M174 148 L210 148 L210 360 L250 360" fill="none" stroke="{MUTE}" stroke-width="1.6" marker-end="url(#ar)"/>')
+
+    # PRESSURE module
+    b.append(box(250, 188, 620, 150, "#ffffff", BORDER, 1.6, 10))
+    b.append('<rect x="250" y="188" width="620" height="26" rx="10" fill="#0f172a"/>')
+    b.append(T(266, 206, "PRESSURE — foot pain / insole  (interpret.py)", 11.5, "#ffffff", "700"))
+    # mini heatmap footprint
+    cx, top, length, width = 320, 224, 100, 60
+    b.append(footprint(cx, top, length, width, "#e2e8f0"))
+    hm = zone_xy(cx, top, length, width, 0)
+    b.append(f'<circle cx="{hm[0]:.0f}" cy="{hm[1]:.0f}" r="22" fill="{RED}" opacity="0.75"/>')
+    b.append(f'<circle cx="{hm[0]:.0f}" cy="{hm[1]:.0f}" r="12" fill="{AMBER}" opacity="0.9"/>')
+    for i in (1, 3, 4, 5):
+        sx, sy = zone_xy(cx, top, length, width, i)
+        b.append(f'<circle cx="{sx:.0f}" cy="{sy:.0f}" r="7" fill="{BLUE}" opacity="0.55"/>')
+    b.append(T(cx, top + length + 16, "peak-pressure map", 8.5, MUTE, "400", "middle"))
+    metrics_p = ["peak · impulse (∫F·dt)", "center-of-pressure path", "medial/lateral · heel/forefoot",
+                 "loading rate · cadence", "barefoot vs shoe delta"]
+    for j, m in enumerate(metrics_p):
+        b.append(T(400, 236 + j * 17, "• " + m, 9.5, SLATE))
+    b.append(box(600, 224, 258, 96, PANEL, BORDER, 1.2))
+    b.append(T(614, 244, "Example (worked sample)", 9.5, NAVY, "700"))
+    b.append(T(614, 262, "heel_med hot spot — 40% of load", 9, SLATE))
+    b.append(T(614, 278, "medial 56% vs lateral 25%", 9, SLATE))
+    b.append(T(614, 294, "→ aggressive relief + medial post", 9.5, RED, "700"))
+    b.append(T(614, 310, "→ soft heel cushion", 9.5, RED, "700"))
+
+    # BALANCE module
+    b.append(box(250, 350, 620, 150, "#ffffff", BORDER, 1.6, 10))
+    b.append('<rect x="250" y="350" width="620" height="26" rx="10" fill="#0f172a"/>')
+    b.append(T(266, 368, "BALANCE — stability / fall risk  (balance.py)", 11.5, "#ffffff", "700"))
+    # sway ellipses
+    ex, ey = 320, 432
+    b.append(f'<ellipse cx="{ex}" cy="{ey}" rx="34" ry="24" fill="none" stroke="{RED}" stroke-width="1.8" stroke-dasharray="4 3"/>')
+    b.append(f'<ellipse cx="{ex}" cy="{ey}" rx="15" ry="11" fill="none" stroke="{GREEN}" stroke-width="1.8"/>')
+    b.append(f'<circle cx="{ex}" cy="{ey}" r="2" fill="{NAVY}"/>')
+    b.append(T(ex, ey + 44, "sway ellipse", 8.5, MUTE, "400", "middle"))
+    b.append(T(ex - 40, ey - 30, "eyes-closed", 8, RED, "700"))
+    b.append(T(ex + 20, ey + 2, "eyes-open", 8, GREEN, "700"))
+    metrics_b = ["95% sway-ellipse area", "path length · velocity", "ML vs AP direction",
+                 "trunk sway (IMU)", "Romberg quotient (EC/EO)"]
+    for j, m in enumerate(metrics_b):
+        b.append(T(400, 398 + j * 17, "• " + m, 9.5, SLATE))
+    b.append(box(600, 386, 258, 96, PANEL, BORDER, 1.2))
+    b.append(T(614, 406, "Example (worked sample)", 9.5, NAVY, "700"))
+    b.append(T(614, 424, "eyes-open 211 mm² → closed 770 mm²", 9, SLATE))
+    b.append(T(614, 440, "Romberg = 3.6  (>2 = vision-reliant)", 9, SLATE))
+    b.append(T(614, 456, "→ lateral support · balance cues", 9.5, RED, "700"))
+    b.append(T(614, 472, "→ fall-risk screen", 9.5, RED, "700"))
+    return wrap(w, h, "\n".join(b),
+                "Two software modules from one sensor set: pressure (interpret.py) yields a hot-spot map and insole directives; balance (balance.py) yields sway metrics, Romberg and fall-risk flags. Example values from the worked sample.",
+                "Top branch pressure module with a mini heatmap and example directives; bottom branch balance module with sway ellipses and Romberg example.")
+
+
+# ---------------------------------------------------------------- day in life
+def g_day():
+    w, h = 900, 470
+    b = [head(w, "A day of use — lifespans & battery",
+              "Strap on in the morning, log through the day, offload + recharge at night")]
+    # timeline
+    tx0, tx1, ty = 60, 840, 150
+    hours = [(0, "7a"), (1/6, "9a"), (2/6, "12p"), (3/6, "3p"), (4/6, "6p"), (5/6, "9p"), (1, "7a")]
+    b.append(f'<line x1="{tx0}" y1="{ty}" x2="{tx1}" y2="{ty}" stroke="{LINE}" stroke-width="2"/>')
+    for f, lab in hours:
+        x = tx0 + f * (tx1 - tx0)
+        b.append(f'<line x1="{x:.0f}" y1="{ty-5}" x2="{x:.0f}" y2="{ty+5}" stroke="{LINE}" stroke-width="2"/>')
+        b.append(T(x, ty + 20, lab, 9, MUTE, "400", "middle"))
+    # wear span
+    ws, we = tx0 + 0 * (tx1 - tx0), tx0 + (5/6) * (tx1 - tx0)
+    b.append(f'<rect x="{ws:.0f}" y="{ty-34}" width="{we-ws:.0f}" height="20" rx="6" fill="{BLUEBG}" stroke="{BLUE}"/>')
+    b.append(T((ws + we) / 2, ty - 20, "wear + log  (shoe & barefoot)  ~8–14 h", 9.5, BLUE, "700", "middle"))
+    # markers
+    def marker(f, label, sub, color):
+        x = tx0 + f * (tx1 - tx0)
+        return (f'<circle cx="{x:.0f}" cy="{ty}" r="5" fill="{color}"/>' +
+                T(x, ty + 42, label, 9.5, NAVY, "700", "middle") +
+                T(x, ty + 56, sub, 8.5, MUTE, "400", "middle"))
+    b.append(marker(0, "strap on", "pod at ankle", RED))
+    b.append(marker(2.5/6, "30 s balance", "eyes open/closed", GREEN))
+    b.append(marker(5/6, "pull microSD", "→ analyze", RED))
+    b.append(marker(1, "recharge", "overnight", AMBER))
+    # battery bar
+    b.append(T(60, 235, "Battery (1000–1500 mAh)", 11, NAVY, "700"))
+    b.append(box(60, 245, 640, 26, "#ffffff", LINE, 1.4, 6))
+    b.append(f'<rect x="62" y="247" width="{640*0.62:.0f}" height="22" rx="5" fill="{GREEN}"/>')
+    b.append(f'<rect x="{62+640*0.62:.0f}" y="247" width="{640*0.20:.0f}" height="22" rx="0" fill="{AMBER}"/>')
+    b.append(f'<rect x="{62+640*0.82:.0f}" y="247" width="{640*0.18:.0f}" height="22" fill="#fee2e2"/>')
+    b.append(T(80, 262, "100% morning", 9, "#ffffff", "700"))
+    b.append(T(560, 262, "~20% by 9p", 9, "#7c2d12", "700"))
+    b.append(T(715, 262, "then recharge", 9, "#7c2d12", "700"))
+    # lifespan chips
+    chips = [
+        ("Battery", "~8–14 h / charge → a waking day", GREEN),
+        ("microSD", "offload nightly · ~unlimited", BLUE),
+        ("Barefoot sole", "weeks–months · cheap to reprint", AMBER),
+        ("Ankle pod (PLA/PETG)", "indefinite", MUTE),
+        ("FSRs", "recalibrate / swap over months", RED),
+        ("Final insole (TPU)", "months · reprint to re-tune", NAVY),
+    ]
+    cx0, cy0, cw, ch, gx, gy = 60, 300, 250, 46, 20, 14
+    for i, (name, life, color) in enumerate(chips):
+        px = cx0 + (i % 3) * (cw + gx)
+        py = cy0 + (i // 3) * (ch + gy)
+        b.append(box(px, py, cw, ch, PANEL, BORDER, 1.2, 8))
+        b.append(f'<rect x="{px}" y="{py}" width="5" height="{ch}" rx="2" fill="{color}"/>')
+        b.append(T(px + 14, py + 19, name, 10, NAVY, "700"))
+        b.append(T(px + 14, py + 35, life, 9, SLATE))
+    b.append(T(24, 440, "The rig doesn't need literal 24/7 wear — a waking day per charge is plenty to trend load & sway; "
+                        "recharge while you sleep.", 10.5, MUTE))
+    return wrap(w, h, "\n".join(b),
+                "A day of use: strap on in the morning, wear and log shoe and barefoot for 8-14 hours, run a 30-second balance test, pull the microSD at night to analyze, and recharge overnight. Plus per-piece lifespans.",
+                "A 24-hour timeline with a wear span and markers, a battery drain bar, and six lifespan chips.")
+
+
+# ---------------------------------------------------------------- balance detail
+def g_balance():
+    w, h = 900, 480
+    b = [head(w, "Balance module — a wearable posturography lab",
+              "For balance issues, not just foot pain: the same rig screens stability & fall risk")]
+    # standing figure with COP
+    b.append(box(30, 78, 250, 372, PANEL, BORDER, 1.6, 12))
+    b.append(T(46, 104, "Quiet standing", 12.5, NAVY, "700"))
+    # simple figure
+    b.append(f'<circle cx="155" cy="150" r="16" fill="#cbd5e1"/>')
+    b.append(f'<rect x="140" y="168" width="30" height="70" rx="10" fill="#cbd5e1"/>')
+    b.append(f'<rect x="146" y="238" width="10" height="60" fill="#cbd5e1"/>')
+    b.append(f'<rect x="158" y="238" width="10" height="60" fill="#cbd5e1"/>')
+    b.append(footprint(140, 300, 60, 34, "#dbe4ef"))
+    b.append(footprint(178, 300, 60, 34, "#dbe4ef"))
+    # sway trace under feet
+    b.append(f'<path d="M150 335 q8 -6 14 2 q-10 8 -4 14 q12 -2 6 10" fill="none" stroke="{RED}" stroke-width="1.6"/>')
+    b.append(T(46, 380, "IMU adds trunk sway;", 9.5, SLATE))
+    b.append(T(46, 395, "FSR center-of-pressure", 9.5, SLATE))
+    b.append(T(46, 410, "traces the body's sway.", 9.5, SLATE))
+    b.append(T(46, 434, "30 s per condition.", 9.5, MUTE))
+
+    # sway ellipses eyes open vs closed
+    b.append(box(300, 78, 300, 372, "#ffffff", BORDER, 1.6, 12))
+    b.append(T(316, 104, "Sway area — eyes open vs closed", 12, NAVY, "700"))
+    ecx, ecy = 450, 250
+    # grid
+    b.append(f'<line x1="{ecx}" y1="140" x2="{ecx}" y2="380" stroke="{BORDER}"/>')
+    b.append(f'<line x1="330" y1="{ecy}" x2="570" y2="{ecy}" stroke="{BORDER}"/>')
+    b.append(f'<ellipse cx="{ecx}" cy="{ecy}" rx="96" ry="70" fill="{REDBG}" stroke="{RED}" stroke-width="2" stroke-dasharray="5 4"/>')
+    b.append(f'<ellipse cx="{ecx}" cy="{ecy}" rx="46" ry="34" fill="{GREENBG}" stroke="{GREEN}" stroke-width="2"/>')
+    b.append(T(ecx, ecy + 3, "COP", 8.5, NAVY, "400", "middle"))
+    b.append(T(ecx + 100, ecy - 60, "eyes-closed", 9.5, RED, "700", "end"))
+    b.append(T(ecx + 100, ecy - 46, "770 mm²", 9, RED, "400", "end"))
+    b.append(T(ecx + 50, ecy + 50, "eyes-open", 9.5, GREEN, "700"))
+    b.append(T(ecx + 50, ecy + 64, "211 mm²", 9, GREEN, "400"))
+    b.append(T(336, 400, "ML →", 9, MUTE))
+    b.append(T(ecx + 6, 152, "AP", 9, MUTE))
+
+    # metrics + Romberg + directives
+    b.append(box(620, 78, 250, 372, PANEL, BORDER, 1.6, 12))
+    b.append(T(636, 104, "What it reports", 12.5, NAVY, "700"))
+    ms = ["95% sway-ellipse area (mm²)", "path length + mean velocity", "ML vs AP dominance",
+          "trunk-sway RMS (IMU)", "fall-risk flags"]
+    for j, m in enumerate(ms):
+        b.append(T(636, 130 + j * 18, "• " + m, 9.5, SLATE))
+    b.append(box(636, 228, 218, 60, "#ffffff", RED, 1.8, 8))
+    b.append(T(745, 250, "Romberg = 3.6", 13, NAVY, "700", "middle"))
+    b.append(T(745, 268, "eyes-closed ÷ eyes-open area", 8.5, MUTE, "400", "middle"))
+    b.append(T(745, 281, ">2 → strong reliance on vision", 8.5, RED, "700", "middle"))
+    b.append(T(636, 316, "→ device class:", 10.5, NAVY, "700"))
+    for j, d in enumerate(["lateral-support insole / wider base",
+                           "balance-training cues", "monitor trend over weeks"]):
+        b.append(T(636, 336 + j * 17, "• " + d, 9.5, SLATE))
+    b.append(T(636, 410, "A screening / training aid,", 9, MUTE))
+    b.append(T(636, 424, "not a diagnosis.", 9, MUTE))
+    b.append(T(24, 466, "Same ~$100 rig, second capability: what a clinical posturography plate measures — sway area, "
+                        "velocity, Romberg — worn, all day.", 10.5, MUTE))
+    return wrap(w, h, "\n".join(b),
+                "Balance module detail: a standing figure with center-of-pressure sway, an eyes-open vs eyes-closed sway-ellipse comparison (211 vs 770 mm2), the Romberg quotient (3.6, vision-reliant), and the resulting device directives.",
+                "Three panels: standing figure with COP trace, sway-ellipse comparison, and a metrics/Romberg/directives panel.")
+
+
+def main():
+    for name, fn in [("physical_setup", g_physical), ("pipeline", g_pipeline),
+                     ("software_metrics", g_software), ("day_in_the_life", g_day),
+                     ("balance_detail", g_balance)]:
+        with open(os.path.join(HERE, f"{name}.svg"), "w", encoding="utf-8") as f:
+            f.write(fn())
+        print(f"-> {name}.svg")
+
+
+if __name__ == "__main__":
+    main()
