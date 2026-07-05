@@ -18,6 +18,8 @@ scans/
 *.stl
 *.obj
 *.ply
+# ...but DO ship the small printable models (rendered from hardware/*.scad)
+!hardware/*.stl
 
 # Arduino / PlatformIO build
 firmware/**/build/

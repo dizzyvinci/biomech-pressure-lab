@@ -1,17 +1,21 @@
 # hardware — the printable 3D models
 
-Parametric **OpenSCAD** source (the print-ready models). OpenSCAD is free; STL is one click.
+Parametric **OpenSCAD** source **plus pre-rendered STLs** — ready to slice today.
 
-| File | Print in | What |
-|---|---|---|
-| [`ankle_pod.scad`](ankle_pod.scad) | PLA / PETG | Enclosure for ESP32-S3 + LiPo + microSD; USB-C + button + ribbon cutouts + strap slots |
-| [`barefoot_sole.scad`](barefoot_sole.scad) | **soft TPU 85A** | Thin footbed with 8 FSR pockets + wire channels + strap slots |
+| Source | STL (ready to slice) | Preview | Print in | What |
+|---|---|---|---|---|
+| [`ankle_pod.scad`](ankle_pod.scad) | [`ankle_pod.stl`](ankle_pod.stl) | ![ankle pod](ankle_pod.png) | PLA / PETG | Enclosure for ESP32-S3 + LiPo + microSD; USB-C + button + ribbon cutouts + strap slots |
+| [`barefoot_sole.scad`](barefoot_sole.scad) | [`barefoot_sole.stl`](barefoot_sole.stl) | ![barefoot sole](barefoot_sole.png) | **soft TPU 85A** | Thin footbed with 8 FSR pockets + wire channels + strap slots |
 
-## Get STLs (2 minutes)
+## Print now (STLs are committed)
+The `.stl` files above are already rendered at the default parameters — **drop them straight into Bambu Studio and slice.** No OpenSCAD needed unless you want to customize.
+
+## Customize + re-export (2 minutes)
 1. Install **[OpenSCAD](https://openscad.org/downloads.html)** (free, Win/Mac/Linux).
 2. Open a `.scad` file.
 3. **Edit the parameters at the top** to your parts (measure your board / your foot).
 4. Press **F6** (full render) → **File ▸ Export ▸ Export as STL**.
+   *(CLI equivalent: `openscad -o ankle_pod.stl ankle_pod.scad`)*
 5. Slice in **Bambu Studio** and print.
 
 ## Print settings (starting points)
