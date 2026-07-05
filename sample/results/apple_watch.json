@@ -1,0 +1,15 @@
+{
+  "metrics": {
+    "steadiness_pct": 42.0,
+    "asymmetry_pct": 14.0,
+    "double_support_pct": 31.5,
+    "speed_mps": 0.92,
+    "step_length_cm": 53.0
+  },
+  "steadiness_band": "Low",
+  "low_events": 1,
+  "agreements": [
+    "asymmetry",
+    "fall_risk"
+  ]
+}

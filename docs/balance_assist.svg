@@ -1,0 +1,28 @@
+<svg viewBox="0 0 900 470" xmlns="http://www.w3.org/2000/svg" role="img" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif">
+<title>A balance-assist ecosystem: SENSE (insole FSR+IMU, Apple Watch gait, smart-walker handle load) feeds DECIDE (balance/fall-risk + freezing-of-gait detection), which drives ASSIST (Parkinson's cueing glasses with lines/metronome, smart-walker adaptive brake + alert, haptic buzz).</title>
+<desc>Three columns Sense/Decide/Assist with nodes and arrows; the freezing-of-gait path to the cue glasses is highlighted.</desc>
+<defs><marker id="ar" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#64748b"/></marker><marker id="arr" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#e11d48"/></marker></defs>
+<rect x="4" y="4" width="892" height="462" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"/>
+<text x="24" y="36" font-size="18" fill="#0f172a" font-weight="700" text-anchor="start">Balance-assist ecosystem — sense → decide → assist</text><text x="24" y="55" font-size="11.5" fill="#475569" font-weight="400" text-anchor="start">The insole senses; it closes the loop with devices people already use</text>
+<text x="140" y="92" font-size="12" fill="#64748b" font-weight="700" text-anchor="middle">SENSE</text>
+<text x="460" y="92" font-size="12" fill="#64748b" font-weight="700" text-anchor="middle">DECIDE</text>
+<text x="770" y="92" font-size="12" fill="#64748b" font-weight="700" text-anchor="middle">ASSIST</text>
+<rect x="34" y="108" width="210" height="58" rx="9" fill="#eff6ff" stroke="#2563eb" stroke-width="1.6"/><text x="46" y="130" font-size="11" fill="#0f172a" font-weight="700" text-anchor="start">Insole (FSR + IMU)</text><text x="46" y="147" font-size="8.5" fill="#64748b" font-weight="400" text-anchor="start">645 kPa · sway · Romberg</text>
+<rect x="34" y="180" width="210" height="58" rx="9" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.6"/><text x="46" y="202" font-size="11" fill="#0f172a" font-weight="700" text-anchor="start">Apple Watch</text><text x="46" y="219" font-size="8.5" fill="#64748b" font-weight="400" text-anchor="start">steadiness Low (42%)</text>
+<rect x="34" y="252" width="210" height="58" rx="9" fill="#fff7ed" stroke="#f59e0b" stroke-width="1.6"/><text x="46" y="274" font-size="11" fill="#0f172a" font-weight="700" text-anchor="start">Smart walker</text><text x="46" y="291" font-size="8.5" fill="#64748b" font-weight="400" text-anchor="start">handle load · 3 grabs</text>
+<rect x="370" y="120" width="190" height="66" rx="9" fill="#ffffff" stroke="#0f172a" stroke-width="1.6"/><text x="382" y="142" font-size="11" fill="#0f172a" font-weight="700" text-anchor="start">Balance + fall-risk</text><text x="382" y="159" font-size="8.5" fill="#64748b" font-weight="400" text-anchor="start">mCTSIB · single-leg · LOS</text>
+<rect x="370" y="210" width="190" height="66" rx="9" fill="#fdecef" stroke="#e11d48" stroke-width="1.6"/><text x="382" y="232" font-size="11" fill="#0f172a" font-weight="700" text-anchor="start">Freezing-of-gait</text><text x="382" y="249" font-size="8.5" fill="#64748b" font-weight="400" text-anchor="start">Freeze Index (3-8/0.5-3 Hz)</text>
+<rect x="656" y="108" width="214" height="58" rx="9" fill="#fdecef" stroke="#e11d48" stroke-width="1.6"/><text x="668" y="130" font-size="11" fill="#0f172a" font-weight="700" text-anchor="start">Parkinson's cue glasses</text><text x="668" y="147" font-size="8.5" fill="#64748b" font-weight="400" text-anchor="start">lines + metronome @110</text>
+<rect x="656" y="180" width="214" height="58" rx="9" fill="#fff7ed" stroke="#f59e0b" stroke-width="1.6"/><text x="668" y="202" font-size="11" fill="#0f172a" font-weight="700" text-anchor="start">Smart walker</text><text x="668" y="219" font-size="8.5" fill="#64748b" font-weight="400" text-anchor="start">adaptive brake + alert</text>
+<rect x="656" y="252" width="214" height="58" rx="9" fill="#eef2f7" stroke="#94a3b8" stroke-width="1.6"/><text x="668" y="274" font-size="11" fill="#0f172a" font-weight="700" text-anchor="start">Haptic buzz</text><text x="668" y="291" font-size="8.5" fill="#64748b" font-weight="400" text-anchor="start">pod / watch</text>
+<line x1="244" y1="137" x2="366" y2="170" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar)"/>
+<line x1="244" y1="209" x2="366" y2="170" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar)"/>
+<line x1="244" y1="281" x2="366" y2="243" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar)"/>
+<line x1="560" y1="153" x2="652" y2="137" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar)"/>
+<line x1="560" y1="243" x2="652" y2="209" stroke="#e11d48" stroke-width="1.8" marker-end="url(#arr)"/>
+<line x1="560" y1="243" x2="652" y2="281" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar)"/>
+<line x1="465" y1="186" x2="465" y2="210" stroke="#64748b" stroke-width="1.4" marker-end="url(#ar)"/>
+<text x="24" y="360" font-size="10" fill="#475569" font-weight="400" text-anchor="start">Worked example: 2 freezes → 10 cue events (lines + metronome + buzz); walker 3 grabs → brake+alert; Apple steadiness Low corroborates the insole's fall-risk.</text>
+<text x="24" y="384" font-size="10" fill="#64748b" font-weight="400" text-anchor="start">What's built = the algorithms + data contracts (cue-event / telemetry JSON). The last hop is a thin BLE/serial transport the device defines.</text>
+<text x="24" y="430" font-size="9.5" fill="#64748b" font-weight="400" text-anchor="start">Freezing-of-gait cueing and walker braking are assistive prototypes — not a medical device; pair with a clinician.</text>
+</svg>

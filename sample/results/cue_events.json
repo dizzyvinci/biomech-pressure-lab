@@ -1,0 +1,75 @@
+{
+  "metronome_bpm": 110,
+  "events": [
+    {
+      "t": 13.0,
+      "channel": "visual_lines",
+      "action": "on",
+      "params": {
+        "spacing_cm": 40,
+        "note": "AR floor-lines / laser to step over"
+      }
+    },
+    {
+      "t": 13.0,
+      "channel": "metronome",
+      "action": "start",
+      "params": {
+        "bpm": 110
+      }
+    },
+    {
+      "t": 13.0,
+      "channel": "haptic",
+      "action": "buzz",
+      "params": {
+        "ms": 300
+      }
+    },
+    {
+      "t": 17.5,
+      "channel": "visual_lines",
+      "action": "off"
+    },
+    {
+      "t": 17.5,
+      "channel": "metronome",
+      "action": "stop"
+    },
+    {
+      "t": 27.0,
+      "channel": "visual_lines",
+      "action": "on",
+      "params": {
+        "spacing_cm": 40,
+        "note": "AR floor-lines / laser to step over"
+      }
+    },
+    {
+      "t": 27.0,
+      "channel": "metronome",
+      "action": "start",
+      "params": {
+        "bpm": 110
+      }
+    },
+    {
+      "t": 27.0,
+      "channel": "haptic",
+      "action": "buzz",
+      "params": {
+        "ms": 300
+      }
+    },
+    {
+      "t": 31.5,
+      "channel": "visual_lines",
+      "action": "off"
+    },
+    {
+      "t": 31.5,
+      "channel": "metronome",
+      "action": "stop"
+    }
+  ]
+}

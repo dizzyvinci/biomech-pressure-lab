@@ -45,6 +45,10 @@ The **balance module** in depth — posturography, Romberg, fall-risk → device
 
 ![Balance across positions](docs/balance_positions.svg)
 
+**Balance-assist ecosystem** — syncs with **Apple Watch**, **Parkinson's cueing glasses** (freezing-of-gait → floor-lines/metronome), and **smart walkers** ([balance_assist.md](docs/balance_assist.md), [integrations/](integrations/README.md)):
+
+![Balance-assist ecosystem](docs/balance_assist.svg)
+
 > 🧭 **Also:** a new [**balance module**](docs/balance.md) (posturography — sway, Romberg quotient, fall-risk flags) turns the same rig into a stability screen for balance issues, not just foot pain. And [**prototype_status.md**](docs/prototype_status.md) is the "is it ready to build/pitch?" summary + the ordered-vs-printed BOM. Print models + STL export: [hardware/](hardware/README.md).
 
 ### ▶️ See it work — no hardware needed

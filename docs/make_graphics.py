@@ -435,10 +435,56 @@ def g_balance_positions():
                 "Left: mCTSIB 2x2 grid of sway. Right: sensory ratios, single-leg bars, and an LOS reach cross.")
 
 
+def g_balance_assist():
+    w, h = 900, 470
+    b = [head(w, "Balance-assist ecosystem — sense → decide → assist",
+              "The insole senses; it closes the loop with devices people already use")]
+    for x, lab in [(140, "SENSE"), (460, "DECIDE"), (770, "ASSIST")]:
+        b.append(T(x, 92, lab, 12, MUTE, "700", "middle"))
+
+    def node(x, y, ww, hh, title, note, fill, stroke):
+        return (box(x, y, ww, hh, fill, stroke, 1.6, 9) +
+                T(x + 12, y + 22, title, 11, NAVY, "700") +
+                T(x + 12, y + 39, note, 8.5, MUTE))
+    # SENSE
+    S = [(108, "Insole (FSR + IMU)", "645 kPa · sway · Romberg", BLUEBG, BLUE),
+         (180, "Apple Watch", "steadiness Low (42%)", GREENBG, GREEN),
+         (252, "Smart walker", "handle load · 3 grabs", "#fff7ed", AMBER)]
+    for y, t1, t2, f, s in S:
+        b.append(node(34, y, 210, 58, t1, t2, f, s))
+    # DECIDE
+    b.append(node(370, 120, 190, 66, "Balance + fall-risk", "mCTSIB · single-leg · LOS", "#ffffff", NAVY))
+    b.append(node(370, 210, 190, 66, "Freezing-of-gait", "Freeze Index (3-8/0.5-3 Hz)", REDBG, RED))
+    # ASSIST
+    A = [(108, "Parkinson's cue glasses", "lines + metronome @110", REDBG, RED),
+         (180, "Smart walker", "adaptive brake + alert", "#fff7ed", AMBER),
+         (252, "Haptic buzz", "pod / watch", PANEL2, LINE)]
+    for y, t1, t2, f, s in A:
+        b.append(node(656, y, 214, 58, t1, t2, f, s))
+    # arrows: sense -> decide hub, decide -> assist
+    for y in (137, 209, 281):
+        b.append(f'<line x1="244" y1="{y}" x2="366" y2="{170 if y<230 else 243}" stroke="{MUTE}" stroke-width="1.5" marker-end="url(#ar)"/>')
+    b.append(f'<line x1="560" y1="153" x2="652" y2="137" stroke="{MUTE}" stroke-width="1.5" marker-end="url(#ar)"/>')
+    b.append(f'<line x1="560" y1="243" x2="652" y2="209" stroke="{RED}" stroke-width="1.8" marker-end="url(#arr)"/>')
+    b.append(f'<line x1="560" y1="243" x2="652" y2="281" stroke="{MUTE}" stroke-width="1.5" marker-end="url(#ar)"/>')
+    b.append(f'<line x1="465" y1="186" x2="465" y2="210" stroke="{MUTE}" stroke-width="1.4" marker-end="url(#ar)"/>')
+
+    b.append(T(24, 360, "Worked example: 2 freezes → 10 cue events (lines + metronome + buzz); "
+                        "walker 3 grabs → brake+alert; Apple steadiness Low corroborates the insole's fall-risk.", 10, SLATE))
+    b.append(T(24, 384, "What's built = the algorithms + data contracts (cue-event / telemetry JSON). "
+                        "The last hop is a thin BLE/serial transport the device defines.", 10, MUTE))
+    b.append(T(24, 430, "Freezing-of-gait cueing and walker braking are assistive prototypes — not a medical device; pair with a clinician.",
+               9.5, MUTE))
+    return wrap(w, h, "\n".join(b),
+                "A balance-assist ecosystem: SENSE (insole FSR+IMU, Apple Watch gait, smart-walker handle load) feeds DECIDE (balance/fall-risk + freezing-of-gait detection), which drives ASSIST (Parkinson's cueing glasses with lines/metronome, smart-walker adaptive brake + alert, haptic buzz).",
+                "Three columns Sense/Decide/Assist with nodes and arrows; the freezing-of-gait path to the cue glasses is highlighted.")
+
+
 def main():
     for name, fn in [("physical_setup", g_physical), ("pipeline", g_pipeline),
                      ("software_metrics", g_software), ("day_in_the_life", g_day),
-                     ("balance_detail", g_balance), ("balance_positions", g_balance_positions)]:
+                     ("balance_detail", g_balance), ("balance_positions", g_balance_positions),
+                     ("balance_assist", g_balance_assist)]:
         with open(os.path.join(HERE, f"{name}.svg"), "w", encoding="utf-8") as f:
             f.write(fn())
         print(f"-> {name}.svg")

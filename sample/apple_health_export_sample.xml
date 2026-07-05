@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Trimmed sample of an Apple Health export (Health app -> Profile -> Export All Health Data
+     -> export.xml). Only the gait/steadiness records the adapter uses are kept. Synthetic. -->
+<HealthData locale="en_US">
+  <ExportDate value="2026-07-05 09:00:00 -0500"/>
+  <Record type="HKQuantityTypeIdentifierAppleWalkingSteadiness" sourceName="Apple Watch" unit="%" startDate="2026-06-28 08:12:00 -0500" endDate="2026-06-28 08:12:00 -0500" value="47"/>
+  <Record type="HKQuantityTypeIdentifierAppleWalkingSteadiness" sourceName="Apple Watch" unit="%" startDate="2026-07-02 09:03:00 -0500" endDate="2026-07-02 09:03:00 -0500" value="42"/>
+  <Record type="HKQuantityTypeIdentifierWalkingAsymmetryPercentage" sourceName="iPhone" unit="%" startDate="2026-07-02 09:03:00 -0500" endDate="2026-07-02 09:05:00 -0500" value="14"/>
+  <Record type="HKQuantityTypeIdentifierWalkingDoubleSupportPercentage" sourceName="iPhone" unit="%" startDate="2026-07-02 09:03:00 -0500" endDate="2026-07-02 09:05:00 -0500" value="31.5"/>
+  <Record type="HKQuantityTypeIdentifierWalkingSpeed" sourceName="iPhone" unit="m/s" startDate="2026-07-02 09:03:00 -0500" endDate="2026-07-02 09:05:00 -0500" value="0.92"/>
+  <Record type="HKQuantityTypeIdentifierWalkingStepLength" sourceName="iPhone" unit="cm" startDate="2026-07-02 09:03:00 -0500" endDate="2026-07-02 09:05:00 -0500" value="53"/>
+  <Record type="HKCategoryTypeIdentifierAppleWalkingSteadinessEvent" sourceName="Apple Watch" startDate="2026-07-02 09:03:00 -0500" endDate="2026-07-02 09:03:00 -0500" value="HKCategoryValueAppleWalkingSteadinessEventLow"/>
+</HealthData>

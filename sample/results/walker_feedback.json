@@ -1,0 +1,85 @@
+{
+  "support_pct_mean": 16.3,
+  "trend_pct": 3.4,
+  "handle_lean": "left",
+  "asymmetry_pct": 12.1,
+  "grabs": [
+    [
+      10.0,
+      11.5
+    ],
+    [
+      22.0,
+      23.5
+    ],
+    [
+      33.0,
+      34.5
+    ]
+  ],
+  "feedback": [
+    {
+      "t": 10.0,
+      "channel": "brake",
+      "action": "engage",
+      "params": {
+        "level": "high"
+      }
+    },
+    {
+      "t": 10.0,
+      "channel": "alert",
+      "action": "notify",
+      "params": {
+        "msg": "steady \u2014 weight forward onto your feet"
+      }
+    },
+    {
+      "t": 11.5,
+      "channel": "brake",
+      "action": "release"
+    },
+    {
+      "t": 22.0,
+      "channel": "brake",
+      "action": "engage",
+      "params": {
+        "level": "high"
+      }
+    },
+    {
+      "t": 22.0,
+      "channel": "alert",
+      "action": "notify",
+      "params": {
+        "msg": "steady \u2014 weight forward onto your feet"
+      }
+    },
+    {
+      "t": 23.5,
+      "channel": "brake",
+      "action": "release"
+    },
+    {
+      "t": 33.0,
+      "channel": "brake",
+      "action": "engage",
+      "params": {
+        "level": "high"
+      }
+    },
+    {
+      "t": 33.0,
+      "channel": "alert",
+      "action": "notify",
+      "params": {
+        "msg": "steady \u2014 weight forward onto your feet"
+      }
+    },
+    {
+      "t": 34.5,
+      "channel": "brake",
+      "action": "release"
+    }
+  ]
+}
