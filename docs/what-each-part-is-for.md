@@ -40,3 +40,22 @@ Flagging these so you don't think they're required for the insole build — **pr
 - **Amazon — any pre-existing item(s)** in the cart from before. *(Not this project.)*
 
 **Rule of thumb:** if it's in the tables *above*, it's part of the insole build. If it's in *this* section, it's something else riding along in your cart.
+
+---
+
+## 🧴 CHEEQ project — separate build (tagged, NOT the foot lab)
+> Belongs to a **different repo, [dizzyvinci/cheeq](https://github.com/dizzyvinci/cheeq)** — a soft, skin-like **cheek model** made by **silicone casting**. Listed here only so it isn't confused with the insole shopping. **None of this is needed for the foot/insole build.**
+
+**The stack:** `Dragon Skin FX-Pro skin (1.5–2 mm) → Slacker-deadened gel "fat" → Ecoflex Gel deep cushion → firm backing`, cast off a real cheek for true pores.
+
+| Part | What it's for | Buy |
+|---|---|---|
+| **Dragon Skin FX-Pro** (Smooth-On) | The thin skin layer (tint to skin tone) | [smooth-on](https://www.smooth-on.com/products/dragon-skin-fx-pro/) |
+| **Slacker** (Smooth-On) | Deadener — mixed into the gel to make the "fat" floppy/soft | [smooth-on](https://www.smooth-on.com/products/slacker/) |
+| **Ecoflex GEL** (Smooth-On) | The soft gel deep cushion (Technogel alt) | [smooth-on](https://www.smooth-on.com/products/ecoflex-gel/) |
+| **Body Double** (skin-safe mold silicone) | Life-cast a real cheek for true pores | [smooth-on](https://www.smooth-on.com/products/body-double-standard/) |
+| **Silc Pig** flesh pigments | Color the skin + fat | [smooth-on](https://www.smooth-on.com/products/silc-pig/) |
+| **Ease Release 200 + gram scale + mixing cups + gloves** | Casting supplies | smooth-on / Amazon |
+| **PLA / PETG** (optional) | Firm backing, or a printed mold, on the H2D | Bambu |
+
+**Vendor:** almost all **Smooth-On** ([smooth-on.com](https://www.smooth-on.com/)) — a *separate order* from the foot parts. **Tag: CHEEQ.**

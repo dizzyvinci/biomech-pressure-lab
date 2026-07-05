@@ -51,3 +51,20 @@ Both paths share the same **electronics rig** (you need the sensors either way).
 - **Want to iterate the insole + reuse the printer** (Cheeq molds, enclosures, everything else) → **Path B**.
 
 You can always **start with Path A** to find your hot spot, then move to Path B only if you decide to fabricate/iterate yourself.
+
+---
+
+## 🧴 CHEEQ project (tagged — SEPARATE, not the foot lab)
+> A different project ([dizzyvinci/cheeq](https://github.com/dizzyvinci/cheeq)) — a silicone cheek model. Here only so its parts aren't mixed with the insole shopping. **Not needed for the foot build.**
+
+| Part | Buy | Note |
+|---|---|---|
+| **Dragon Skin FX-Pro** (skin) | [smooth-on](https://www.smooth-on.com/products/dragon-skin-fx-pro/) | Thin skin layer |
+| **Slacker** (deadener) | [smooth-on](https://www.smooth-on.com/products/slacker/) | Softens the gel "fat" |
+| **Ecoflex GEL** (soft cushion) | [smooth-on](https://www.smooth-on.com/products/ecoflex-gel/) | Deep gel layer |
+| **Body Double** (mold silicone) | [smooth-on](https://www.smooth-on.com/products/body-double-standard/) | Life-cast a real cheek |
+| **Silc Pig** pigments | [smooth-on](https://www.smooth-on.com/products/silc-pig/) | Flesh tones |
+| Supplies (Ease Release, scale, cups, gloves) | smooth-on / Amazon | Casting basics |
+| **PLA/PETG** (optional) | Bambu | Firm backing / printed mold |
+
+Full explanations in [what-each-part-is-for.md](what-each-part-is-for.md) → **CHEEQ** section. **Vendor: Smooth-On (separate order).**
