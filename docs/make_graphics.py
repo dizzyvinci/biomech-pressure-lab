@@ -910,6 +910,43 @@ def g_bounce():
                 "Left: bars of forefoot loading cycles per day (walking 7,000 vs leg-bounce 40,320). Right: the 2.8 Hz waveform, gait+bounce stacking, and a dose-don't-suppress framing.")
 
 
+def g_lab_scope():
+    w, h = 900, 500
+    b = [head(w, "Personal-lab scope — catching up to the papers' equipment",
+              "What the cited studies used vs what we can 3D-print / DIY — and the honest gaps")]
+    cols = [(40, "Measurement"), (196, "The papers use ($$$)"), (452, "Our DIY build (3D-print + buy)"), (742, "Match?")]
+    for x, lab in cols:
+        b.append(T(x, 104, lab, 9.5, MUTE, "700"))
+    b.append(f'<line x1="24" y1="112" x2="876" y2="112" stroke="{BORDER}"/>')
+    rows = [
+        ("In-shoe pressure", "pedar / F-Scan (capacitive,\nRMSE 2.6 kPa · $10–30k)", "FSR insole (have) + calib.py\npower-law — resistive, drifts", "PARTIAL", AMBER, "r≈0.87"),
+        ("Full-foot pressure map", "emed / MatScan platform\n(1.4–2 sensors/cm²)", "3D-print frame + Velostat +\ncopper-tape matrix (~$40)", "PARTIAL", AMBER, "coarse map"),
+        ("Vertical GRF (× BW)", "AMTI / Kistler force plate\n($5–30k)", "4× load cell + HX711 +\nprinted plate (~$80)", "YES", GREEN, "ICC>0.94"),
+        ("Shear / 6-axis", "tri-axial transducers,\n6-axis plates (custom)", "— no maker-grade option\n(shear is hard)", "GAP", RED, "can't (yet)"),
+        ("GRF from motion", "Vicon marker mocap\n($$$, lab)", "phone + pose AI →\nvideo_force.py (free)", "YES", GREEN, "2D"),
+        ("Calibration", "materials tester /\nreference loads", "known weights →\ncalibrate.py", "YES", GREEN, "R²=1.0 demo"),
+    ]
+    y = 124
+    for meas, papers, diy, verdict, c, note in rows:
+        b.append(box(24, y, 852, 56, PANEL if (y // 56) % 2 else "#ffffff", BORDER, 1, 6))
+        b.append(T(40, y + 22, meas, 10, NAVY, "700"))
+        for j, line in enumerate(papers.split("\n")):
+            b.append(T(196, y + 20 + j * 14, line, 8.5, SLATE))
+        for j, line in enumerate(diy.split("\n")):
+            b.append(T(452, y + 20 + j * 14, line, 8.5, SLATE))
+        b.append(f'<rect x="742" y="{y+14}" width="66" height="20" rx="10" fill="{c}"/>')
+        b.append(T(775, y + 28, verdict, 8.5, "#ffffff", "700", "middle"))
+        b.append(T(742, y + 48, note, 8, MUTE))
+        y += 60
+    b.append(T(24, 476, "The H2D prints every frame/enclosure. ~$150–250 of parts → trend-level versions of 4 of 6; SHEAR + lab-grade accuracy stay out of reach.",
+               9.5, NAVY, "700"))
+    b.append(T(24, 492, "That's the whole ethos: r≈0.87, not 1.0 — a ~$250 lab that does what a ~$30k one does at trend level. Sources in refs/plantar_norms.json + lab_scope.md.",
+               9, MUTE))
+    return wrap(w, h, "\n".join(b),
+                "Personal-lab equipment scope: in-shoe pressure (papers: pedar capacitive RMSE 2.6 kPa $10-30k; us: FSR insole r0.87 PARTIAL), full-foot pressure map (emed/MatScan 1.4-2 sensors/cm2; us: 3D-printed Velostat copper-matrix mat ~$40 PARTIAL), vertical GRF (AMTI/Kistler $5-30k; us: 4 load cells + HX711 + printed plate ~$80, ICC>0.94 YES), shear/6-axis (tri-axial transducers; us: GAP, can't DIY), GRF from motion (Vicon; us: phone pose AI free YES), calibration (us: known weights YES). ~$150-250 of parts + the H2D gets trend-level versions of 4 of 6.",
+                "A scope table: measurement, what the papers use, our DIY build, and whether we can match (partial/yes/gap).")
+
+
 def main():
     for name, fn in [("physical_setup", g_physical), ("pipeline", g_pipeline),
                      ("software_metrics", g_software), ("day_in_the_life", g_day),
@@ -917,7 +954,7 @@ def main():
                      ("balance_assist", g_balance_assist), ("beam_balance", g_beam_balance),
                      ("landing_lab", g_landing_lab), ("zone_load", g_zone_load), ("chain", g_chain),
                      ("pressure_atlas", g_pressure_atlas), ("conditions", g_conditions),
-                     ("footwear", g_footwear), ("bounce", g_bounce)]:
+                     ("footwear", g_footwear), ("bounce", g_bounce), ("lab_scope", g_lab_scope)]:
         with open(os.path.join(HERE, f"{name}.svg"), "w", encoding="utf-8") as f:
             f.write(fn())
         print(f"-> {name}.svg")

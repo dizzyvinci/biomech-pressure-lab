@@ -81,6 +81,10 @@ The **balance module** in depth — posturography, Romberg, fall-risk → device
 
 ![The hidden forefoot dose](docs/bounce.svg)
 
+**Personal-lab scope** — what the cited papers' equipment is (pedar/emed/AMTI, $10–30k) vs what we **3D-print + DIY** (Velostat pressure mat, load-cell force plate, ~$250) and the honest gaps ([lab_scope.md](docs/lab_scope.md)):
+
+![Personal-lab scope](docs/lab_scope.svg)
+
 > 🧭 **Also:** a new [**balance module**](docs/balance.md) (posturography — sway, Romberg quotient, fall-risk flags) turns the same rig into a stability screen for balance issues, not just foot pain. And [**prototype_status.md**](docs/prototype_status.md) is the "is it ready to build/pitch?" summary + the ordered-vs-printed BOM. Print models + STL export: [hardware/](hardware/README.md).
 
 ### ▶️ See it work — no hardware needed

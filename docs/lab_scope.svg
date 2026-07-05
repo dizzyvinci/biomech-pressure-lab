@@ -1,0 +1,68 @@
+<svg viewBox="0 0 900 500" xmlns="http://www.w3.org/2000/svg" role="img" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif">
+<title>Personal-lab equipment scope: in-shoe pressure (papers: pedar capacitive RMSE 2.6 kPa $10-30k; us: FSR insole r0.87 PARTIAL), full-foot pressure map (emed/MatScan 1.4-2 sensors/cm2; us: 3D-printed Velostat copper-matrix mat ~$40 PARTIAL), vertical GRF (AMTI/Kistler $5-30k; us: 4 load cells + HX711 + printed plate ~$80, ICC&gt;0.94 YES), shear/6-axis (tri-axial transducers; us: GAP, can't DIY), GRF from motion (Vicon; us: phone pose AI free YES), calibration (us: known weights YES). ~$150-250 of parts + the H2D gets trend-level versions of 4 of 6.</title>
+<desc>A scope table: measurement, what the papers use, our DIY build, and whether we can match (partial/yes/gap).</desc>
+<defs><marker id="ar" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#64748b"/></marker><marker id="arr" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#e11d48"/></marker></defs>
+<rect x="4" y="4" width="892" height="492" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"/>
+<text x="24" y="36" font-size="18" fill="#0f172a" font-weight="700" text-anchor="start">Personal-lab scope — catching up to the papers' equipment</text><text x="24" y="55" font-size="11.5" fill="#475569" font-weight="400" text-anchor="start">What the cited studies used vs what we can 3D-print / DIY — and the honest gaps</text>
+<text x="40" y="104" font-size="9.5" fill="#64748b" font-weight="700" text-anchor="start">Measurement</text>
+<text x="196" y="104" font-size="9.5" fill="#64748b" font-weight="700" text-anchor="start">The papers use ($$$)</text>
+<text x="452" y="104" font-size="9.5" fill="#64748b" font-weight="700" text-anchor="start">Our DIY build (3D-print + buy)</text>
+<text x="742" y="104" font-size="9.5" fill="#64748b" font-weight="700" text-anchor="start">Match?</text>
+<line x1="24" y1="112" x2="876" y2="112" stroke="#e2e8f0"/>
+<rect x="24" y="124" width="852" height="56" rx="6" fill="#ffffff" stroke="#e2e8f0" stroke-width="1"/>
+<text x="40" y="146" font-size="10" fill="#0f172a" font-weight="700" text-anchor="start">In-shoe pressure</text>
+<text x="196" y="144" font-size="8.5" fill="#475569" font-weight="400" text-anchor="start">pedar / F-Scan (capacitive,</text>
+<text x="196" y="158" font-size="8.5" fill="#475569" font-weight="400" text-anchor="start">RMSE 2.6 kPa · $10–30k)</text>
+<text x="452" y="144" font-size="8.5" fill="#475569" font-weight="400" text-anchor="start">FSR insole (have) + calib.py</text>
+<text x="452" y="158" font-size="8.5" fill="#475569" font-weight="400" text-anchor="start">power-law — resistive, drifts</text>
+<rect x="742" y="138" width="66" height="20" rx="10" fill="#f59e0b"/>
+<text x="775" y="152" font-size="8.5" fill="#ffffff" font-weight="700" text-anchor="middle">PARTIAL</text>
+<text x="742" y="172" font-size="8" fill="#64748b" font-weight="400" text-anchor="start">r≈0.87</text>
+<rect x="24" y="184" width="852" height="56" rx="6" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+<text x="40" y="206" font-size="10" fill="#0f172a" font-weight="700" text-anchor="start">Full-foot pressure map</text>
+<text x="196" y="204" font-size="8.5" fill="#475569" font-weight="400" text-anchor="start">emed / MatScan platform</text>
+<text x="196" y="218" font-size="8.5" fill="#475569" font-weight="400" text-anchor="start">(1.4–2 sensors/cm²)</text>
+<text x="452" y="204" font-size="8.5" fill="#475569" font-weight="400" text-anchor="start">3D-print frame + Velostat +</text>
+<text x="452" y="218" font-size="8.5" fill="#475569" font-weight="400" text-anchor="start">copper-tape matrix (~$40)</text>
+<rect x="742" y="198" width="66" height="20" rx="10" fill="#f59e0b"/>
+<text x="775" y="212" font-size="8.5" fill="#ffffff" font-weight="700" text-anchor="middle">PARTIAL</text>
+<text x="742" y="232" font-size="8" fill="#64748b" font-weight="400" text-anchor="start">coarse map</text>
+<rect x="24" y="244" width="852" height="56" rx="6" fill="#ffffff" stroke="#e2e8f0" stroke-width="1"/>
+<text x="40" y="266" font-size="10" fill="#0f172a" font-weight="700" text-anchor="start">Vertical GRF (× BW)</text>
+<text x="196" y="264" font-size="8.5" fill="#475569" font-weight="400" text-anchor="start">AMTI / Kistler force plate</text>
+<text x="196" y="278" font-size="8.5" fill="#475569" font-weight="400" text-anchor="start">($5–30k)</text>
+<text x="452" y="264" font-size="8.5" fill="#475569" font-weight="400" text-anchor="start">4× load cell + HX711 +</text>
+<text x="452" y="278" font-size="8.5" fill="#475569" font-weight="400" text-anchor="start">printed plate (~$80)</text>
+<rect x="742" y="258" width="66" height="20" rx="10" fill="#16a34a"/>
+<text x="775" y="272" font-size="8.5" fill="#ffffff" font-weight="700" text-anchor="middle">YES</text>
+<text x="742" y="292" font-size="8" fill="#64748b" font-weight="400" text-anchor="start">ICC&gt;0.94</text>
+<rect x="24" y="304" width="852" height="56" rx="6" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+<text x="40" y="326" font-size="10" fill="#0f172a" font-weight="700" text-anchor="start">Shear / 6-axis</text>
+<text x="196" y="324" font-size="8.5" fill="#475569" font-weight="400" text-anchor="start">tri-axial transducers,</text>
+<text x="196" y="338" font-size="8.5" fill="#475569" font-weight="400" text-anchor="start">6-axis plates (custom)</text>
+<text x="452" y="324" font-size="8.5" fill="#475569" font-weight="400" text-anchor="start">— no maker-grade option</text>
+<text x="452" y="338" font-size="8.5" fill="#475569" font-weight="400" text-anchor="start">(shear is hard)</text>
+<rect x="742" y="318" width="66" height="20" rx="10" fill="#e11d48"/>
+<text x="775" y="332" font-size="8.5" fill="#ffffff" font-weight="700" text-anchor="middle">GAP</text>
+<text x="742" y="352" font-size="8" fill="#64748b" font-weight="400" text-anchor="start">can't (yet)</text>
+<rect x="24" y="364" width="852" height="56" rx="6" fill="#ffffff" stroke="#e2e8f0" stroke-width="1"/>
+<text x="40" y="386" font-size="10" fill="#0f172a" font-weight="700" text-anchor="start">GRF from motion</text>
+<text x="196" y="384" font-size="8.5" fill="#475569" font-weight="400" text-anchor="start">Vicon marker mocap</text>
+<text x="196" y="398" font-size="8.5" fill="#475569" font-weight="400" text-anchor="start">($$$, lab)</text>
+<text x="452" y="384" font-size="8.5" fill="#475569" font-weight="400" text-anchor="start">phone + pose AI →</text>
+<text x="452" y="398" font-size="8.5" fill="#475569" font-weight="400" text-anchor="start">video_force.py (free)</text>
+<rect x="742" y="378" width="66" height="20" rx="10" fill="#16a34a"/>
+<text x="775" y="392" font-size="8.5" fill="#ffffff" font-weight="700" text-anchor="middle">YES</text>
+<text x="742" y="412" font-size="8" fill="#64748b" font-weight="400" text-anchor="start">2D</text>
+<rect x="24" y="424" width="852" height="56" rx="6" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+<text x="40" y="446" font-size="10" fill="#0f172a" font-weight="700" text-anchor="start">Calibration</text>
+<text x="196" y="444" font-size="8.5" fill="#475569" font-weight="400" text-anchor="start">materials tester /</text>
+<text x="196" y="458" font-size="8.5" fill="#475569" font-weight="400" text-anchor="start">reference loads</text>
+<text x="452" y="444" font-size="8.5" fill="#475569" font-weight="400" text-anchor="start">known weights →</text>
+<text x="452" y="458" font-size="8.5" fill="#475569" font-weight="400" text-anchor="start">calibrate.py</text>
+<rect x="742" y="438" width="66" height="20" rx="10" fill="#16a34a"/>
+<text x="775" y="452" font-size="8.5" fill="#ffffff" font-weight="700" text-anchor="middle">YES</text>
+<text x="742" y="472" font-size="8" fill="#64748b" font-weight="400" text-anchor="start">R²=1.0 demo</text>
+<text x="24" y="476" font-size="9.5" fill="#0f172a" font-weight="700" text-anchor="start">The H2D prints every frame/enclosure. ~$150–250 of parts → trend-level versions of 4 of 6; SHEAR + lab-grade accuracy stay out of reach.</text>
+<text x="24" y="492" font-size="9" fill="#64748b" font-weight="400" text-anchor="start">That's the whole ethos: r≈0.87, not 1.0 — a ~$250 lab that does what a ~$30k one does at trend level. Sources in refs/plantar_norms.json + lab_scope.md.</text>
+</svg>
