@@ -1,5 +1,5 @@
 <svg viewBox="0 0 900 520" xmlns="http://www.w3.org/2000/svg" role="img" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif">
-<title>From foot pressure to nerve and fascia impact. A foot map marks plantar fascia (heel-to-forefoot tension band), Baxter's nerve (medial heel), Morton's/interdigital nerve (met2-4 interspaces), and posterior tibial nerve (tarsal tunnel, medial arch). The all-day dose CPTS = PTI x cycles/day is forefoot ~10,600 vs heel ~100 MPa.s/day, with 85% of forefoot cycles from the at-rest bounce dose; structure loads plantar fascia 8477, Morton 6246, tibial 1969, Baxter 54. Tell them apart: medial heel pain worse in the morning = fascia, worse through the day = Baxter's; forefoot burning/numb toes = Morton; medial-ankle Tinel = tarsal tunnel. Manage the dose (met pad, wider toe box, rest windows, calf work). Screening, not diagnosis.</title>
+<title>From foot pressure to nerve and fascia impact. A foot map marks plantar fascia (heel-to-forefoot tension band), Baxter's nerve (medial heel), Morton's/interdigital nerve (met2-4 interspaces), and posterior tibial nerve (tarsal tunnel, medial arch). On the sample day the all-day dose CPTS = PTI x cycles/day is forefoot ~12,800 vs heel/mid ~4,340 MPa.s/day, with 55% of forefoot cycles from the at-rest bounce dose (40,320/day vs 33,622 gait); structure loads plantar fascia 11,700, Morton 6,597, tibial 5,006, Baxter 2,395. Tell them apart: medial heel pain worse in the morning = fascia, worse through the day = Baxter's; forefoot burning/numb toes = Morton; medial-ankle Tinel = tarsal tunnel. Manage the dose (met pad, wider toe box, rest windows, calf work). Screening, not diagnosis.</title>
 <desc>Left: foot map with four structures marked on their zones. Middle: CPTS dose bars (forefoot vs heel), the 85% bounce-dose callout, and structure-load ranking. Right: how to tell the structures apart by symptom/time-of-day and how to manage the dose.</desc>
 <defs><marker id="ar" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#64748b"/></marker><marker id="arr" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#e11d48"/></marker></defs>
 <rect x="4" y="4" width="892" height="512" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"/>
@@ -28,31 +28,31 @@
 <text x="360" y="118" font-size="9" fill="#64748b" font-weight="400" text-anchor="start">PTI × cycles/day (MPa·s/day)</text>
 <text x="360" y="146" font-size="9.5" fill="#0f172a" font-weight="700" text-anchor="start">forefoot</text>
 <rect x="360" y="152" width="210" height="20" rx="5" fill="#e11d48"/>
-<text x="366" y="166" font-size="9" fill="#ffffff" font-weight="700" text-anchor="start">≈ 10,600</text>
+<text x="366" y="166" font-size="9" fill="#ffffff" font-weight="700" text-anchor="start">≈ 12,800</text>
 <text x="360" y="190" font-size="9.5" fill="#0f172a" font-weight="700" text-anchor="start">heel / mid</text>
-<rect x="360" y="196" width="14" height="20" rx="5" fill="#2563eb"/>
-<text x="380" y="210" font-size="9" fill="#475569" font-weight="700" text-anchor="start">≈ 100</text>
+<rect x="360" y="196" width="71" height="20" rx="5" fill="#2563eb"/>
+<text x="437" y="210" font-size="9" fill="#475569" font-weight="700" text-anchor="start">≈ 4,340</text>
 <rect x="360" y="230" width="218" height="62" rx="8" fill="#fdecef" stroke="#e11d48" stroke-width="1.4"/>
-<text x="372" y="250" font-size="10" fill="#e11d48" font-weight="700" text-anchor="start">⚡ 85% of forefoot cycles</text>
+<text x="372" y="250" font-size="10" fill="#e11d48" font-weight="700" text-anchor="start">⚡ 55% of forefoot cycles</text>
 <text x="372" y="265" font-size="8.5" fill="#475569" font-weight="400" text-anchor="start">= the at-rest bounce/tap dose</text>
-<text x="372" y="278" font-size="8.5" fill="#475569" font-weight="400" text-anchor="start">no step-counter ever sees.</text>
-<text x="360" y="314" font-size="9.5" fill="#0f172a" font-weight="700" text-anchor="start">Structure load (this demo day)</text>
+<text x="372" y="278" font-size="8.5" fill="#475569" font-weight="400" text-anchor="start">(40,320/day vs 33,622 gait).</text>
+<text x="360" y="314" font-size="9.5" fill="#0f172a" font-weight="700" text-anchor="start">Structure load (the sample day)</text>
 <text x="360" y="330" font-size="8.5" fill="#475569" font-weight="400" text-anchor="start">plantar fascia</text>
 <rect x="360" y="334" width="210" height="15" rx="4" fill="#ffffff" stroke="#e2e8f0" stroke-width="1"/>
 <rect x="360" y="334" width="210" height="15" rx="4" fill="#f59e0b"/>
-<text x="574" y="345" font-size="8" fill="#64748b" font-weight="700" text-anchor="end">8,477</text>
+<text x="574" y="345" font-size="8" fill="#64748b" font-weight="700" text-anchor="end">11,700</text>
 <text x="360" y="362" font-size="8.5" fill="#475569" font-weight="400" text-anchor="start">Morton / interdigital</text>
 <rect x="360" y="366" width="210" height="15" rx="4" fill="#ffffff" stroke="#e2e8f0" stroke-width="1"/>
-<rect x="360" y="366" width="155" height="15" rx="4" fill="#2563eb"/>
-<text x="574" y="377" font-size="8" fill="#64748b" font-weight="700" text-anchor="end">6,246</text>
+<rect x="360" y="366" width="118" height="15" rx="4" fill="#2563eb"/>
+<text x="574" y="377" font-size="8" fill="#64748b" font-weight="700" text-anchor="end">6,597</text>
 <text x="360" y="394" font-size="8.5" fill="#475569" font-weight="400" text-anchor="start">post. tibial</text>
 <rect x="360" y="398" width="210" height="15" rx="4" fill="#ffffff" stroke="#e2e8f0" stroke-width="1"/>
-<rect x="360" y="398" width="49" height="15" rx="4" fill="#16a34a"/>
-<text x="574" y="409" font-size="8" fill="#64748b" font-weight="700" text-anchor="end">1,969</text>
+<rect x="360" y="398" width="90" height="15" rx="4" fill="#16a34a"/>
+<text x="574" y="409" font-size="8" fill="#64748b" font-weight="700" text-anchor="end">5,006</text>
 <text x="360" y="426" font-size="8.5" fill="#475569" font-weight="400" text-anchor="start">Baxter's nerve</text>
 <rect x="360" y="430" width="210" height="15" rx="4" fill="#ffffff" stroke="#e2e8f0" stroke-width="1"/>
-<rect x="360" y="430" width="4" height="15" rx="4" fill="#e11d48"/>
-<text x="574" y="441" font-size="8" fill="#64748b" font-weight="700" text-anchor="end">54</text>
+<rect x="360" y="430" width="43" height="15" rx="4" fill="#e11d48"/>
+<text x="574" y="441" font-size="8" fill="#64748b" font-weight="700" text-anchor="end">2,395</text>
 <rect x="614" y="74" width="262" height="410" rx="12" fill="#eef2f7" stroke="#e2e8f0" stroke-width="1.6"/>
 <text x="630" y="100" font-size="12" fill="#0f172a" font-weight="700" text-anchor="start">Same spot — which structure?</text>
 <rect x="630" y="116" width="230" height="78" rx="8" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.3"/>

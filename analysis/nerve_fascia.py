@@ -65,8 +65,21 @@ def cycles_for(zone, day):
 
 
 def cpts(day):
-    """CPTS_zone (MPa.s/day) = PTI(MPa.s) x cycles/day."""
+    """CPTS_zone (MPa.s/day).
+    Rich schema (day_summary.py, real logs): gait PTI/cycle × gait cycles + bounce PTI/cycle ×
+      bounce cycles (forefoot). The MEASURED per-zone PTI already encodes any under-loading, so
+      no heel-strike fudge factor is applied.
+    Simple schema (demo / hand-written): single PTI/cycle × cycles_for()."""
     out = {}
+    if "gait" in day or "bounce" in day:
+        gp = day.get("gait", {}).get("pti_kPa_s", {}); gc = day.get("gait", {}).get("cycles_per_day", 0)
+        bp = day.get("bounce", {}).get("pti_kPa_s", {}); bc = day.get("bounce", {}).get("cycles_per_day", 0)
+        for z in ZONES:
+            v = gp.get(z, 0) / 1000.0 * gc
+            if z in FOREFOOT:
+                v += bp.get(z, 0) / 1000.0 * bc
+            out[z] = round(v, 1)
+        return out
     for z in ZONES:
         pti_MPa_s = day.get("pti_kPa_s", {}).get(z, 0) / 1000.0
         out[z] = round(pti_MPa_s * cycles_for(z, day), 1)
@@ -85,7 +98,11 @@ def band(frac):
 def main():
     ap = argparse.ArgumentParser(description="Map the all-day foot-pressure dose to nerves & fascia.")
     ap.add_argument("--demo", action="store_true")
-    ap.add_argument("--day", help="JSON day-summary (see module docstring)")
+    ap.add_argument("--day", help="prebuilt day-summary JSON (from day_summary.py, or hand-written)")
+    ap.add_argument("--logs", nargs="+", help="raw session CSV glob(s) — build the day inline via day_summary")
+    ap.add_argument("--calibration", help="calibration.json for real kPa (with --logs)")
+    ap.add_argument("--walk-hours", type=float, default=10.0)
+    ap.add_argument("--bounce-hours", type=float, default=4.0)
     ap.add_argument("--out", default="results")
     a = ap.parse_args()
     os.makedirs(a.out, exist_ok=True)
@@ -96,8 +113,18 @@ def main():
         day = demo_day()
     elif a.day:
         day = json.load(open(a.day, encoding="utf-8"))
+    elif a.logs:
+        import glob as _glob, day_summary
+        paths = [p for g in a.logs for p in _glob.glob(g)]
+        if not paths:
+            raise SystemExit("no logs matched")
+        cal = None
+        if a.calibration:
+            import calib
+            cal = calib.load(a.calibration)
+        day = day_summary.build_day(paths, cal, a.walk_hours, a.bounce_hours)
     else:
-        raise SystemExit("pass --demo or --day my_day.json")
+        raise SystemExit("pass --demo, --day day.json, or --logs '*.csv' [--calibration cal.json]")
 
     press = day.get("pressure_kPa", {})
     C = cpts(day)
@@ -129,10 +156,13 @@ def main():
     L.append(f"**Daily dose (CPTS, MPa·s/day):** forefoot **{tot_fore:.0f}** · heel/mid **{tot_heel:.0f}** "
              f"  _(diabetic-ulcer healing anchor {anchor[0]}–{anchor[1]}; an order-of-magnitude reference for "
              f"AT-RISK tissue, not a healthy-foot limit — use it to compare zones & track your own trend)._")
-    if day.get("bounce_cycles_per_day"):
-        share = round(100 * day["bounce_cycles_per_day"] / (day.get("gait_steps_per_day", 7000) + day["bounce_cycles_per_day"]))
-        L.append(f"> ⚡ **{share}% of the forefoot's daily loading cycles come from the at-rest bounce/tap dose** — "
-                 f"invisible to any step-counter, landing on the same met heads gait already loads.")
+    gait_cyc = day.get("gait", {}).get("cycles_per_day", day.get("gait_steps_per_day", 0))
+    bounce_cyc = day.get("bounce", {}).get("cycles_per_day", day.get("bounce_cycles_per_day", 0))
+    if bounce_cyc:
+        share = round(100 * bounce_cyc / max(gait_cyc + bounce_cyc, 1))
+        L.append(f"> ⚡ **{share}% of the forefoot's daily loading cycles come from the at-rest bounce/tap dose** "
+                 f"({bounce_cyc:,}/day vs {gait_cyc:,} gait) — invisible to any step-counter, landing on the "
+                 f"same met heads gait already loads.")
     L.append("")
 
     L.append("| structure | kind | load (CPTS) | | driving zones | peak | Δgrad |")

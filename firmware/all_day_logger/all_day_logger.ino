@@ -13,7 +13,9 @@
  *   - BLE OFF (biggest power saver) — offload by pulling the SD card
  *   - 80 MHz CPU + idle between samples
  *   - logs battery voltage; rotates to a new file every ~40 MB
- *   - Button: SHORT = drop an event mark; LONG = toggle shoe<->barefoot (new file)
+ *   - Button: SHORT = cycle activity phase (walk/stand/bounce/other); LONG = shoe<->barefoot (new file)
+ *     The `phase` column lets analysis/day_summary.py split a day into gait vs at-rest bounce
+ *     for the CPTS / nerve-fascia dose model (docs/nerve_fascia.md).
  *
  * MCU: ESP32-S3 (in the ankle pod, hardware/ankle_pod.scad).
  * Libraries (Library Manager): "Adafruit BNO08x", "SD".
@@ -44,6 +46,8 @@ Adafruit_BNO08x bno; sh2_SensorValue_t sv;
 File logf;
 uint32_t rowCount = 0, fileBytes = 0, t0 = 0, fileIdx = 0;
 bool  barefoot = false;                       // false = shoe, true = barefoot
+const char* PHASES[4] = {"walk", "stand", "bounce", "other"};   // short-press cycles these
+int   phaseIdx = 0;                           // -> `phase` column (day_summary segments on it)
 float qw = 1, qx = 0, qy = 0, qz = 0, ax = 0, ay = 0, az = 0;
 char  rowbuf[210];
 
@@ -56,7 +60,7 @@ void openLog(){
   char name[40];
   snprintf(name, sizeof(name), "/day_%s_%03u.csv", barefoot ? "bare" : "shoe", (unsigned)fileIdx++);
   logf = SD.open(name, FILE_WRITE);
-  if (logf) logf.println("t_ms,mode,fsr0,fsr1,fsr2,fsr3,fsr4,fsr5,fsr6,fsr7,qw,qx,qy,qz,ax,ay,az,vbat");
+  if (logf) logf.println("t_ms,mode,phase,fsr0,fsr1,fsr2,fsr3,fsr4,fsr5,fsr6,fsr7,qw,qx,qy,qz,ax,ay,az,vbat");
   fileBytes = 0;
 }
 
@@ -78,7 +82,7 @@ void handleButton(){
   if (!d && was){
     was = false; uint32_t held = millis() - down;
     if (held > 800){ barefoot = !barefoot; openLog(); }            // long: shoe<->barefoot, new file
-    else if (logf){ logf.printf("# MARK %lu\n", (unsigned long)(millis() - t0)); } // short: event mark
+    else { phaseIdx = (phaseIdx + 1) % 4; }                        // short: cycle activity phase
   }
 }
 
@@ -107,8 +111,8 @@ void loop(){
     uint32_t t = millis() - t0;
     int f[NUM_FSR]; for (int i = 0; i < NUM_FSR; i++) f[i] = readFSR(i);
     int n = snprintf(rowbuf, sizeof(rowbuf),
-      "%lu,%s,%d,%d,%d,%d,%d,%d,%d,%d,%.3f,%.3f,%.3f,%.3f,%.2f,%.2f,%.2f,%.2f",
-      (unsigned long)t, barefoot ? "barefoot" : "shoe",
+      "%lu,%s,%s,%d,%d,%d,%d,%d,%d,%d,%d,%.3f,%.3f,%.3f,%.3f,%.2f,%.2f,%.2f,%.2f",
+      (unsigned long)t, barefoot ? "barefoot" : "shoe", PHASES[phaseIdx],
       f[0],f[1],f[2],f[3],f[4],f[5],f[6],f[7], qw,qx,qy,qz, ax,ay,az, readVbat());
     if (logf){ logf.println(rowbuf); fileBytes += n + 2; }
     if ((++rowCount % FLUSH_EVERY) == 0 && logf){ logf.flush(); digitalWrite(PIN_LED, !digitalRead(PIN_LED)); }

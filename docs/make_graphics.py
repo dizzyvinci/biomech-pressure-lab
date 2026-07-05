@@ -987,23 +987,23 @@ def g_nerve_fascia():
     b.append(box(344, 74, 250, 410, "#ffffff", BORDER, 1.6, 12))
     b.append(T(360, 100, "The all-day dose (CPTS)", 12, NAVY, "700"))
     b.append(T(360, 118, "PTI × cycles/day (MPa·s/day)", 9, MUTE))
-    # forefoot vs heel bars (log-ish: forefoot huge)
+    # forefoot vs heel bars
     b.append(T(360, 146, "forefoot", 9.5, NAVY, "700"))
     b.append(f'<rect x="360" y="152" width="210" height="20" rx="5" fill="{RED}"/>')
-    b.append(T(366, 166, "≈ 10,600", 9, "#ffffff", "700"))
+    b.append(T(366, 166, "≈ 12,800", 9, "#ffffff", "700"))
     b.append(T(360, 190, "heel / mid", 9.5, NAVY, "700"))
-    b.append(f'<rect x="360" y="196" width="14" height="20" rx="5" fill="{BLUE}"/>')
-    b.append(T(380, 210, "≈ 100", 9, SLATE, "700"))
+    b.append(f'<rect x="360" y="196" width="71" height="20" rx="5" fill="{BLUE}"/>')
+    b.append(T(437, 210, "≈ 4,340", 9, SLATE, "700"))
     # bounce callout
     b.append(box(360, 230, 218, 62, REDBG, RED, 1.4, 8))
-    b.append(T(372, 250, "⚡ 85% of forefoot cycles", 10, RED, "700"))
+    b.append(T(372, 250, "⚡ 55% of forefoot cycles", 10, RED, "700"))
     b.append(T(372, 265, "= the at-rest bounce/tap dose", 8.5, SLATE))
-    b.append(T(372, 278, "no step-counter ever sees.", 8.5, SLATE))
+    b.append(T(372, 278, "(40,320/day vs 33,622 gait).", 8.5, SLATE))
     # structure ranking bars
-    b.append(T(360, 314, "Structure load (this demo day)", 9.5, NAVY, "700"))
-    ranks = [("plantar fascia", 8477, AMBER), ("Morton / interdigital", 6246, BLUE),
-             ("post. tibial", 1969, GREEN), ("Baxter's nerve", 54, RED)]
-    mxr = 8477
+    b.append(T(360, 314, "Structure load (the sample day)", 9.5, NAVY, "700"))
+    ranks = [("plantar fascia", 11700, AMBER), ("Morton / interdigital", 6597, BLUE),
+             ("post. tibial", 5006, GREEN), ("Baxter's nerve", 2395, RED)]
+    mxr = 11700
     for i, (nm, v, c) in enumerate(ranks):
         y = 330 + i * 32
         b.append(T(360, y, nm, 8.5, SLATE))
@@ -1039,7 +1039,7 @@ def g_nerve_fascia():
                         "compare zones & track your own trend. Associations published; weights estimated. SCREENING, not diagnosis.",
                8.5, MUTE))
     return wrap(w, h, "\n".join(b),
-                "From foot pressure to nerve and fascia impact. A foot map marks plantar fascia (heel-to-forefoot tension band), Baxter's nerve (medial heel), Morton's/interdigital nerve (met2-4 interspaces), and posterior tibial nerve (tarsal tunnel, medial arch). The all-day dose CPTS = PTI x cycles/day is forefoot ~10,600 vs heel ~100 MPa.s/day, with 85% of forefoot cycles from the at-rest bounce dose; structure loads plantar fascia 8477, Morton 6246, tibial 1969, Baxter 54. Tell them apart: medial heel pain worse in the morning = fascia, worse through the day = Baxter's; forefoot burning/numb toes = Morton; medial-ankle Tinel = tarsal tunnel. Manage the dose (met pad, wider toe box, rest windows, calf work). Screening, not diagnosis.",
+                "From foot pressure to nerve and fascia impact. A foot map marks plantar fascia (heel-to-forefoot tension band), Baxter's nerve (medial heel), Morton's/interdigital nerve (met2-4 interspaces), and posterior tibial nerve (tarsal tunnel, medial arch). On the sample day the all-day dose CPTS = PTI x cycles/day is forefoot ~12,800 vs heel/mid ~4,340 MPa.s/day, with 55% of forefoot cycles from the at-rest bounce dose (40,320/day vs 33,622 gait); structure loads plantar fascia 11,700, Morton 6,597, tibial 5,006, Baxter 2,395. Tell them apart: medial heel pain worse in the morning = fascia, worse through the day = Baxter's; forefoot burning/numb toes = Morton; medial-ankle Tinel = tarsal tunnel. Manage the dose (met pad, wider toe box, rest windows, calf work). Screening, not diagnosis.",
                 "Left: foot map with four structures marked on their zones. Middle: CPTS dose bars (forefoot vs heel), the 85% bounce-dose callout, and structure-load ranking. Right: how to tell the structures apart by symptom/time-of-day and how to manage the dose.")
 
 

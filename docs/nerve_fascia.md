@@ -61,16 +61,31 @@ module flags forefoot gradient hotspots.
   **and** tensions the fascia via the windlass — equinus carries **~23× the plantar-fasciitis
   risk**. So a forefoot-overload signature and heel-fascia pain travel together.
 
-## Run it
+## Run it — on real captured logs
+
+The honest version runs off your actual day, not a demo. [`analysis/day_summary.py`](../analysis/day_summary.py)
+turns raw session CSVs (from [`firmware/all_day_logger`](../firmware/all_day_logger/all_day_logger.ino) —
+short-press cycles the `phase` tag walk/stand/**bounce**) into the per-zone **peak, PTI-per-cycle,
+and cycles/day**, splitting gait from at-rest bounce. Then `nerve_fascia.py` computes the dose:
 
 ```bash
-python analysis/nerve_fascia.py --demo
-# or your own day summary:
-python analysis/nerve_fascia.py --day my_day.json --out results/
+# one command: raw logs -> day summary -> nerve/fascia impact
+python analysis/nerve_fascia.py --logs "logs/*.csv" --calibration cal.json \
+    --walk-hours 10 --bounce-hours 4 --out results/
+
+# or in two explicit steps
+python analysis/day_summary.py "logs/*.csv" --calibration cal.json --walk-hours 10 --bounce-hours 4 --out results/
+python analysis/nerve_fascia.py --day results/day.json --out results/
+
+python analysis/nerve_fascia.py --demo    # no hardware — the worked example
 ```
 
-`my_day.json`: per-zone `pressure_kPa` + `pti_kPa_s` (per cycle), `gait_steps_per_day`,
-`bounce_cycles_per_day`, `heel_strike_fraction`. Emits a ranked structure report + JSON.
+It runs on the committed sample end-to-end (see [sample/README](../sample/README.md) steps 5b–5c →
+[report_nerve_fascia.md](../sample/results/report_nerve_fascia.md)). The **measured** per-zone PTI
+already encodes any under-loading (a toe-walker's light heel reads low), so CPTS is
+`gait PTI/cycle × gait cycles + bounce PTI/cycle × bounce cycles` — no fudge factor. Emits a ranked
+structure report + JSON. `--day` also accepts a hand-written summary (`pressure_kPa` + `pti_kPa_s` +
+`gait_steps_per_day` + `bounce_cycles_per_day`).
 
 ---
 **Not a medical device; not medical advice.** Associations are published; the zone-weights the

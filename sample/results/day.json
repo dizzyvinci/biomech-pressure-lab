@@ -1,0 +1,60 @@
+{
+  "pressure_kPa": {
+    "heel_med": 645.4,
+    "heel_lat": 265.0,
+    "midfoot": 89.4,
+    "met1": 191.5,
+    "met3": 263.1,
+    "met5": 156.6,
+    "hallux": 176.5,
+    "toes": 87.3,
+    "met2": 227.3,
+    "met4": 209.85
+  },
+  "gait": {
+    "pti_kPa_s": {
+      "heel_med": 71.24,
+      "heel_lat": 40.985,
+      "midfoot": 16.777,
+      "met1": 22.626,
+      "met3": 19.589,
+      "met5": 14.239,
+      "hallux": 16.429,
+      "toes": 9.732,
+      "met2": 21.11,
+      "met4": 16.91
+    },
+    "cycles_per_day": 33622,
+    "cadence_hz": 0.93,
+    "sessions": 2
+  },
+  "bounce": {
+    "pti_kPa_s": {
+      "heel_med": 8.829,
+      "heel_lat": 8.581,
+      "midfoot": 3.057,
+      "met1": 31.844,
+      "met3": 43.166,
+      "met5": 26.011,
+      "hallux": 28.904,
+      "toes": 14.426,
+      "met2": 37.5,
+      "met4": 34.59
+    },
+    "cycles_per_day": 40320,
+    "freq_hz": 2.8,
+    "sessions": 1
+  },
+  "provenance": {
+    "calibrated": true,
+    "walk_hours": 10.0,
+    "bounce_hours": 4.0,
+    "gait_sessions": [
+      "sample_day_barefoot.csv",
+      "sample_day_shoe.csv"
+    ],
+    "bounce_sessions": [
+      "sample_seated_bounce.csv"
+    ]
+  }
+}

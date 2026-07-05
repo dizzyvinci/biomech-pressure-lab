@@ -17,8 +17,13 @@ python calibrate.py ../sample/cal_points.csv --out ../sample/calibration.json --
 python interpret.py "../sample/sample_day_*.csv" --calibration ../sample/calibration.json --out ../sample/results   # 3. pressure → directives
 python balance.py ../sample/sample_balance.csv --calibration ../sample/calibration.json --out ../sample/results     # 4. balance
 python analyze_pressure.py "../sample/sample_day_*.csv" --calibration ../sample/calibration.json --out ../sample/results  # 5. plots
+python day_summary.py "../sample/sample_day_*.csv" ../sample/sample_seated_bounce.csv --calibration ../sample/calibration.json --walk-hours 10 --bounce-hours 4 --out ../sample/results  # 5b. all-day dose (peak/PTI/cycles)
+python nerve_fascia.py --day ../sample/results/day.json --out ../sample/results   # 5c. all-day dose → nerve/fascia impact
 cd ../hardware && python build_insole.py --spec ../sample/results/insole_spec.json --out .     # 6. data → printable insole
 ```
+Steps 5b–5c turn a **real day** (walking `sample_day_*.csv` + at-rest bouncing `sample_seated_bounce.csv`)
+into the **CPTS all-day dose** and the **nerve/fascia** read ([results/report_nerve_fascia.md](results/report_nerve_fascia.md),
+[results/day.json](results/day.json)). One-command equivalent: `nerve_fascia.py --logs "…csv" --calibration … --walk-hours 10 --bounce-hours 4`.
 
 ## 1. Calibration (ADC → real kPa)
 `calibrate.py` fits each FSR's power law `F = a·G^b` from known weights → **R² = 1.00**

@@ -85,6 +85,26 @@ def imu_walk(n, rng):
     return ax, ay, az
 
 
+# ---- seated leg-bounce / toe-tap model (the at-rest forefoot dose) ----------
+# Sitting, ~19% BW through the feet, forefoot loads/unloads at ~2.8 Hz; heel rests
+# light. Central met heads carry most (the Morton / interdigital-nerve territory).
+BOUNCE_FORE = np.array([0, 0, 0, 22, 30, 18, 20, 10], float)   # per-zone forefoot force (N)
+
+
+def seated_bounce(dur_s, rng, freq=2.8):
+    n = int(dur_s * FS)
+    t = np.arange(n) / FS
+    cyc = 0.5 + 0.5 * np.sin(2 * np.pi * freq * t)             # 0..1 bounce
+    F = np.outer(cyc, BOUNCE_FORE)                             # forefoot oscillates
+    F[:, 0] = F[:, 1] = 3.0                                    # light heel rest
+    F[:, 2] = 1.0                                              # a little midfoot
+    F *= (1 + 0.03 * rng.standard_normal(F.shape))
+    ax = 0.05 * rng.standard_normal(n)
+    ay = 0.05 * rng.standard_normal(n)
+    az = 9.81 + 3.0 * (cyc - 0.5)                              # vertical jiggle
+    return t, np.clip(F, 0, None), (ax, ay, az)
+
+
 # ---- quiet-standing balance model ------------------------------------------
 # Drive an EXACT center-of-pressure: ML from the medial/lateral split, AP from
 # heel-vs-forefoot split. Decoupling ML and AP keeps the sway ellipse from
@@ -235,8 +255,17 @@ def main():
     pd.concat(pparts, ignore_index=True) \
         .to_csv(os.path.join(args.out, "sample_balance_positions.csv"), index=False)
 
-    print(f"wrote cal_points.csv, sample_day_shoe/barefoot.csv, sample_balance.csv, "
-          f"sample_balance_positions.csv -> {args.out}/")
+    # seated leg-bounce / toe-tap (the at-rest forefoot dose) — activity=seated_bounce.
+    # Uses a SEPARATE rng and runs LAST so it never perturbs the walking/balance streams.
+    # Named OUTSIDE the sample_day_*.csv glob so gait analysis (interpret/analyze) skips it;
+    # day_summary.py picks it up explicitly for the all-day dose.
+    rng_b = np.random.default_rng(args.seed + 101)
+    tb, Fb, imub = seated_bounce(30, rng_b)
+    frame(tb, Fb, a, b, rng_b, imub, "activity", "seated_bounce") \
+        .to_csv(os.path.join(args.out, "sample_seated_bounce.csv"), index=False)
+
+    print(f"wrote cal_points.csv, sample_day_shoe/barefoot.csv, sample_seated_bounce.csv, "
+          f"sample_balance.csv, sample_balance_positions.csv -> {args.out}/")
 
 
 if __name__ == "__main__":

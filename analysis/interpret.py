@@ -34,6 +34,7 @@ except Exception:
 
 FSR   = [f"fsr{i}" for i in range(8)]
 ZONES = ["heel_med", "heel_lat", "midfoot", "met1", "met3", "met5", "hallux", "toes"]
+REFS  = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "refs", "plantar_norms.json")
 XY    = np.array([[.35, .08], [.65, .08], [.50, .45], [.30, .72],
                   [.50, .74], [.70, .72], [.28, .92], [.55, .95]])
 MEDIAL, LATERAL = [0, 3, 6], [1, 5]      # by zone index
@@ -167,6 +168,34 @@ def compare(by):
     return []
 
 
+def structure_watch(m, db):
+    """From the pressure pattern, which NERVES/FASCIA it tends to overload (refs `structures`).
+    Screening only — pairs the insole relief target with the likely at-risk structure."""
+    structs = db.get("structures", {}) if db else {}
+    if not structs:
+        return [], []
+    hot = ZONES[m["hot"]]
+    zoneset = {hot}
+    zoneset |= {"met1": {"met2"}, "met3": {"met2", "met4"}, "met5": {"met4"}}.get(hot, set())
+    if m["fore"] > 50:
+        zoneset |= {"met2", "met3", "met4"}
+    if m["heel"] > 50:
+        zoneset |= {"heel_med"}
+    if m["medial"] > m["lateral"] * 1.5:
+        zoneset |= {"heel_med", "midfoot", "met1"}       # pronation traction
+
+    lines = ["_Screening — which nerves/fascia this loading pattern tends to overload. NOT a diagnosis._"]
+    targets = []
+    for name, s in structs.items():
+        if name == "about" or not (set(s.get("loads_from", [])) & zoneset):
+            continue
+        targets.append(name)
+        cite = next((db["sources"][k]["url"] for k in s.get("sources", []) if k in db.get("sources", {})), "")
+        lines.append(f"- **{name}** ({s['kind']}) — {s['differentiator']} → _{s['manage']}_"
+                     + (f" ([src]({cite}))" if cite else ""))
+    return lines, targets
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("logs", nargs="+")
@@ -180,6 +209,10 @@ def main():
     os.makedirs(args.out, exist_ok=True)
 
     cal = calib.load(args.calibration) if (args.calibration and calib) else None
+    try:
+        db = json.load(open(REFS, encoding="utf-8"))
+    except Exception:
+        db = None
     df = load(paths)
     gc = group_col(df)
     by = {}
@@ -203,11 +236,23 @@ def main():
         lines.append("\n## Barefoot vs shoe\n")
         lines += [f"- {x}" for x in delta]
 
-    chosen = spec.get("shoe") or next(iter(spec.values()))
+    chosen_name = "shoe" if "shoe" in spec else next(iter(spec))
+    chosen = spec[chosen_name]
+
+    sw_lines, sw_targets = structure_watch(by[chosen_name], db)
+    if sw_targets:
+        chosen["structure_target"] = sw_targets
+        lines.append("\n## Structure watch — nerves & fascia (screening)\n")
+        lines += sw_lines
+        lines.append(f"\n→ The relief target should follow the structure(s): **{', '.join(sw_targets)}**. "
+                     f"Model the all-day dose (CPTS) with `analysis/nerve_fascia.py` — see docs/nerve_fascia.md.")
+
     lines.append("\n## -> Print these into the insole\n")
     lines.append(f"- **Relief window** at `{chosen['relief_window_zone']}` ({chosen.get('relief_window', 'standard')})")
     extras = f" · **{chosen['heel_cup']} heel cup**" if chosen.get("heel_cup") else ""
     lines.append(f"- **Posting:** {chosen['posting']} · **Cushion priority:** {chosen['cushion_priority']}{extras}")
+    if chosen.get("structure_target"):
+        lines.append(f"- **Structure target (screening):** {', '.join(chosen['structure_target'])}")
 
     with open(os.path.join(args.out, "report.md"), "w", encoding="utf-8") as fh:
         fh.write("\n".join(lines))

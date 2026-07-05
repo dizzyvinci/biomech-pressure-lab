@@ -12,7 +12,12 @@
       "relief_window": "aggressive (softer + deeper recess)",
       "posting": "medial",
       "cushion_priority": "heel",
-      "heel_cushion": "soft"
+      "heel_cushion": "soft",
+      "structure_target": [
+        "plantar_fascia",
+        "baxter_nerve",
+        "tibial_nerve_tarsal_tunnel"
+      ]
     }
   },
   "chosen": {
@@ -20,6 +25,11 @@
     "relief_window": "aggressive (softer + deeper recess)",
     "posting": "medial",
     "cushion_priority": "heel",
-    "heel_cushion": "soft"
+    "heel_cushion": "soft",
+    "structure_target": [
+      "plantar_fascia",
+      "baxter_nerve",
+      "tibial_nerve_tarsal_tunnel"
+    ]
   }
 }
