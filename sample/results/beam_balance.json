@@ -1,0 +1,33 @@
+{
+  "landing_clean": {
+    "kind": "landing",
+    "settle_s": 0.0,
+    "post_sway_mm2": 0.0,
+    "wobbles": 0,
+    "ml_excursion_mm": 0.6,
+    "step": false,
+    "deductions": 0.0,
+    "stick_score": 10.0
+  },
+  "landing_wobble": {
+    "kind": "landing",
+    "settle_s": 0.94,
+    "post_sway_mm2": 5.0,
+    "wobbles": 2,
+    "ml_excursion_mm": 5.6,
+    "step": true,
+    "deductions": 0.8,
+    "stick_score": 9.2
+  },
+  "releve_hold": {
+    "kind": "hold",
+    "ml_rms": 0.42,
+    "ap_rms": 0.77,
+    "area_mm2": 5.4,
+    "vel_mms": 2.9,
+    "forefoot_pct": 92.0,
+    "heel_pct": 0.0,
+    "dur_s": 8.0,
+    "grade": "elite"
+  }
+}

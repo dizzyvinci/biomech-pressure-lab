@@ -7,6 +7,8 @@
 > 🧭 **More stances?** [**balance_positions.md**](balance_positions.md) runs the full clinical battery — **mCTSIB** (firm/foam × eyes open/closed → vision/somatosensory/**vestibular** reliance), **single-leg L vs R** asymmetry, **tandem**, and **Limits of Stability** — with `analysis/balance_positions.py`.
 >
 > 🔌 **Devices?** [**balance_assist.md**](balance_assist.md) closes the loop with **Apple Watch** (Walking Steadiness cross-ref), **Parkinson's cueing glasses** (freezing-of-gait → floor-lines/metronome), and **smart walkers** (foot+handle load → adaptive brake). Code in [`integrations/`](../integrations/README.md).
+>
+> 🤸 **Athletes?** [**beam_balance.md**](beam_balance.md) is the specialized case — gymnasts on the beam: mediolateral control + a judge-style **landing "stick"** score (`analysis/beam_balance.py`).
 
 ## Who it's for
 Anyone screening or training **postural stability**: older adults (fall risk), vestibular / proprioceptive issues, neurological conditions, hypermobility, post-injury return-to-play. **Not a diagnosis** — a screening/training aid to use with a clinician.

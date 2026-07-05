@@ -480,11 +480,75 @@ def g_balance_assist():
                 "Three columns Sense/Decide/Assist with nodes and arrows; the freezing-of-gait path to the cue glasses is highlighted.")
 
 
+def g_beam_balance():
+    w, h = 900, 460
+    b = [head(w, "Beam / athlete balance — the specialized case",
+              "Elite balance isn't \"are you safe?\" but \"how clean was that?\" — ML control + the landing stick")]
+    # LEFT: the beam, ML is everything
+    b.append(box(24, 74, 268, 320, PANEL, BORDER, 1.6, 12))
+    b.append(T(40, 100, "On the beam — ML is everything", 12, NAVY, "700"))
+    b.append('<rect x="52" y="210" width="208" height="14" rx="3" fill="#cbb28a" stroke="#94a3b8"/>')
+    b.append(T(156, 246, "beam — 10 cm wide", 9, MUTE, "400", "middle"))
+    b.append(f'<ellipse cx="156" cy="205" rx="16" ry="30" fill="#dbe4ef" stroke="{LINE}"/>')  # foot along beam
+    b.append(f'<circle cx="156" cy="205" r="4" fill="{NAVY}"/>')
+    # ML arrows (vertical = off the sides)
+    b.append(f'<line x1="156" y1="150" x2="156" y2="180" stroke="{RED}" stroke-width="2.4" marker-end="url(#arr)"/>')
+    b.append(f'<line x1="156" y1="262" x2="156" y2="290" stroke="{RED}" stroke-width="2.4" marker-end="url(#arr)"/>')
+    b.append(T(168, 140, "ML sway = fall off", 9.5, RED, "700"))
+    # AP arrows (along beam = fine)
+    b.append(f'<line x1="70" y1="330" x2="45" y2="330" stroke="{MUTE}" stroke-width="1.6" marker-end="url(#ar)"/>')
+    b.append(f'<line x1="242" y1="330" x2="267" y2="330" stroke="{MUTE}" stroke-width="1.6" marker-end="url(#ar)"/>')
+    b.append(T(156, 333, "AP = along the beam, fine", 9, MUTE, "400", "middle"))
+    b.append(T(40, 372, "So we score ML sway, not total.", 9.5, SLATE))
+
+    # MIDDLE: landing stick — two settle scatter plots
+    b.append(box(304, 74, 268, 320, "#ffffff", BORDER, 1.6, 12))
+    b.append(T(320, 100, "Landing \"stick\" — the signature score", 11.5, NAVY, "700"))
+    # clean
+    b.append(box(320, 116, 236, 120, GREENBG, GREEN, 1.4))
+    b.append(f'<line x1="438" y1="130" x2="438" y2="220" stroke="{BORDER}"/><line x1="345" y1="176" x2="531" y2="176" stroke="{BORDER}"/>')
+    for dx, dy in [(0, 0), (2, -1), (-1, 2), (1, 1), (-2, -1), (0, 2)]:
+        b.append(f'<circle cx="{438+dx*3}" cy="{176+dy*3}" r="2.4" fill="{GREEN}"/>')
+    b.append(T(440, 210, "COP settles at once", 8, MUTE, "400", "middle"))
+    b.append(T(330, 132, "clean", 9.5, GREEN, "700"))
+    b.append(T(546, 132, "STUCK 10.0", 11, GREEN, "700", "end"))
+    # wobble
+    b.append(box(320, 246, 236, 120, "#fff7ed", AMBER, 1.4))
+    b.append(f'<line x1="438" y1="260" x2="438" y2="350" stroke="{BORDER}"/><line x1="345" y1="306" x2="531" y2="306" stroke="{BORDER}"/>')
+    for dx, dy in [(0, 0), (6, -3), (-5, 4), (10, 2), (-8, -3), (14, 6), (3, -7), (-3, 8)]:
+        b.append(f'<circle cx="{438+dx*3}" cy="{306+dy*3}" r="2.4" fill="{AMBER}"/>')
+    for dx, dy in [(30, 2), (33, 5), (28, -2)]:                     # the step — a shifted cluster
+        b.append(f'<circle cx="{438+dx*3}" cy="{306+dy*3}" r="2.4" fill="{RED}"/>')
+    b.append(T(330, 262, "wobble", 9.5, AMBER, "700"))
+    b.append(T(546, 262, "9.2 · step", 11, RED, "700", "end"))
+    b.append(T(500, 330, "step →", 8, RED, "700", "end"))
+
+    # RIGHT: what it scores
+    b.append(box(584, 74, 292, 320, PANEL, BORDER, 1.6, 12))
+    b.append(T(600, 100, "What it scores", 12, NAVY, "700"))
+    b.append(T(600, 126, "Landing (judge-style deductions):", 9.5, NAVY, "700"))
+    for i, s in enumerate(["settle time (COP speed < 25 mm/s)", "wobbles (~0.1 each)",
+                           "a step / hop (~0.5)", "post-landing sway"]):
+        b.append(T(610, 146 + i * 17, "• " + s, 9, SLATE))
+    b.append(T(600, 232, "Static hold:", 9.5, NAVY, "700"))
+    b.append(T(610, 250, "• ML sway 0.42 mm → elite grade", 9, SLATE))
+    b.append(T(610, 267, "• 92% forefoot → relevé (on the ball)", 9, SLATE))
+    b.append(T(600, 300, "Vision independence (athlete Romberg):", 9.5, NAVY, "700"))
+    b.append(T(610, 318, "• low eyes-closed sway = elite (spotting)", 9, SLATE))
+    b.append(T(600, 352, "Trend stick scores + ML sway across a season.", 9, MUTE))
+
+    b.append(T(24, 424, "The niche: we own the foot-pressure + COP layer the camera can't see — sync each landing to "
+                        "your video by timestamp. Not a medical device.", 9.5, MUTE))
+    return wrap(w, h, "\n".join(b),
+                "Specialized beam/athlete balance: on a 10cm beam mediolateral sway is what makes you fall, so the module scores ML sway plus the landing 'stick' — a clean landing settles instantly (10.0), a wobbly one with a step scores 9.2. Also relevé forefoot load and an athlete Romberg where low eyes-closed sway is elite.",
+                "Left: a beam with ML-sway arrows. Middle: clean vs wobbly landing COP scatter with stick scores. Right: what it scores.")
+
+
 def main():
     for name, fn in [("physical_setup", g_physical), ("pipeline", g_pipeline),
                      ("software_metrics", g_software), ("day_in_the_life", g_day),
                      ("balance_detail", g_balance), ("balance_positions", g_balance_positions),
-                     ("balance_assist", g_balance_assist)]:
+                     ("balance_assist", g_balance_assist), ("beam_balance", g_beam_balance)]:
         with open(os.path.join(HERE, f"{name}.svg"), "w", encoding="utf-8") as f:
             f.write(fn())
         print(f"-> {name}.svg")
