@@ -33,6 +33,15 @@ What you **order** vs what the printer **makes** (with lifespans / a day of use)
 
 > 🧭 **Also:** a new [**balance module**](docs/balance.md) (posturography — sway, Romberg quotient, fall-risk flags) turns the same rig into a stability screen for balance issues, not just foot pain. And [**prototype_status.md**](docs/prototype_status.md) is the "is it ready to build/pitch?" summary + the ordered-vs-printed BOM. Print models + STL export: [hardware/](hardware/README.md).
 
+### ▶️ See it work — no hardware needed
+The [**`sample/`**](sample/README.md) folder runs the **entire pipeline on a synthetic day of data**: calibrate → real **kPa** → findings → a **printable insole the software designs itself** → a balance/fall-risk screen. Reproduces in ~5 seconds; every output is committed so you can read it now.
+
+<p align="center">
+  <img src="sample/results/shoe.png" width="100%" alt="worked example: pressure per zone, peak-pressure heatmap, center-of-pressure path"/>
+</p>
+
+**Result:** hot spot at **heel_med (645 kPa, 40% of load)**, medial pronation, heel-dominant; the shoe *adds* +13 pts vs barefoot → the generator emits an **aggressive medial-heel relief insole** ([`hardware/relief_insole.stl`](hardware/relief_insole.stl)). Balance: **Romberg 3.6** (vision-reliant). Full write-up → [sample/README.md](sample/README.md).
+
 ---
 
 ## 🖨️ Path 1 — the printer-first workflow (start here)
@@ -59,6 +68,8 @@ That's the whole loop — **no measurement hardware.**
 | File | What it is |
 |---|---|
 | ⭐ [docs/insole_print_spec.md](docs/insole_print_spec.md) | **The insole design + print settings** (relief window, density zones) — Path 1's core |
+| ▶️ [sample/](sample/README.md) | **Worked example** — full pipeline on synthetic data (kPa → insole → balance) |
+| 🖨️ [hardware/build_insole.py](hardware/build_insole.py) | Reads `insole_spec.json` → emits a **print-ready insole** (relief window placed from data) |
 | [docs/parts_list.md](docs/parts_list.md) | Every part with buy links (printer path + optional rig) |
 | [docs/what-each-part-is-for.md](docs/what-each-part-is-for.md) | Plain-English part purposes |
 | [docs/quickstart.md](docs/quickstart.md) | Both paths, step by step |

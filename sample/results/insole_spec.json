@@ -1,0 +1,25 @@
+{
+  "per_condition": {
+    "barefoot": {
+      "relief_window_zone": "heel_med",
+      "relief_window": "standard",
+      "posting": "medial",
+      "cushion_priority": "balanced",
+      "heel_cushion": "soft"
+    },
+    "shoe": {
+      "relief_window_zone": "heel_med",
+      "relief_window": "aggressive (softer + deeper recess)",
+      "posting": "medial",
+      "cushion_priority": "heel",
+      "heel_cushion": "soft"
+    }
+  },
+  "chosen": {
+    "relief_window_zone": "heel_med",
+    "relief_window": "aggressive (softer + deeper recess)",
+    "posting": "medial",
+    "cushion_priority": "heel",
+    "heel_cushion": "soft"
+  }
+}

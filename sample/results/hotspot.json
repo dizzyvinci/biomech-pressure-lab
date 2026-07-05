@@ -1,0 +1,13 @@
+{
+  "overall_hot_zone": "heel_med",
+  "zone_impulse_rank": {
+    "heel_med": 3989.5,
+    "heel_lat": 2295.2,
+    "met1": 1267.1,
+    "met3": 1097.0,
+    "midfoot": 939.5,
+    "hallux": 920.1,
+    "met5": 797.4,
+    "toes": 545.0
+  }
+}

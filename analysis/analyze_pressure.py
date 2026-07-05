@@ -24,6 +24,12 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+try:
+    import calib          # power-law ADC -> kPa when --calibration is given
+except Exception:
+    calib = None
+
 FSR_COLS = [f"fsr{i}" for i in range(8)]
 
 # Zone names in channel order (must match how you wired/placed the FSRs).
@@ -57,14 +63,17 @@ def load_logs(paths):
     return pd.concat(frames, ignore_index=True)
 
 
-def to_force(df, calibrated):
-    f = df[FSR_COLS].to_numpy(dtype=float)
+def to_force(df, calibrated, cal=None):
+    adc = df[FSR_COLS].to_numpy(dtype=float)
+    if cal is not None and calib is not None:
+        return calib.frame_to_pressure(adc, cal)     # real kPa (power law)
     if calibrated:
+        f = adc.copy()
         for i in range(8):
             s, b = CALIB[i]
             f[:, i] = s * f[:, i] + b
-        f = np.clip(f, 0, None)
-    return f
+        return np.clip(f, 0, None)
+    return adc                                        # relative ADC
 
 
 def zone_metrics(t_ms, force):
@@ -102,21 +111,24 @@ def gait_events(t_ms, force):
             "stride_s": round(float(stride.mean()), 3)}
 
 
-def plot_activity(name, t_ms, force, cop, outdir):
+def plot_activity(name, t_ms, force, cop, outdir, unit="rel"):
     fig, ax = plt.subplots(1, 3, figsize=(15, 4))
     t = t_ms.to_numpy(dtype=float) / 1000.0
 
     for i, z in enumerate(ZONES):
         ax[0].plot(t, force[:, i], label=z, lw=0.9)
-    ax[0].set(title=f"{name}: force per zone", xlabel="s", ylabel="force (rel)")
+    ax[0].set(title=f"{name}: pressure per zone", xlabel="s", ylabel=f"pressure ({unit})")
     ax[0].legend(fontsize=7, ncol=2)
 
+    # smooth peak-pressure field: sum Gaussian blobs at each sensor position
     peak = force.max(axis=0)
-    grid = np.full((10, 10), np.nan)
-    for (x, y), v in zip(SENSOR_XY, peak):
-        grid[int(y * 9), int(x * 9)] = v
-    im = ax[1].imshow(grid, origin="lower", cmap="inferno", interpolation="bilinear")
-    ax[1].set(title=f"{name}: peak-pressure map", xticks=[], yticks=[])
+    gx, gy = np.meshgrid(np.linspace(0, 1, 90), np.linspace(0, 1, 90))
+    field = np.zeros_like(gx)
+    for (sx, sy), v in zip(SENSOR_XY, peak):
+        field += v * np.exp(-(((gx - sx) ** 2) + ((gy - sy) ** 2)) / (2 * 0.10 ** 2))
+    im = ax[1].imshow(field, origin="lower", extent=[0, 1, 0, 1], cmap="inferno", aspect="auto")
+    ax[1].scatter(SENSOR_XY[:, 0], SENSOR_XY[:, 1], c="cyan", s=10, edgecolors="k", linewidths=0.4)
+    ax[1].set(title=f"{name}: peak-pressure map ({unit})", xlabel="medial→lateral", ylabel="heel→toe")
     fig.colorbar(im, ax=ax[1], fraction=0.046)
 
     ax[2].plot(cop[:, 0], cop[:, 1], lw=0.6)
@@ -134,9 +146,11 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("logs", nargs="+", help="CSV file(s) or glob(s)")
     ap.add_argument("--out", default="results")
-    ap.add_argument("--calibrated", action="store_true", help="apply CALIB -> Newtons")
+    ap.add_argument("--calibrated", action="store_true", help="apply linear CALIB -> Newtons")
+    ap.add_argument("--calibration", help="calibration.json for real kPa (power law, from calibrate.py)")
     args = ap.parse_args()
 
+    cal = calib.load(args.calibration) if (args.calibration and calib) else None
     paths = []
     for g in args.logs:
         paths += glob.glob(g)
@@ -151,11 +165,12 @@ def main():
     rows, plots = [], []
     for act, sub in df.groupby("activity"):
         sub = sub.sort_values("t_ms")
-        force = to_force(sub, args.calibrated)
+        force = to_force(sub, args.calibrated, cal)
         peak, mean, impulse = zone_metrics(sub["t_ms"], force)
         cop = center_of_pressure(force)
         gait = gait_events(sub["t_ms"], force)
         hot = int(np.argmax(impulse))
+        unit = "kPa" if cal is not None else ("N" if args.calibrated else "rel")
 
         rows.append({
             "activity": act, "samples": len(sub),
@@ -166,7 +181,7 @@ def main():
             **{f"impulse_{z}": round(float(impulse[i]), 1) for i, z in enumerate(ZONES)},
             **gait,
         })
-        plots.append(plot_activity(str(act), sub["t_ms"], force, cop, args.out))
+        plots.append(plot_activity(str(act), sub["t_ms"], force, cop, args.out, unit))
 
     summary = pd.DataFrame(rows)
     csv_path = os.path.join(args.out, "summary.csv")

@@ -5,9 +5,10 @@ __pycache__/
 venv/
 .env
 
-# Analysis outputs (regenerated)
-results/
-analysis/results/
+# Analysis outputs (regenerated) — anchored to root so the committed
+# worked example under sample/results/ is NOT ignored.
+/results/
+/analysis/results/
 
 # Raw captures (large / personal) — commit a small sample if you want
 logs/
