@@ -69,6 +69,10 @@ The **balance module** in depth — posturography, Romberg, fall-risk → device
 
 ![Plantar pressure atlas](docs/pressure_atlas.svg)
 
+**Condition-aware** — heel pain, **toe-walking**, equinus: uses *your* adaptive baseline so it doesn't false-flag it, then surfaces the real risk ([conditions.md](docs/conditions.md)):
+
+![Condition-aware analysis](docs/conditions.svg)
+
 > 🧭 **Also:** a new [**balance module**](docs/balance.md) (posturography — sway, Romberg quotient, fall-risk flags) turns the same rig into a stability screen for balance issues, not just foot pain. And [**prototype_status.md**](docs/prototype_status.md) is the "is it ready to build/pitch?" summary + the ordered-vs-printed BOM. Print models + STL export: [hardware/](hardware/README.md).
 
 ### ▶️ See it work — no hardware needed

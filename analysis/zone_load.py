@@ -76,6 +76,9 @@ def main():
     ap.add_argument("--bodyweight-kg", type=float)
     ap.add_argument("--foot-length-mm", type=float, default=255.0,
                     help="your foot length (mm) -> report zone positions in mm on YOUR foot")
+    ap.add_argument("--condition",
+                    help="your adaptive/altered baseline (e.g. toe_walking, plantar_fasciitis, equinus) "
+                         "-> don't false-flag adaptive patterns; surface the condition's real risks")
     ap.add_argument("--out", default="results")
     args = ap.parse_args()
     os.makedirs(args.out, exist_ok=True)
@@ -84,6 +87,8 @@ def main():
     if args.profile not in db["profiles"]:
         raise SystemExit(f"unknown profile. choose from: {list(db['profiles'])}")
     prof = db["profiles"][args.profile]
+    cond = db["profiles"].get(args.condition) if args.condition else None
+    adaptive = bool(prof.get("adaptive")) or bool(cond and cond.get("adaptive"))
     cal = calib.load(args.calibration) if (args.calibration and calib) else None
 
     if args.demo:
@@ -127,7 +132,24 @@ def main():
             if mm:
                 L.append(f"  · **{z}** at ~(x {mm[0]}, y {mm[1]}) mm on your {args.foot_length_mm:.0f} mm foot — {lm}")
     if under:
-        L.append("**Under-used** (≤0.7× the norm): " + ", ".join(f"{z} ({r}×)" for z, r in under))
+        parts = []
+        for z, r in under:
+            expected = adaptive and z in ("heel_med", "heel_lat")
+            parts.append(f"{z} ({r}×)" + (" _(expected — adaptive baseline, not a flag)_" if expected else ""))
+        L.append("**Under-used** (≤0.7× the norm): " + ", ".join(parts))
+
+    # condition awareness: adaptive baseline + real risks + management (from profile and/or --condition)
+    for src in (prof, cond):
+        if not src:
+            continue
+        rp = src.get("region_pct_published")
+        if rp:
+            L.append(f"\n_Published baseline — {src.get('movement','')}: forefoot {rp['forefoot']}% / "
+                     f"midfoot {rp['midfoot']}% / hindfoot {rp['hindfoot']}% ({rp.get('vs_normal','')})._")
+        if src.get("baseline_note"):
+            L.append(f"\n🧭 **Adaptive baseline:** {src['baseline_note']}")
+        if src.get("management_note"):
+            L.append(f"🩺 **Management:** {src['management_note']}")
 
     if prof.get("chain_injury"):
         L.append(f"\n🔗 **Kinetic chain (it's all connected to the foot):** {prof['chain_injury']}")

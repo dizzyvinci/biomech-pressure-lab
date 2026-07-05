@@ -1,5 +1,5 @@
 {
-  "profile": "basketball_landing",
+  "profile": "equinus",
   "athlete_pct": {
     "heel_med": 2.4,
     "heel_lat": 2.4,
@@ -15,7 +15,7 @@
   "over_used": [
     [
       "met1",
-      1.71
+      1.37
     ],
     [
       "met2",
@@ -23,25 +23,37 @@
     ],
     [
       "met3",
-      1.38
+      1.58
     ],
     [
       "met4",
-      2.17
+      1.62
+    ],
+    [
+      "toes",
+      1.32
     ]
   ],
   "under_used": [
     [
       "heel_med",
-      0.6
+      0.3
     ],
     [
       "heel_lat",
-      0.6
+      0.4
+    ],
+    [
+      "midfoot",
+      0.4
+    ],
+    [
+      "met5",
+      0.67
     ],
     [
       "hallux",
-      0.16
+      0.44
     ]
   ]
 }

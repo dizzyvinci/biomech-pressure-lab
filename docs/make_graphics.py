@@ -753,13 +753,64 @@ def g_pressure_atlas():
                 "Left: footprint with per-zone kPa colored by magnitude. Right: peak pressure by activity vs ulcer thresholds.")
 
 
+def g_conditions():
+    w, h = 900, 470
+    b = [head(w, "Condition-aware — adaptive gait isn't an injury flag",
+              "Heel pain, toe-walking, equinus: the engine uses YOUR baseline, then flags the real risk")]
+    b.append(box(24, 74, 320, 360, PANEL, BORDER, 1.6, 12))
+    b.append(T(40, 100, "Load shift — normal vs toe-walking", 11.5, NAVY, "700"))
+    def gbar(y, lab, normal, itw):
+        s = [T(40, y - 4, lab, 10, NAVY, "700")]
+        s.append(T(48, y + 17, "normal", 8.5, MUTE))
+        s.append(box(112, y + 7, 170, 13, PANEL2, BORDER, 1, 4))
+        s.append(f'<rect x="112" y="{y+7}" width="{normal/70*170:.0f}" height="13" rx="4" fill="{BLUE}"/>')
+        s.append(T(112 + normal / 70 * 170 + 5, y + 17, f"{normal}%", 8.5, NAVY, "700"))
+        s.append(T(48, y + 40, "toe-walk", 8.5, MUTE))
+        s.append(box(112, y + 30, 170, 13, PANEL2, BORDER, 1, 4))
+        s.append(f'<rect x="112" y="{y+30}" width="{itw/70*170:.0f}" height="13" rx="4" fill="{RED}"/>')
+        s.append(T(112 + itw / 70 * 170 + 5, y + 40, f"{itw}%", 8.5, RED, "700"))
+        return "".join(s)
+    b.append(gbar(140, "Forefoot load", 39, 62))
+    b.append(gbar(216, "Hindfoot (heel) load", 30, 23))
+    b.append(T(40, 300, "Toe-walking shifts load FORWARD.", 10, NAVY, "700"))
+    b.append(T(40, 318, "ITW published: forefoot 61.7 / midfoot 15.3 /", 8.5, MUTE))
+    b.append(T(40, 330, "hindfoot 22.8% (vs normal ~39 / – / 30).", 8.5, MUTE))
+    b.append(T(40, 358, "So low heel loading is this person's NORM.", 9.5, SLATE))
+    b.append(T(40, 374, "The engine won't call it a deficit — it", 9.5, SLATE))
+    b.append(T(40, 388, "tracks forefoot-overload TRENDS + calf /", 9.5, SLATE))
+    b.append(T(40, 402, "ankle dorsiflexion instead.", 9.5, SLATE))
+
+    b.append(box(360, 74, 516, 360, "#ffffff", BORDER, 1.6, 12))
+    b.append(T(376, 100, "Conditions the engine now knows", 12, NAVY, "700"))
+    conds = [
+        ("Plantar fasciitis (medial heel pain)", "altered medial-heel pressure + forefoot overstrain; first-step AM pain",
+         "engine → watch heel_med; offload + restore dorsiflexion", AMBER),
+        ("Toe-walking (adaptive)", "forefoot 62% / heel 23% — pain-avoidant / sensory / retained",
+         "engine → heel under-use = EXPECTED, not a flag; watch met overload + calf", RED),
+        ("Equinus (< 10° dorsiflexion)", "forefoot peak 677.8 vs 565.6 kPa; premature heel rise",
+         "engine → forefoot overload = metatarsalgia / met stress / PF", RED),
+    ]
+    y = 118
+    for title, sig, eng, c in conds:
+        b.append(box(376, y, 484, 90, PANEL, c, 1.4, 8))
+        b.append(T(390, y + 22, title, 10.5, NAVY, "700"))
+        b.append(T(390, y + 42, sig, 9, SLATE))
+        b.append(T(390, y + 66, eng, 9.5, c, "700"))
+        y += 100
+    b.append(T(24, 452, "Adaptive ≠ injury. Management is person-specific: hypermobile → LOAD / strengthen, don't over-stretch a lax system. Not medical advice.",
+               9.5, MUTE))
+    return wrap(w, h, "\n".join(b),
+                "Condition-aware analysis: toe-walking shifts load forward (forefoot 39%->62%, heel 30%->23% per published ITW data), so the engine treats low heel loading as the adaptive baseline, not a deficit, and instead flags forefoot overload + calf tightness. Plus plantar-fasciitis (medial heel) and equinus (forefoot 677.8 kPa) condition profiles. Management is person-specific (hypermobile -> load not stretch).",
+                "Left: normal-vs-toe-walking forefoot/hindfoot load bars. Right: three condition cards with the engine's condition-aware response.")
+
+
 def main():
     for name, fn in [("physical_setup", g_physical), ("pipeline", g_pipeline),
                      ("software_metrics", g_software), ("day_in_the_life", g_day),
                      ("balance_detail", g_balance), ("balance_positions", g_balance_positions),
                      ("balance_assist", g_balance_assist), ("beam_balance", g_beam_balance),
                      ("landing_lab", g_landing_lab), ("zone_load", g_zone_load), ("chain", g_chain),
-                     ("pressure_atlas", g_pressure_atlas)]:
+                     ("pressure_atlas", g_pressure_atlas), ("conditions", g_conditions)]:
         with open(os.path.join(HERE, f"{name}.svg"), "w", encoding="utf-8") as f:
             f.write(fn())
         print(f"-> {name}.svg")

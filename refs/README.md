@@ -47,6 +47,11 @@ soccer (sprint/cut). Each: `dist_pct`, `peak_pressure_kPa` (where sourced),
 `peak_force_BW`, `watch_zones`, `injury` + `chain_injury`, sources. Plus:
 - **`zone_anatomy`** — each zone's **anatomical position** (`pos_mm` on a 255 mm foot).
 - **`chain_rules`** — foot **signatures → kinetic-chain injuries** (hamstring, ACL, shin).
+- **Condition profiles** (v0.4) — `plantar_fasciitis`, `toe_walking`, `equinus`: a person's
+  **adaptive/altered baseline**, so `zone_load.py --condition` doesn't false-flag it (a
+  toe-walker's low heel is the norm) and instead surfaces the condition's real risks. See
+  [../docs/conditions.md](../docs/conditions.md). Cited: ITW forefoot 61.7% ([PubMed 31946390](https://pubmed.ncbi.nlm.nih.gov/31946390/)),
+  equinus forefoot 677.8 kPa ([PMC9338503](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9338503/)).
 
 Key sourced facts:
 | | Finding | Source |

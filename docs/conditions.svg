@@ -1,0 +1,33 @@
+<svg viewBox="0 0 900 470" xmlns="http://www.w3.org/2000/svg" role="img" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif">
+<title>Condition-aware analysis: toe-walking shifts load forward (forefoot 39%-&gt;62%, heel 30%-&gt;23% per published ITW data), so the engine treats low heel loading as the adaptive baseline, not a deficit, and instead flags forefoot overload + calf tightness. Plus plantar-fasciitis (medial heel) and equinus (forefoot 677.8 kPa) condition profiles. Management is person-specific (hypermobile -&gt; load not stretch).</title>
+<desc>Left: normal-vs-toe-walking forefoot/hindfoot load bars. Right: three condition cards with the engine's condition-aware response.</desc>
+<defs><marker id="ar" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#64748b"/></marker><marker id="arr" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#e11d48"/></marker></defs>
+<rect x="4" y="4" width="892" height="462" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"/>
+<text x="24" y="36" font-size="18" fill="#0f172a" font-weight="700" text-anchor="start">Condition-aware — adaptive gait isn't an injury flag</text><text x="24" y="55" font-size="11.5" fill="#475569" font-weight="400" text-anchor="start">Heel pain, toe-walking, equinus: the engine uses YOUR baseline, then flags the real risk</text>
+<rect x="24" y="74" width="320" height="360" rx="12" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1.6"/>
+<text x="40" y="100" font-size="11.5" fill="#0f172a" font-weight="700" text-anchor="start">Load shift — normal vs toe-walking</text>
+<text x="40" y="136" font-size="10" fill="#0f172a" font-weight="700" text-anchor="start">Forefoot load</text><text x="48" y="157" font-size="8.5" fill="#64748b" font-weight="400" text-anchor="start">normal</text><rect x="112" y="147" width="170" height="13" rx="4" fill="#eef2f7" stroke="#e2e8f0" stroke-width="1"/><rect x="112" y="147" width="95" height="13" rx="4" fill="#2563eb"/><text x="211.71428571428572" y="157" font-size="8.5" fill="#0f172a" font-weight="700" text-anchor="start">39%</text><text x="48" y="180" font-size="8.5" fill="#64748b" font-weight="400" text-anchor="start">toe-walk</text><rect x="112" y="170" width="170" height="13" rx="4" fill="#eef2f7" stroke="#e2e8f0" stroke-width="1"/><rect x="112" y="170" width="151" height="13" rx="4" fill="#e11d48"/><text x="267.57142857142856" y="180" font-size="8.5" fill="#e11d48" font-weight="700" text-anchor="start">62%</text>
+<text x="40" y="212" font-size="10" fill="#0f172a" font-weight="700" text-anchor="start">Hindfoot (heel) load</text><text x="48" y="233" font-size="8.5" fill="#64748b" font-weight="400" text-anchor="start">normal</text><rect x="112" y="223" width="170" height="13" rx="4" fill="#eef2f7" stroke="#e2e8f0" stroke-width="1"/><rect x="112" y="223" width="73" height="13" rx="4" fill="#2563eb"/><text x="189.85714285714283" y="233" font-size="8.5" fill="#0f172a" font-weight="700" text-anchor="start">30%</text><text x="48" y="256" font-size="8.5" fill="#64748b" font-weight="400" text-anchor="start">toe-walk</text><rect x="112" y="246" width="170" height="13" rx="4" fill="#eef2f7" stroke="#e2e8f0" stroke-width="1"/><rect x="112" y="246" width="56" height="13" rx="4" fill="#e11d48"/><text x="172.85714285714286" y="256" font-size="8.5" fill="#e11d48" font-weight="700" text-anchor="start">23%</text>
+<text x="40" y="300" font-size="10" fill="#0f172a" font-weight="700" text-anchor="start">Toe-walking shifts load FORWARD.</text>
+<text x="40" y="318" font-size="8.5" fill="#64748b" font-weight="400" text-anchor="start">ITW published: forefoot 61.7 / midfoot 15.3 /</text>
+<text x="40" y="330" font-size="8.5" fill="#64748b" font-weight="400" text-anchor="start">hindfoot 22.8% (vs normal ~39 / – / 30).</text>
+<text x="40" y="358" font-size="9.5" fill="#475569" font-weight="400" text-anchor="start">So low heel loading is this person's NORM.</text>
+<text x="40" y="374" font-size="9.5" fill="#475569" font-weight="400" text-anchor="start">The engine won't call it a deficit — it</text>
+<text x="40" y="388" font-size="9.5" fill="#475569" font-weight="400" text-anchor="start">tracks forefoot-overload TRENDS + calf /</text>
+<text x="40" y="402" font-size="9.5" fill="#475569" font-weight="400" text-anchor="start">ankle dorsiflexion instead.</text>
+<rect x="360" y="74" width="516" height="360" rx="12" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.6"/>
+<text x="376" y="100" font-size="12" fill="#0f172a" font-weight="700" text-anchor="start">Conditions the engine now knows</text>
+<rect x="376" y="118" width="484" height="90" rx="8" fill="#f8fafc" stroke="#f59e0b" stroke-width="1.4"/>
+<text x="390" y="140" font-size="10.5" fill="#0f172a" font-weight="700" text-anchor="start">Plantar fasciitis (medial heel pain)</text>
+<text x="390" y="160" font-size="9" fill="#475569" font-weight="400" text-anchor="start">altered medial-heel pressure + forefoot overstrain; first-step AM pain</text>
+<text x="390" y="184" font-size="9.5" fill="#f59e0b" font-weight="700" text-anchor="start">engine → watch heel_med; offload + restore dorsiflexion</text>
+<rect x="376" y="218" width="484" height="90" rx="8" fill="#f8fafc" stroke="#e11d48" stroke-width="1.4"/>
+<text x="390" y="240" font-size="10.5" fill="#0f172a" font-weight="700" text-anchor="start">Toe-walking (adaptive)</text>
+<text x="390" y="260" font-size="9" fill="#475569" font-weight="400" text-anchor="start">forefoot 62% / heel 23% — pain-avoidant / sensory / retained</text>
+<text x="390" y="284" font-size="9.5" fill="#e11d48" font-weight="700" text-anchor="start">engine → heel under-use = EXPECTED, not a flag; watch met overload + calf</text>
+<rect x="376" y="318" width="484" height="90" rx="8" fill="#f8fafc" stroke="#e11d48" stroke-width="1.4"/>
+<text x="390" y="340" font-size="10.5" fill="#0f172a" font-weight="700" text-anchor="start">Equinus (&lt; 10° dorsiflexion)</text>
+<text x="390" y="360" font-size="9" fill="#475569" font-weight="400" text-anchor="start">forefoot peak 677.8 vs 565.6 kPa; premature heel rise</text>
+<text x="390" y="384" font-size="9.5" fill="#e11d48" font-weight="700" text-anchor="start">engine → forefoot overload = metatarsalgia / met stress / PF</text>
+<text x="24" y="452" font-size="9.5" fill="#64748b" font-weight="400" text-anchor="start">Adaptive ≠ injury. Management is person-specific: hypermobile → LOAD / strengthen, don't over-stretch a lax system. Not medical advice.</text>
+</svg>

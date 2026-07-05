@@ -37,8 +37,13 @@
     "hsi_sprint":  {"cite": "Hamstring strain in sprinting (PMC6188997); soccer HSI video review, 2026", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6188997/", "finding": "late-swing eccentric just before foot-strike; overstride worsens; #1 soccer injury"},
     "acl_grf":     {"cite": "ACL landing biomechanics predict re-injury (PMC4920967)", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4920967/", "finding": "high vGRF + loading rate predicts ACL; strain peaks with vGRF"},
     "acl_asym":    {"cite": "Limb symmetry & landing after ACLR (PMC8359711)", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8359711/", "finding": "L/R asymmetry >10-15% = non-contact ACL precursor"},
-    "pose_grf":    {"cite": "vGRF in single-leg landing from 2D video + pose AI, 2024", "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11057390/", "finding": "2D-pose -> vGRF feasible; basis for video_force"}
+    "pose_grf":    {"cite": "vGRF in single-leg landing from 2D video + pose AI, 2024", "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11057390/", "finding": "2D-pose -> vGRF feasible; basis for video_force"},
+    "pf_press":    {"cite": "Biomechanical parameters in plantar fasciitis by gait analysis (PMC5773441); PF athletes plantar-pressure features", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5773441/", "finding": "PF = altered medial/lateral-heel peak pressure (deficit OR excess) + deformed pressure vector; forefoot/met overstrain feeds the fascia; first-step morning pain"},
+    "itw_press":   {"cite": "Idiopathic toe walking: plantar pressure & toe function (PubMed 31946390); ITW update, JAAOS, 2022", "url": "https://pubmed.ncbi.nlm.nih.gov/31946390/", "finding": "ITW ~61.7% forefoot / 15.3% midfoot / 22.8% hindfoot contact vs normal ~39% forefoot / 30% rearfoot; increased forefoot & decreased hindfoot callosity"},
+    "asd_gait":    {"cite": "Gait patterns in ASD (systematic review); 8-week exercise program in ASD boys, 2023", "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9993582/", "finding": "forefoot-loading tendency + more L/R asymmetry & step variability; intervention reduced 1st-peak vGRF, loading rate, and MEDIAL-HEEL peak pressure"},
+    "equinus_press": {"cite": "Ankle-joint flexibility & barefoot plantar pressures, healthy older adults (PMC9338503)", "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9338503/", "finding": "ankle equinus forefoot peak 677.8 kPa (589.9-810.4) vs 565.6 (447.3-651.2) without equinus; <10 deg dorsiflexion -> premature heel rise -> forefoot overload -> metatarsalgia / met stress fx / plantar plate / sesamoiditis / PF"}
   },
+  "condition_notes": "CONDITION profiles describe a person's adaptive/altered BASELINE (not a sport). Use zone_load.py --condition so an ADAPTIVE pattern (e.g. habitual toe-walking) is NOT false-flagged as pathology — low heel loading is that person's norm. The engine then tracks the condition's REAL risks (forefoot overload trend, calf/dorsiflexion) and deviation from the condition baseline. Management is person-specific: tight non-hypermobile calf -> mobilize/eccentric; HYPERMOBILE -> LOAD/strengthen, do not over-stretch a lax system.",
   "chain_rules": {
     "_note": "foot-loading SIGNATURES -> kinetic-chain injuries (foot-local AND proximal).",
     "high_loading_rate":        {"signal": "steep dF/dt at landing (stiff)", "chain": ["ACL", "tibial bone stress"], "source": "acl_grf"},
@@ -156,6 +161,43 @@
       "injury": "central-met & bone stress",
       "chain_injury": "**ACL** — high vGRF + loading rate + L/R asymmetry; land soft & symmetric",
       "chain_rule": "high_loading_rate"
+    },
+    "plantar_fasciitis": {
+      "movement": "walking with plantar heel pain (medial calcaneal / PF)",
+      "condition": true,
+      "peak_force_BW": {"typical": 1.1, "confidence": "estimated"},
+      "peak_pressure_kPa": {"heel_med": 290, "confidence": "medial-heel PP altered (deficit OR excess); direction varies by person", "source": "pf_press"},
+      "dist_pct": {"heel_med": 16, "heel_lat": 12, "midfoot": 7, "met1": 12, "met2": 12, "met3": 11, "met4": 6, "met5": 5, "hallux": 11, "toes": 8},
+      "dist_confidence": "estimated (altered heel + compensatory forefoot per PF literature)", "dist_source": "pf_press",
+      "watch_zones": ["heel_med"],
+      "injury": "plantar fasciitis / medial calcaneal heel pain — first-step morning pain; deformed heel pressure vector; forefoot/met overstrain tugs the fascia (soft-tissue, NOT a stress fracture)",
+      "chain_injury": "avoiding the heel -> forefoot overload + calf/Achilles tightness (equinus loop)",
+      "management_note": "offload the medial heel + restore ankle dorsiflexion. Hypermobile -> LOAD/strengthen the plantar/calf, don't just stretch."
+    },
+    "toe_walking": {
+      "movement": "habitual toe / forefoot walking (idiopathic or adaptive)",
+      "condition": true, "adaptive": true,
+      "peak_force_BW": {"typical": 1.2, "confidence": "estimated"},
+      "region_pct_published": {"forefoot": 61.7, "midfoot": 15.3, "hindfoot": 22.8, "vs_normal": "normal ~39% forefoot / 30% rearfoot", "confidence": "published", "source": "itw_press"},
+      "dist_pct": {"heel_med": 6, "heel_lat": 5, "midfoot": 8, "met1": 15, "met2": 14, "met3": 12, "met4": 7, "met5": 5, "hallux": 15, "toes": 13},
+      "dist_confidence": "published_order", "dist_source": "itw_press",
+      "watch_zones": ["met2", "met3", "hallux"],
+      "injury": "forefoot overload -> metatarsalgia / met stress; toe-grip (flexor) overactivity; wider forefoot + forefoot callus",
+      "chain_injury": "chronic plantarflexion -> gastroc/Achilles tightness (equinus). LOW heel loading is the ADAPTIVE NORM here, not a deficit",
+      "baseline_note": "For a HABITUAL toe-walker this IS the baseline — do NOT flag 'heel under-used' as pathology. Track forefoot-overload TRENDS + calf/ankle dorsiflexion instead. Toe-walking may be pain-avoidant (heel pain), sensory/quieting, or a retained pattern.",
+      "management_note": "reversing it isn't always the goal; if kept, protect the forefoot (met pad, cushion) + keep ankle dorsiflexion. Hypermobile -> LOAD, don't over-stretch."
+    },
+    "equinus": {
+      "movement": "limited ankle dorsiflexion (tight gastroc/Achilles) during gait",
+      "condition": true,
+      "peak_force_BW": {"typical": 1.2, "confidence": "estimated"},
+      "peak_pressure_kPa": {"forefoot": [589.9, 810.4], "forefoot_typical": 677.8, "vs_no_equinus_kPa": 565.6, "confidence": "published (barefoot walking, older adults)", "source": "equinus_press"},
+      "dist_pct": {"heel_med": 8, "heel_lat": 6, "midfoot": 6, "met1": 15, "met2": 16, "met3": 14, "met4": 8, "met5": 6, "hallux": 9, "toes": 6},
+      "dist_confidence": "estimated (<10 deg dorsiflexion -> premature heel rise -> forefoot overload)", "dist_source": "equinus_press",
+      "watch_zones": ["met2", "met3"],
+      "injury": "metatarsalgia, met stress fx, plantar plate tear, sesamoiditis, plantar fasciitis (forefoot overload from restricted dorsiflexion)",
+      "chain_injury": "the common thread behind toe-walking + heel-pain avoidance; drives PF + forefoot problems",
+      "management_note": "restore dorsiflexion to drop forefoot pressure. Tight NON-hypermobile calf -> eccentric/mobilize; HYPERMOBILE -> LOAD/strengthen (a lax system needs control, not more stretch); severe/resistant -> gastroc recession is the surgical option."
     }
   }
 }
