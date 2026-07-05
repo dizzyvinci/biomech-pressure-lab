@@ -53,6 +53,10 @@ The **balance module** in depth — posturography, Romberg, fall-risk → device
 
 ![Beam / athlete balance](docs/beam_balance.svg)
 
+**Landing lab** — the *same* landing scored by discipline: gymnastics **stick**, figure-skating **edge check-out**, dance **soft roll** ([landing_lab.md](docs/landing_lab.md)):
+
+![Landing lab](docs/landing_lab.svg)
+
 > 🧭 **Also:** a new [**balance module**](docs/balance.md) (posturography — sway, Romberg quotient, fall-risk flags) turns the same rig into a stability screen for balance issues, not just foot pain. And [**prototype_status.md**](docs/prototype_status.md) is the "is it ready to build/pitch?" summary + the ordered-vs-printed BOM. Print models + STL export: [hardware/](hardware/README.md).
 
 ### ▶️ See it work — no hardware needed

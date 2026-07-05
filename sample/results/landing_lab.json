@@ -1,0 +1,53 @@
+{
+  "dance_landing": {
+    "discipline": "dance",
+    "score": 9.9,
+    "verdict": "soft & rolled",
+    "t0": 5.64,
+    "dur": 1.8500000000000005,
+    "impact_peak": 632.0279694320743,
+    "loading_rate": 2691.9429005153797,
+    "roll_lag_s": 0.85,
+    "ml_std": 0.02,
+    "ml_excursion": 0.2,
+    "ap_flow": -43.1,
+    "edge": "inside/medial",
+    "settle_s": 0.09,
+    "wobbles": 1,
+    "forefoot_pct": 6.0
+  },
+  "gymnastics_stick": {
+    "discipline": "gymnastics",
+    "score": 9.8,
+    "verdict": "STUCK \u2014 clean",
+    "t0": 0.4,
+    "dur": 2.0900000000000003,
+    "impact_peak": 1407.7213457737662,
+    "loading_rate": 69852.94470800512,
+    "roll_lag_s": -1.95,
+    "ml_std": 0.26,
+    "ml_excursion": 1.3,
+    "ap_flow": 25.4,
+    "edge": "inside/medial",
+    "settle_s": 0.39,
+    "wobbles": 2,
+    "forefoot_pct": 91.0
+  },
+  "skating_checkout": {
+    "discipline": "figure_skating",
+    "score": 9.7,
+    "verdict": "clean edge check-out",
+    "t0": 3.01,
+    "dur": 1.9800000000000004,
+    "impact_peak": 730.486874098361,
+    "loading_rate": 3104.0396465293197,
+    "roll_lag_s": -1.72,
+    "ml_std": 0.5,
+    "ml_excursion": 2.5,
+    "ap_flow": 14.4,
+    "edge": "outside/lateral",
+    "settle_s": 0.16,
+    "wobbles": 3,
+    "forefoot_pct": 99.0
+  }
+}

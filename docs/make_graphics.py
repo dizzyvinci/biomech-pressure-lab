@@ -544,11 +544,62 @@ def g_beam_balance():
                 "Left: a beam with ML-sway arrows. Middle: clean vs wobbly landing COP scatter with stick scores. Right: what it scores.")
 
 
+def g_landing_lab():
+    w, h = 900, 470
+    b = [head(w, "Landing lab — one sensor, three rubrics",
+              "All land forefoot-first; the discipline decides what 'good' means")]
+    cols = [
+        (24, "Gymnastics", "the \"stick\"", GREEN, GREENBG, "9.8", "STUCK",
+         "forefoot → heel → FREEZE", "reward: settle to stillness", "deduct: hop · step · wobble"),
+        (312, "Figure skating", "edge check-out", BLUE, BLUEBG, "9.7", "EDGE",
+         "ball · outside edge → GLIDE", "reward: 1-foot · edge · flow", "deduct: step-out · stumble · slam"),
+        (600, "Dance / ballet", "soft roll", RED, REDBG, "9.9", "SOFT",
+         "toe → ball → heel · quiet", "reward: soft impact · full roll", "deduct: heavy/loud · flat slap"),
+    ]
+    for x, name, sub, c, cbg, score, tag, pattern, rew, ded in cols:
+        b.append(box(x, 74, 276, 356, cbg, c, 1.6, 12))
+        b.append(T(x + 18, 100, name, 13, NAVY, "700"))
+        b.append(T(x + 18, 117, sub, 10, c, "700"))
+        b.append(f'<circle cx="{x+232}" cy="106" r="22" fill="{c}"/>')
+        b.append(T(x + 232, 104, score, 12.5, "#ffffff", "700", "middle") + T(x + 232, 118, tag, 6.5, "#ffffff", "700", "middle"))
+        cx, top, length, width = x + 120, 150, 120, 58
+        b.append(footprint(cx, top, length, width, "#ffffff"))
+        fx, fy = zone_xy(cx, top, length, width, 4)      # forefoot (met3)
+        hx, hy = zone_xy(cx, top, length, width, 0)      # heel
+        if name.startswith("Gym"):
+            b.append(f'<circle cx="{fx:.0f}" cy="{fy:.0f}" r="9" fill="{AMBER}" opacity="0.8"/>')
+            b.append(f'<circle cx="{hx:.0f}" cy="{hy:.0f}" r="9" fill="{RED}" opacity="0.8"/>')
+            b.append(f'<line x1="{fx:.0f}" y1="{fy+9:.0f}" x2="{hx:.0f}" y2="{hy-9:.0f}" stroke="{NAVY}" stroke-width="1.6" marker-end="url(#ar)"/>')
+            b.append(T(hx + 14, hy + 3, "■ freeze", 8.5, NAVY, "700"))
+        elif name.startswith("Fig"):
+            lx, ly = zone_xy(cx, top, length, width, 5)  # met5 = lateral edge
+            b.append(f'<circle cx="{fx:.0f}" cy="{fy:.0f}" r="9" fill="{BLUE}" opacity="0.8"/>')
+            b.append(f'<circle cx="{lx:.0f}" cy="{ly:.0f}" r="7" fill="{BLUE}" opacity="0.55"/>')
+            b.append(T(lx + 10, ly + 3, "outside edge", 8, BLUE, "700"))
+            b.append(f'<line x1="{cx}" y1="{top+6}" x2="{cx}" y2="{top-16}" stroke="{BLUE}" stroke-width="2.2" marker-end="url(#ar)"/>')
+            b.append(T(cx + 8, top - 8, "glide", 8.5, BLUE, "700"))
+        else:
+            b.append(f'<path d="M{fx:.0f} {fy-6:.0f} q26 40 {hx-fx:.0f} {hy-fy+12:.0f}" fill="none" stroke="{RED}" stroke-width="2.2" marker-end="url(#arr)"/>')
+            b.append(T(fx + 10, fy - 8, "toe", 8, MUTE) + T(hx - 4, hy + 14, "heel", 8, MUTE))
+        b.append(box(x + 18, 300, 240, 30, "#ffffff", c, 1.4))
+        b.append(T(x + 30, 320, pattern, 9.5, NAVY, "700"))
+        b.append(T(x + 18, 352, rew, 9, SLATE))
+        b.append(T(x + 18, 369, ded, 9, MUTE))
+    b.append(T(24, 404, "Gymnastics rewards stopping · skating rewards a gliding edge · dance rewards a soft roll — "
+                        "same center-of-pressure data, three rubrics.", 10, SLATE))
+    b.append(T(24, 452, "Sync each rep to your video by timestamp; the sensor adds the pressure layer the camera can't see. Not a medical device.",
+               9.5, MUTE))
+    return wrap(w, h, "\n".join(b),
+                "Landing lab: three disciplines scored from the same insole. Gymnastics 'stick' (forefoot to heel then freeze, 9.8), figure skating edge check-out (ball, outside edge, glide forward, 9.7), dance soft roll (toe-ball-heel, 9.9). Each has its own reward/deduct rubric.",
+                "Three discipline columns with a footprint showing the landing pattern, a score badge, and the rubric.")
+
+
 def main():
     for name, fn in [("physical_setup", g_physical), ("pipeline", g_pipeline),
                      ("software_metrics", g_software), ("day_in_the_life", g_day),
                      ("balance_detail", g_balance), ("balance_positions", g_balance_positions),
-                     ("balance_assist", g_balance_assist), ("beam_balance", g_beam_balance)]:
+                     ("balance_assist", g_balance_assist), ("beam_balance", g_beam_balance),
+                     ("landing_lab", g_landing_lab)]:
         with open(os.path.join(HERE, f"{name}.svg"), "w", encoding="utf-8") as f:
             f.write(fn())
         print(f"-> {name}.svg")
