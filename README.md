@@ -79,7 +79,7 @@ That's the whole loop — **no measurement hardware.**
 |---|---|
 | ⭐ [docs/insole_print_spec.md](docs/insole_print_spec.md) | **The insole design + print settings** (relief window, density zones) — Path 1's core |
 | ▶️ [sample/](sample/README.md) | **Worked example** — full pipeline on synthetic data (kPa → insole → balance) |
-| 🖨️ [hardware/build_insole.py](hardware/build_insole.py) | Reads `insole_spec.json` → emits a **print-ready insole** (relief window placed from data) |
+| 🖨️ [hardware/build_insole.py](hardware/build_insole.py) | Reads `insole_spec.json` → emits a **print-ready insole**, **fitted to your foot** by measurements or a scan ([how](docs/fit_to_your_foot.md)) |
 | [docs/parts_list.md](docs/parts_list.md) | Every part with buy links (printer path + optional rig) |
 | [docs/what-each-part-is-for.md](docs/what-each-part-is-for.md) | Plain-English part purposes |
 | [docs/quickstart.md](docs/quickstart.md) | Both paths, step by step |

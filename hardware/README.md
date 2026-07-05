@@ -6,6 +6,20 @@ Parametric **OpenSCAD** source **plus pre-rendered STLs** — ready to slice tod
 |---|---|---|---|---|
 | [`ankle_pod.scad`](ankle_pod.scad) | [`ankle_pod.stl`](ankle_pod.stl) | ![ankle pod](ankle_pod.png) | PLA / PETG | Enclosure for ESP32-S3 + LiPo + microSD; USB-C + button + ribbon cutouts + strap slots |
 | [`barefoot_sole.scad`](barefoot_sole.scad) | [`barefoot_sole.stl`](barefoot_sole.stl) | ![barefoot sole](barefoot_sole.png) | **soft TPU 85A** | Thin footbed with 8 FSR pockets + wire channels + strap slots |
+| [`build_insole.py`](build_insole.py) | [`relief_insole.stl`](relief_insole.stl) | ![insole](relief_insole.png) | soft + firm TPU | **The relief insole** — generated from `insole_spec.json`; fits to your foot (see below) |
+
+## 🦶 Fit the relief insole to your foot
+`build_insole.py` reads your analysis (`insole_spec.json`) and emits the insole with the
+relief window / posting / cushion placed **from your data**. Three fit levels:
+```bash
+# generic footbed
+python build_insole.py --spec ../sample/results/insole_spec.json
+# fitted to your measurements (mm)
+python build_insole.py --spec ... --length 262 --forefoot-width 99 --heel-width 64 --arch-height 14
+# fitted to a scan of your existing orthotic (best)
+python build_insole.py --spec ... --scan my_orthotic.stl --name fitted
+```
+Full how-to (measuring, scanning, mesh cleanup): [`../docs/fit_to_your_foot.md`](../docs/fit_to_your_foot.md).
 
 ## Print now (STLs are committed)
 The `.stl` files above are already rendered at the default parameters — **drop them straight into Bambu Studio and slice.** No OpenSCAD needed unless you want to customize.
