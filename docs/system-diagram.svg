@@ -54,10 +54,10 @@
 <text x="404" y="384" font-size="8" fill="#64748b" text-anchor="middle">walk·stairs·pivot</text>
 <rect x="472" y="350" width="104" height="44" rx="8" fill="#eef2f7" stroke="#94a3b8" stroke-width="1.5"/>
 <text x="524" y="370" font-size="11" font-weight="700" fill="#0f172a" text-anchor="middle">Analyze</text>
-<text x="524" y="384" font-size="8" fill="#64748b" text-anchor="middle">peak · impulse</text>
+<text x="524" y="384" font-size="8" fill="#64748b" text-anchor="middle">calibrate → kPa</text>
 <rect x="592" y="350" width="104" height="44" rx="8" fill="#fdecef" stroke="#e11d48" stroke-width="1.8"/>
 <text x="644" y="370" font-size="11" font-weight="700" fill="#0f172a" text-anchor="middle">Hot spot</text>
-<text x="644" y="384" font-size="8" fill="#64748b" text-anchor="middle">where it hurts</text>
+<text x="644" y="384" font-size="8" fill="#64748b" text-anchor="middle">+ directives</text>
 <rect x="712" y="350" width="112" height="44" rx="8" fill="#eef2f7" stroke="#94a3b8" stroke-width="1.5"/>
 <text x="768" y="370" font-size="11" font-weight="700" fill="#0f172a" text-anchor="middle">Print insole</text>
 <text x="768" y="384" font-size="8" fill="#64748b" text-anchor="middle">relief window</text>

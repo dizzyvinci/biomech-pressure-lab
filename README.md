@@ -14,6 +14,17 @@ Design and 3D-print your own **custom insole** — a soft cushion + firm shell w
 
 ---
 
+## 📊 How it all fits together
+The complete system — capture → calibrate (real kPa) → interpret → print → re-measure:
+
+![System pipeline](docs/pipeline.svg)
+
+The wearable hardware — electronics off the foot; swap the sole for shoe vs barefoot:
+
+![Physical setup](docs/physical_setup.svg)
+
+---
+
 ## 🖨️ Path 1 — the printer-first workflow (start here)
 1. **Scan** your existing orthotic → STL (iPhone photogrammetry — Scaniverse/Polycam). See [docs/insole_print_spec.md](docs/insole_print_spec.md) §1.
 2. **Mark the sore spot** on the scan (dead-center / inner / back heel — you already know where).

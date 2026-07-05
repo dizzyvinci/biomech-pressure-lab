@@ -1,0 +1,74 @@
+<svg viewBox="0 0 900 620" xmlns="http://www.w3.org/2000/svg" role="img" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif">
+<title>Smart-insole system pipeline: capture on the foot, software (calibrate to kPa, analyze, interpret), design directives, print, and the re-measure loop.</title>
+<desc>Four stages top to bottom. 1 Capture: a foot sensor sole (8 FSRs, shoe or barefoot) connects by ribbon to an ankle pod (ESP32 + LiPo + SD). 2 Software: calibrate.py converts ADC to kPa, analyze_pressure.py computes peak/impulse/center-of-pressure, interpret.py produces findings and directives. 3 Directives: insole_spec.json + report.md give relief window, posting, cushion. 4 Print: the H2D prints a soft-cushion + firm-shell insole with the relief window. A dashed loop returns to Capture to re-measure and confirm the load dropped.</desc>
+<rect x="4" y="4" width="892" height="612" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"/>
+<text x="24" y="36" font-size="19" font-weight="700" fill="#0f172a">Smart-insole system — sense → interpret → print</text>
+<text x="24" y="56" font-size="12" fill="#e11d48">Software verified end-to-end · the red thread follows your hot spot from sensing to relief</text>
+<defs><marker id="a" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#64748b"/></marker></defs>
+
+<!-- band tints -->
+<rect x="14" y="72"  width="872" height="86" rx="8" fill="#f8fafc"/>
+<rect x="14" y="176" width="872" height="96" rx="8" fill="#f8fafc"/>
+<rect x="14" y="290" width="872" height="70" rx="8" fill="#fdecef"/>
+<rect x="14" y="378" width="872" height="72" rx="8" fill="#f8fafc"/>
+
+<!-- chips -->
+<g font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle">
+<rect x="24" y="84"  width="96" height="22" rx="5" fill="#0f172a"/><text x="72"  y="99">1 · CAPTURE</text>
+<rect x="24" y="188" width="150" height="22" rx="5" fill="#0f172a"/><text x="99"  y="203">2 · SOFTWARE (done)</text>
+<rect x="24" y="302" width="104" height="22" rx="5" fill="#e11d48"/><text x="76"  y="317">3 · DIRECTIVES</text>
+<rect x="24" y="390" width="72"  height="22" rx="5" fill="#0f172a"/><text x="60"  y="405">4 · PRINT</text>
+</g>
+
+<!-- 1 CAPTURE -->
+<rect x="150" y="98" width="158" height="50" rx="8" fill="#eef2f7" stroke="#94a3b8" stroke-width="1.4"/>
+<text x="229" y="120" font-size="12.5" font-weight="700" fill="#0f172a" text-anchor="middle">Foot sensor sole</text>
+<text x="229" y="136" font-size="9.5" fill="#64748b" text-anchor="middle">8 FSRs · shoe OR barefoot</text>
+<rect x="372" y="98" width="140" height="50" rx="8" fill="#eef2f7" stroke="#94a3b8" stroke-width="1.4"/>
+<text x="442" y="120" font-size="12.5" font-weight="700" fill="#0f172a" text-anchor="middle">Ankle pod</text>
+<text x="442" y="136" font-size="9.5" fill="#64748b" text-anchor="middle">ESP32 + LiPo + SD</text>
+<line x1="308" y1="123" x2="368" y2="123" stroke="#64748b" stroke-width="1.6" marker-end="url(#a)"/>
+<text x="338" y="115" font-size="8" fill="#64748b" text-anchor="middle">ribbon</text>
+<text x="540" y="116" font-size="11" fill="#475569">Electronics live <tspan font-weight="700">off the foot.</tspan></text>
+<text x="540" y="134" font-size="11" fill="#475569">Logs shoe &amp; barefoot to compare.</text>
+
+<line x1="442" y1="148" x2="442" y2="176" stroke="#64748b" stroke-width="1.6" marker-end="url(#a)"/>
+<text x="452" y="168" font-size="8" fill="#64748b">SD card</text>
+
+<!-- 2 SOFTWARE -->
+<rect x="150" y="206" width="150" height="52" rx="8" fill="#fdecef" stroke="#e11d48" stroke-width="1.6"/>
+<text x="225" y="228" font-size="12" font-weight="700" fill="#0f172a" text-anchor="middle">calibrate.py</text>
+<text x="225" y="244" font-size="9.5" fill="#64748b" text-anchor="middle">ADC → real kPa</text>
+<rect x="336" y="206" width="164" height="52" rx="8" fill="#eef2f7" stroke="#94a3b8" stroke-width="1.4"/>
+<text x="418" y="228" font-size="12" font-weight="700" fill="#0f172a" text-anchor="middle">analyze_pressure.py</text>
+<text x="418" y="244" font-size="9.5" fill="#64748b" text-anchor="middle">peak · impulse · COP</text>
+<rect x="536" y="206" width="150" height="52" rx="8" fill="#eef2f7" stroke="#94a3b8" stroke-width="1.4"/>
+<text x="611" y="228" font-size="12" font-weight="700" fill="#0f172a" text-anchor="middle">interpret.py</text>
+<text x="611" y="244" font-size="9.5" fill="#64748b" text-anchor="middle">findings + directives</text>
+<line x1="300" y1="232" x2="334" y2="232" stroke="#64748b" stroke-width="1.6" marker-end="url(#a)"/>
+<line x1="500" y1="232" x2="534" y2="232" stroke="#64748b" stroke-width="1.6" marker-end="url(#a)"/>
+<text x="720" y="228" font-size="11" fill="#475569">Raw counts → true pressure</text>
+<text x="720" y="244" font-size="11" fill="#475569">→ plain-language implications.</text>
+
+<line x1="611" y1="258" x2="611" y2="290" stroke="#64748b" stroke-width="1.6" marker-end="url(#a)"/>
+
+<!-- 3 DIRECTIVES -->
+<rect x="150" y="304" width="430" height="42" rx="8" fill="#ffffff" stroke="#e11d48" stroke-width="1.8"/>
+<text x="168" y="324" font-size="12.5" font-weight="700" fill="#0f172a">insole_spec.json + report.md</text>
+<text x="168" y="339" font-size="9.5" fill="#64748b">relief window · posting · cushion priority · heel cup</text>
+<text x="620" y="330" font-size="11" fill="#475569">what to print, straight from your data</text>
+<line x1="360" y1="346" x2="360" y2="378" stroke="#64748b" stroke-width="1.6" marker-end="url(#a)"/>
+
+<!-- 4 PRINT -->
+<rect x="150" y="392" width="430" height="44" rx="8" fill="#eef2f7" stroke="#94a3b8" stroke-width="1.4"/>
+<text x="168" y="412" font-size="12.5" font-weight="700" fill="#0f172a">H2D prints the insole</text>
+<text x="168" y="427" font-size="9.5" fill="#64748b">soft cushion + firm shell + <tspan fill="#e11d48" font-weight="700">relief window</tspan></text>
+
+<!-- loop back -->
+<path d="M150 414 L70 414 L70 123 L148 123" fill="none" stroke="#e11d48" stroke-width="1.8" stroke-dasharray="5 4" marker-end="url(#a)"/>
+<text x="80" y="270" font-size="10" fill="#e11d48" transform="rotate(-90 80 270)" text-anchor="middle">wear → re-measure → load dropped? → iterate</text>
+
+<!-- legend -->
+<text x="150" y="470" font-size="10.5" fill="#475569">No printer yet? Everything above still runs — you just print the final insole later (own H2D or a service).</text>
+<text x="150" y="486" font-size="10.5" fill="#475569">Passive route (Path 1): skip the sensors entirely — place the relief window by feel. Same red-thread result, less work.</text>
+</svg>
