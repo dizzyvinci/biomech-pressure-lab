@@ -1,0 +1,9 @@
+{
+  "_comment": "Map an event-type to one or more webhook URLs. Add a service by adding a URL.",
+  "events": {
+    "fall_alert":    ["https://your-caregiver-service.example/webhook"],
+    "landing_score": ["https://your-coach-app.example/hooks/landing"],
+    "cue":           ["https://your-glasses-controller.example/cue"],
+    "daily_summary": ["https://your-dashboard.example/ingest"]
+  }
+}

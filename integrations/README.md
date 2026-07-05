@@ -44,5 +44,39 @@ physical device is a thin transport the target hardware defines:
   "params": { "level": "high", "msg": "steady — weight onto your feet" } }
 ```
 
-Everything is a screening / assistive prototype — **not a medical device**. Pair with a
-clinician (neurology / PT / audiology).
+## API — connect any app (two directions)
+The engine is exposed as an HTTP API so *anything* can connect — a coaching app, a
+clinician dashboard, a phone app driving the cue glasses, a caregiver alert.
+
+**Inbound** — [`api_server.py`](api_server.py) (dependency-free stdlib):
+```
+GET  /health                              liveness + tool list
+GET  /openapi.json                        machine-readable spec (point any client at it)
+POST /analyze/{tool}   body = CSV log  -> analysis JSON
+GET  /events/{tool}?demo=1             -> cue / feedback event stream
+       tool ∈ pressure balance balance_positions beam landing fog walker
+```
+```bash
+python api_server.py --port 8787
+curl -s -X POST --data-binary @session.csv "http://localhost:8787/analyze/landing?discipline=dance"
+curl -s "http://localhost:8787/events/fog?demo=1"
+```
+
+**Outbound** — [`connectors.py`](connectors.py): push events to other services' webhooks.
+Register a URL per event-type in a `connectors.json` (see
+[`connectors.sample.json`](connectors.sample.json)) — add a service by adding a URL:
+```json
+{ "events": { "fall_alert": ["https://caregiver.example/webhook"],
+              "landing_score": ["https://coach-app.example/hooks/landing"],
+              "cue": ["https://glasses.example/cue"] } }
+```
+```bash
+python connectors.py --demo                                   # dry-run the payloads
+python connectors.py --config connectors.json --emit fall_alert --data '{"severity":"high"}' --live
+```
+One event bus in, one event bus out — that's how "connect to other things" scales:
+each new partner is a URL, not a rewrite. Production adds auth + a real ASGI server.
+
+---
+Everything is a screening / assistive / performance prototype — **not a medical device**.
+Pair with a clinician (neurology / PT / audiology) or coach.
