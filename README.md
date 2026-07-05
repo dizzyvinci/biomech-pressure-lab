@@ -32,6 +32,9 @@ A DIY toolkit to measure your own foot **geometry**, **plantar pressure**, and *
 | `docs/insole_print_spec.md` | The printable insole (density zones + relief window) + sensor-carrier + ESP32 enclosure |
 
 ## Build order (recommended)
+
+> **No printer yet? You don't need one to start.** The entire measurement side works with improvised parts. See **[docs/quickstart.md](docs/quickstart.md)** for the **no-printer** and **with-printer** paths.
+
 1. **Scan** your existing orthotic → STL (see `docs/insole_print_spec.md`). *No new pressure gear needed to start.*
 2. **Assemble the smart insole** (BOM + wiring below), flash `smart_insole.ino`.
 3. **Record** labeled sessions (stand / walk / stairs / pivot), then run `analyze_pressure.py` → find your hot spot.

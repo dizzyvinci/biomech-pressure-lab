@@ -4,6 +4,15 @@ The payoff of the whole lab: a printed insole that is **soft exactly where you h
 
 Printer: **Bambu H2D** + **TPU High-Flow Kit** (dual nozzle → soft + firm in one print).
 
+## Which 3D-printing process makes a TPU insole?
+TPU is a **flexible filament**, so:
+- **FDM / FFF (filament)** — melts TPU filament layer by layer. What the **Bambu H2D** does; on the H2D's dual nozzle you get soft cushion + firm shell in one print. **DIY route — this is you.**
+- **SLS (powder)** — a laser sinters TPU/nylon *powder*. What **commercial lattice insoles** (HP, Welnove) use — beautiful complex lattices, no supports — but machines run $18k+, so only via a **service bureau**. Great if you outsource and want a premium lattice.
+- **Resin (SLA/DLP)** — uses **elastomeric/flexible resins**, *not* true TPU. Fine detail, but soft resins are pricier, messier, and less durable/cushiony for an insole. Skip for this.
+
+**Bottom line:** FDM TPU on the H2D for DIY; SLS via a service only if you want a fancy lattice and don't mind paying per part.
+
+
 ---
 
 ## 1. Get the base geometry (scan your orthotic — don't scan a bare foot)
