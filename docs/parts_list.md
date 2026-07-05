@@ -54,17 +54,9 @@ You can always **start with Path A** to find your hot spot, then move to Path B 
 
 ---
 
-## 🧴 CHEEQ project (tagged — SEPARATE, not the foot lab)
-> A different project ([dizzyvinci/cheeq](https://github.com/dizzyvinci/cheeq)) — a silicone cheek model. Here only so its parts aren't mixed with the insole shopping. **Not needed for the foot build.**
+## 🧴 CHEEQ project (tagged — SEPARATE venture, not the foot lab)
+> **Cheeq is your own startup** — its own repo **[dizzyvinci/cheeq](https://github.com/dizzyvinci/cheeq)** holds the authoritative BOM. Not part of the foot build; noted here only so its parts don't mix with the insole shopping.
 
-| Part | Buy | Note |
-|---|---|---|
-| **Dragon Skin FX-Pro** (skin) | [smooth-on](https://www.smooth-on.com/products/dragon-skin-fx-pro/) | Thin skin layer |
-| **Slacker** (deadener) | [smooth-on](https://www.smooth-on.com/products/slacker/) | Softens the gel "fat" |
-| **Ecoflex GEL** (soft cushion) | [smooth-on](https://www.smooth-on.com/products/ecoflex-gel/) | Deep gel layer |
-| **Body Double** (mold silicone) | [smooth-on](https://www.smooth-on.com/products/body-double-standard/) | Life-cast a real cheek |
-| **Silc Pig** pigments | [smooth-on](https://www.smooth-on.com/products/silc-pig/) | Flesh tones |
-| Supplies (Ease Release, scale, cups, gloves) | smooth-on / Amazon | Casting basics |
-| **PLA/PETG** (optional) | Bambu | Firm backing / printed mold |
+**Buy from the Cheeq repo's real spec, not this file:** ⭐ [`02_product/build-protocol-V1.md`](https://github.com/dizzyvinci/cheeq/blob/main/02_product/build-protocol-V1.md).
 
-Full explanations in [what-each-part-is-for.md](what-each-part-is-for.md) → **CHEEQ** section. **Vendor: Smooth-On (separate order).**
+Gist: **vacuum chamber + pump** (the cost driver) + gram scale + mixing supplies, then Smooth-On silicones — Dragon Skin FX-Pro (skin), Ecoflex Gel + Slacker (fat), Ecoflex 00-50/Dragon Skin 10 (firm backing), Body Double (lifecast), Silc-Pig, Shin-Etsu KMP-600. **Vendor: Smooth-On / Reynolds — separate order. No 3D printer needed.**
