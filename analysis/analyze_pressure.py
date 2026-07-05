@@ -49,7 +49,7 @@ CALIB = {i: (1.0, 0.0) for i in range(8)}  # replace after calibrating
 def load_logs(paths):
     frames = []
     for p in paths:
-        df = pd.read_csv(p)
+        df = pd.read_csv(p, comment="#")   # all-day logs have '# MARK' event lines
         df["__src"] = os.path.basename(p)
         frames.append(df)
     if not frames:
@@ -143,8 +143,10 @@ def main():
     os.makedirs(args.out, exist_ok=True)
 
     df = load_logs(paths)
+    # Group by whichever label exists: all-day logs use 'mode' (shoe/barefoot),
+    # session logs use 'activity'. Mirror into 'activity' so the rest works.
     if "activity" not in df.columns:
-        df["activity"] = "all"
+        df["activity"] = df["mode"] if "mode" in df.columns else "all"
 
     rows, plots = [], []
     for act, sub in df.groupby("activity"):
