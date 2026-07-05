@@ -21,6 +21,18 @@ python build_insole.py --spec ... --scan my_orthotic.stl --name fitted
 ```
 Full how-to (measuring, scanning, mesh cleanup): [`../docs/fit_to_your_foot.md`](../docs/fit_to_your_foot.md).
 
+## 🔬 Bigger builds — the DIY lab (close the equipment gaps)
+Printable instruments that add what the insole can't — see [`../docs/build_lab.md`](../docs/build_lab.md)
+and the scope in [`../docs/lab_scope.md`](../docs/lab_scope.md).
+
+| File | STL | Print | What it builds |
+|---|---|---|---|
+| [`force_plate.scad`](force_plate.scad) | [`force_plate.stl`](force_plate.stl) | PETG, 100% infill | **Force plate** — 4× load-cell corner feet + top → **vertical GRF (×BW)** + CoP (ICC>0.94) |
+| [`pressure_mat.scad`](pressure_mat.scad) | [`pressure_mat.stl`](pressure_mat.stl) | PLA/PETG | **Velostat pressure-mat frame** — electrode-alignment comb → a **full-foot pressure map** |
+
+Firmware: [`../firmware/force_plate/`](../firmware/force_plate/force_plate.ino) (4× HX711 → force + CoP)
+and [`../firmware/pressure_mat/`](../firmware/pressure_mat/pressure_mat.ino) (Velostat matrix scan).
+
 ## Print now (STLs are committed)
 The `.stl` files above are already rendered at the default parameters — **drop them straight into Bambu Studio and slice.** No OpenSCAD needed unless you want to customize.
 

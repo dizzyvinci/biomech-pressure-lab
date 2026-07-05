@@ -57,6 +57,11 @@ Extra parts for the two new builds: **~$150–250** on top of the insole rig.
 3. Keep tightening **FSR calibration** (per-sensor, re-run when it drifts).
 4. **Shear** stays parked — accept the gap, or revisit if a maker-grade 3-axis sensor appears.
 
+**→ Build guides are written:** [`build_lab.md`](build_lab.md) — the printable force plate
+([`force_plate.scad`](../hardware/force_plate.scad) + [firmware](../firmware/force_plate/force_plate.ino))
+and Velostat pressure mat ([`pressure_mat.scad`](../hardware/pressure_mat.scad) +
+[firmware](../firmware/pressure_mat/pressure_mat.ino)), with parts, wiring, and calibration.
+
 Ethos: **r≈0.87, not 1.0.** A ~$250 lab that does what a ~$30k one does *at trend level* — which,
 for finding *your* hot spots and dosing *your* load over time, is the measurement that matters.
 Not a medical device.
