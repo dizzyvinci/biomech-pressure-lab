@@ -26,6 +26,8 @@ the end-to-end flow.) The `.svg` files here are **code-generated diagrams** — 
 | [path2_tracking_build.md](path2_tracking_build.md) | The all-day barefoot-and-shoe tracking build, end to end |
 | [calibration.md](calibration.md) | Turning raw FSR ADC into real kPa |
 | [opencap_setup.md](opencap_setup.md) | Optional markerless motion capture |
+| [insole_sensor_layout.md](insole_sensor_layout.md) | FSR zone coordinates for the 6-zone STEMMA-QT (ESP32-C6 Feather) rig |
+| [BUILD_PLAN.md](BUILD_PLAN.md) | ⭐ STEMMA-QT ankle-pod build: print list, wiring, assembly order, calibration |
 
 ### The analysis — what it measures
 | Doc | What |

@@ -5,7 +5,9 @@ Parametric **OpenSCAD** source **plus pre-rendered STLs** — ready to slice tod
 | Source | STL (ready to slice) | Preview | Print in | What |
 |---|---|---|---|---|
 | [`ankle_pod.scad`](ankle_pod.scad) | [`ankle_pod.stl`](ankle_pod.stl) | ![ankle pod](ankle_pod.png) | PLA / PETG | Enclosure for ESP32-S3 + LiPo + microSD; USB-C + button + ribbon cutouts + strap slots |
+| [`ankle_pod_enclosure.scad`](ankle_pod_enclosure.scad) | *(no STL yet — customize + export)* | — | PETG / PLA-CF | **STEMMA-QT revision** of the ankle pod — ESP32-C6 Feather + LiPo 2500 mAh + MPU-6050, snap lid. See [`../docs/BUILD_PLAN.md`](../docs/BUILD_PLAN.md) |
 | [`barefoot_sole.scad`](barefoot_sole.scad) | [`barefoot_sole.stl`](barefoot_sole.stl) | ![barefoot sole](barefoot_sole.png) | **soft TPU 85A** | Thin footbed with 8 FSR pockets + wire channels + strap slots |
+| [`insole_fsr_layout.scad`](insole_fsr_layout.scad) | *(no STL yet — customize + export)* | — | soft TPU (or PLA for a quick jig) | **6-zone FSR carrier/layout plate** for the STEMMA-QT rig — parametric off one `FOOT_LEN`. See [`../docs/insole_sensor_layout.md`](../docs/insole_sensor_layout.md) |
 | [`build_insole.py`](build_insole.py) | [`relief_insole.stl`](relief_insole.stl) | ![insole](relief_insole.png) | soft + firm TPU | **The relief insole** — generated from `insole_spec.json`; fits to your foot (see below) |
 
 ## 🦶 Fit the relief insole to your foot
