@@ -1,5 +1,5 @@
 // ankle_pod_enclosure.scad — parametric 2-part enclosure for the STEMMA-QT ankle pod
-// (ESP32-C6 Feather + LiPo 2500 mAh underneath it + MPU-6050, strapped to the lower shin/ankle)
+// (ESP32-C6 Feather + flat-pouch LiPo underneath it + MPU-6050, strapped to the lower shin/ankle)
 //
 // This is the STEMMA-QT / Feather revision of the Path 2 electronics — see docs/BUILD_PLAN.md.
 // It's a SEPARATE part from hardware/ankle_pod.scad, which holds the older ESP32-S3 DevKitC +
@@ -36,10 +36,28 @@ feather_hole_d  = 2.5;    // Feather mounting-hole diameter
 board_clear_h   = 7;      // clearance above the board TOP for the USB-C plug + STEMMA QT
                            // header + any solder — the lid's inner ceiling sits this high above it
 
-// -- LiPo 2500 mAh (rides UNDER the Feather, stacked) --
-lipo_l   = 50;
-lipo_w   = 34;             // WIDER than the Feather — this is what actually sets the case width
-lipo_h   = 10;
+// -- LiPo flat pouch cell (rides UNDER the Feather, stacked) --
+// ⚠️ FORM FACTOR IS A DESIGN CONSTRAINT, NOT A PREFERENCE. This pod is body-worn, and variants
+// of it ride the shin, the foot, inside a shoe, or on an AFO. It MUST be a flat pouch cell.
+// A cylindrical 18650 (18 mm dia x 65 mm) will NOT work here — it's a rigid tube that cannot
+// sit under a board or against a limb. Keep an 18650 for the STATIONARY builds only
+// (bed mat / force-plate electronics), never for anything worn.
+//
+// Runtime is NOT the binding constraint — the pod records sessions (gait passes, stance trials),
+// not 24/7 — so trade capacity for thinness every time.
+//
+// Adafruit flat-pouch options (all ship with JST-PH 2-pin + protection circuit):
+//   500 mAh  -> 30 x 19 x 6    ~5 h   thinnest; use for in-shoe / under-AFO
+//   1200 mAh -> 35 x 20 x 6    ~10 h  DEFAULT — best thinness/runtime balance
+//   2000 mAh -> 60 x 36 x 7    ~18 h  long; shin-pod only
+//   2500 mAh -> 50 x 34 x 10   ~22 h  too thick for shoe/AFO use
+//
+// NOTE: at 20 mm wide the cell is NARROWER than the Feather (22.8 mm), so the FEATHER now sets
+// the case width — the shell gets ~12 mm slimmer than the old 2500 mAh build, and standoff_h
+// drops from 11 mm to 7 mm. That slimming is the whole point of the change.
+lipo_l   = 35;              // 1200 mAh flat pouch
+lipo_w   = 20;
+lipo_h   = 6;
 lipo_gap = 1;               // clearance between the LiPo top and the Feather standoffs
 
 // -- MPU-6050 STEMMA QT breakout — mounted in its own end bay, floor-level --
@@ -73,14 +91,14 @@ snap_h       = 1.6;    // rib/groove height along Z
 
 /* ================= DERIVED ================= */
 main_inner_l = max(feather_l, lipo_l) + 2*tol + 3;   // Feather+LiPo bay footprint
-main_inner_w = max(feather_w, lipo_w) + 2*tol + 3;   // LiPo (34 mm) governs this, not the board
+main_inner_w = max(feather_w, lipo_w) + 2*tol + 3;   // FEATHER (22.8 mm) governs this now — the 20 mm cell is narrower
 standoff_h   = lipo_h + lipo_gap;                     // Feather standoff height off the floor
 inner_h      = standoff_h + board_clear_h;            // shared by the whole case — simplest,
                                                         // most printable: one uniform height
 
 imu_bay_l = imu_l + 2*imu_pocket_pad + 4;             // extra LENGTH tacked on one end for the
                                                         // IMU — its 13 mm width fits easily
-                                                        // inside the LiPo-driven case width, so
+                                                        // inside the Feather-driven case width, so
                                                         // no extra width is needed, only length
 
 inner_l = main_inner_l + imu_bay_l;
