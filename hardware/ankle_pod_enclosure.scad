@@ -60,9 +60,17 @@ lipo_w   = 20;
 lipo_h   = 6;
 lipo_gap = 1;               // clearance between the LiPo top and the Feather standoffs
 
-// -- MPU-6050 STEMMA QT breakout — mounted in its own end bay, floor-level --
-imu_l          = 18;
-imu_w          = 13;
+// -- IMU STEMMA QT breakout — mounted in its own end bay, floor-level --
+// ⚠️ SIZED FOR THE LARGER BOARD ON PURPOSE. Two IMUs are in play:
+//     MPU-6050 (6-DoF, on hand)      ~18.0 x 13.0 mm   I2C 0x68
+//     BNO085   (9-DoF, incoming x3)  ~25.5 x 17.8 mm   I2C 0x4A   <-- bigger AND different address
+// The BNO085 is the intended upgrade (on-chip fusion, outputs a quaternion directly instead of
+// needing host-side Madgwick). A pocket cut for the MPU-6050 will NOT accept it, so the bay is
+// sized for the BNO085. Retention here is a lip + zip-tie, not an interference fit, so the
+// smaller MPU-6050 still sits fine in the larger pocket — shim it or just let the tie hold it.
+// Drop these back to 18/13 only if you have committed to the MPU-6050 permanently.
+imu_l          = 25.5;
+imu_w          = 17.8;
 imu_pocket_pad = 1.5;       // clearance around the board inside its retaining lip
 imu_lip_h      = 1.8;       // retaining-lip wall height (straight extrusion — zero overhang)
 imu_zip_w      = 3;         // zip-tie slot width — belt-and-suspenders retention, since most

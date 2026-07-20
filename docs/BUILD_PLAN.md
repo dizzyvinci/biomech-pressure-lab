@@ -91,6 +91,9 @@ each FSR lands directly on its own Feather pin:
 
 (Full zone coordinates: [`docs/insole_sensor_layout.md`](insole_sensor_layout.md).)
 
+**Full pin-by-pin solder guide** (which pad gets which lead, perfboard layout, divider theory,
+solder order, and pre-power multimeter checks): [`docs/WIRING.md`](WIRING.md).
+
 **Power:** the LiPo 2500 mAh plugs directly into the Feather's onboard 2-pin JST-PH battery
 connector — it lives inside the case, stacked under the board, no external wiring. Charges +
 programs through the same USB-C port the pod exposes.
@@ -107,7 +110,8 @@ time through):
    and reprint the base if they're off).
 2. **Wire the 6 FSR dividers** — resistor + FSR leads to a small stub of perfboard or straight to
    the Feather's `A0`–`A5` pins and a shared `GND`. Do this **before** seating the board in the
-   case; it's much easier on the bench.
+   case; it's much easier on the bench. Pin-by-pin detail (which pad gets which lead, solder
+   order, pre-power checks): [`docs/WIRING.md`](WIRING.md).
 3. **Seat the LiPo** in the base first (floor of the main bay), then the wired Feather on top,
    screw into the standoffs (self-tap or heat-set insert — see (e)).
 4. **Plug the battery** into the Feather's onboard JST-PH connector.

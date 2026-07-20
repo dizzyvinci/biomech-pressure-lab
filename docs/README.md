@@ -28,6 +28,7 @@ the end-to-end flow.) The `.svg` files here are **code-generated diagrams** — 
 | [opencap_setup.md](opencap_setup.md) | Optional markerless motion capture |
 | [insole_sensor_layout.md](insole_sensor_layout.md) | FSR zone coordinates for the 6-zone STEMMA-QT (ESP32-C6 Feather) rig |
 | [BUILD_PLAN.md](BUILD_PLAN.md) | ⭐ STEMMA-QT ankle-pod build: print list, wiring, assembly order, calibration |
+| [WIRING.md](WIRING.md) | Pin-by-pin solder guide for the 6 FSR dividers — which pad connects where |
 
 ### The analysis — what it measures
 | Doc | What |
