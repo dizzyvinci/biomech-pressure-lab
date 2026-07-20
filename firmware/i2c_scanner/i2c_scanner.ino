@@ -32,6 +32,9 @@
 //
 // TROUBLESHOOTING
 //   "No I2C devices found"
+//     -> Confirm the sketch you flashed is THIS one. The STEMMA QT port is unpowered at boot and
+//        needs IO20 driven HIGH (see the long note above setup()); a sketch that skips that step
+//        finds nothing no matter how good the wiring is.
 //     -> Reseat BOTH ends of the STEMMA QT cable. This is the cause ~90% of the time.
 //     -> Try the sensor's other QT port (they're wired in parallel; either works).
 //     -> Confirm the board actually flashed: does the onboard LED/serial banner appear at all?
@@ -46,12 +49,34 @@
 
 #include <Wire.h>
 
+// ---------------------------------------------------------------------------------------------
+// WHAT "DRIVE IO20 HIGH" MEANS, since it is the single most likely reason this sketch finds
+// nothing on a rig that is wired perfectly.
+//
+// IO20 is GPIO pin 20 -- a "general purpose input/output" pin, i.e. one of the chip's own pins
+// that firmware can control. Setting it HIGH means driving it to 3.3V (logic 1); LOW means 0V.
+//
+// On this Feather, IO20 is not a pin you wire anything to. Adafruit wired it to a little
+// electronic switch that feeds power to the STEMMA QT connector, so the port can be switched
+// off to save battery in deep sleep. The consequence is that the port is UNPOWERED AT BOOT.
+// Until these two lines run, the connector has no 3.3V on it, the sensor never starts, and the
+// scan below reports "No I2C devices found" -- which looks exactly like a dead sensor or a bad
+// cable, and sends you debugging the wrong thing.
+//
+// This must happen BEFORE Wire.begin(), and the sensor needs a moment to boot once powered.
+// ---------------------------------------------------------------------------------------------
+#define STEMMA_QT_POWER_PIN 20
+
 void setup() {
   Serial.begin(115200);
   // Wait for the USB serial port to come up. The C6 enumerates over native USB, so without
   // this you'll miss the first few lines of output.
   while (!Serial) delay(10);
   delay(500);
+
+  pinMode(STEMMA_QT_POWER_PIN, OUTPUT);
+  digitalWrite(STEMMA_QT_POWER_PIN, HIGH);   // power the STEMMA QT connector
+  delay(50);                                  // let the sensor finish its own power-on reset
 
   Wire.begin();   // uses the board's default STEMMA QT / I2C pins
 
