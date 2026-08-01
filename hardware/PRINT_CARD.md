@@ -10,6 +10,23 @@ functional parts use the high-grade owned stock (**PA-CF / PETG-CF / PC / ASA**)
 soft/flex parts** (insole, sensor carriers) and always runs from the **external spool, never the
 AMS**. Owned filament: plenty of TPU + the H2D AMS high-grade set (PC / ASA / PA-CF / CF).
 
+## Ready-to-load `.3mf` (Bambu Studio)
+
+`make_3mf.py` emits one Bambu-loadable project per STL into `print/` (single object, one
+base material + extruder; re-slot per the recipe below — TPU → external spool, high-grade →
+AMS). Regenerate any time with `python make_3mf.py`.
+
+`print/relief_insole.3mf` · `barefoot_sole.3mf` · `insole_fsr_layout.3mf` ·
+`ankle_pod.3mf` · `ankle_pod_enclosure.3mf` · `pressure_mat.3mf` · `force_plate.3mf` ·
+`fsr_puck.3mf`
+
+**Gate results** (`_stl_bbox.py` + `_stl_islands.py`, H2D usable 325×320×325):
+all 8 fit the bed with generous slack (largest footprint = `insole_fsr_layout` 91.5×288.9,
+`pressure_mat` 118×268 — both well inside 320 in Y). Island check: 6 parts = 1 shell (OK).
+`ankle_pod` and `ankle_pod_enclosure` report **2 shells each — expected, not a defect**: both
+`.scad`s emit `pod();lid();` / `base();lid();`, i.e. the body plus its press-fit/snap lid laid
+out side-by-side on one plate (lid offset to Y≈27–61). Same material, single plate — slice as-is.
+
 ## Slice recipe
 
 | Part (.stl) | Material | Nozzle | Layer | Walls | Infill | Supports | Brim | Plate |

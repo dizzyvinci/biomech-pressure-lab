@@ -11,7 +11,7 @@ Both paths share the same **electronics rig** (you need the sensors either way).
 | 2 | **FSR** force sensors | **8** | ~6 ea | [Adafruit #166](https://www.adafruit.com/product/166) · [Amazon multipack](https://www.amazon.com/s?k=Interlink+FSR402+force+sensitive+resistor) | ⚠️ need **8**. |
 | 3 | **CD74HC4067** 16-ch mux | 1 | 2 | [Amazon B07Z45MYP3](https://www.amazon.com/CD74HC4067-16-Channel-Multiplexer-Breakout-Microcontroller/dp/B07Z45MYP3) | 8 FSRs → 1 ADC pin. |
 | 4 | **BNO085** 9-DOF IMU | 1 | 20 | [Adafruit #4754](https://www.adafruit.com/product/4754) | Pronation + strike timing. |
-| 5 | **microSD SPI module** + card | 1 | 8 | [Amazon module](https://www.amazon.com/s?k=micro+sd+card+module+SPI+arduino) · [card](https://www.amazon.com/s?k=sandisk+microsd+32gb) | Onboard logging. |
+| 5 | **microSD SPI module** + card | 1 | 8 | [Amazon module](https://www.amazon.com/s?k=micro+sd+card+module+SPI+arduino) · [card](https://www.amazon.com/s?k=sandisk+microsd+32gb) | Onboard logging. **SanDisk 32 GB card ✅ owned 2026-08-01** (order 113-4911799); the SPI breakout module is still to buy. |
 | 6 | **10 kΩ resistors** | 8 | ~7 | [Amazon kit](https://www.amazon.com/s?k=10k+ohm+resistor+1%2F4w+assortment) | FSR dividers. |
 | 7 | **LiPo 500 mAh** (JST-PH) | 1 | 8 | [Adafruit #1578](https://www.adafruit.com/product/1578) | Wearable power. |
 | 8 | **TP4056** USB-C charger | 1 | ~6 | [Amazon](https://www.amazon.com/s?k=TP4056+usb+c+charging+module+protection) | Get the **protected** (DW01) version. |
